@@ -9,8 +9,6 @@ function App() {
 
   return (
     <>
-    <h1>Welcome to Diary App  </h1>
-  
     <Counter/>
     
     </>

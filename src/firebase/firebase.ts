@@ -5,8 +5,8 @@ import 'firebase/auth';
 // import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBY_A3LwY8pVyRHu_20JIqRqvEmtQRc0xo",
-    authDomain: "diary-app-ca8af.firebaseapp.com",
+    apiKey: `${process.env.REACT_APP_API_KEY}`,
+    authDomain: `${process.env.REACT_APP_AUTH_DOMAIN}`,
     projectId: "diary-app-ca8af",
     storageBucket: "diary-app-ca8af.appspot.com",
     messagingSenderId: "296167296869",

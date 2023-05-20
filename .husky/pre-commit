@@ -3,5 +3,4 @@
 
 # npm test
 # npm run lint
-# npm run lint-staged & npm run formatundefined
 npx lint-staged

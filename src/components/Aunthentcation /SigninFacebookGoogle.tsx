@@ -6,7 +6,8 @@ const SigninFacebookGoogle = () => {
   return (
     <main  >
     <Navbar/>
-    <div className="contetn px-5 text-center my-[7em] ">
+    <section className='px-5'>
+    <div className="contetn  text-center my-[5em] ">
       <div className="head text-[black] text-[1.6em] font-[600] ">Welcome tp private diary</div>
       <p className='text-[#000000FF]  text-[1.135em] mt-3 ' >Create private entries, log your activities update records
         and publish what you want the public to see</p>
@@ -22,6 +23,7 @@ const SigninFacebookGoogle = () => {
       <Button name=" sign in with Google" />
       </div>
     </div>
+    </section>
     </main>
   )
 }

@@ -1,12 +1,8 @@
 // import React from 'react'
 import Button from '../shared/Button'
-import Navbar from '../shared/Navbar'
-
 const SigninFacebookGoogle = () => {
   return (
-    <main  >
-    <Navbar/>
-    <section className='px-5'>
+    <main className='px-5 overflow-hidden'>
     <div className="contetn  text-center my-[5em] ">
       <div className="head text-[black] text-[1.6em] font-[600] ">Welcome tp private diary</div>
       <p className='text-[#000000FF]  text-[1.135em] mt-3 ' >Create private entries, log your activities update records
@@ -15,7 +11,7 @@ const SigninFacebookGoogle = () => {
     <ul>
       <li className='text-[#000000FF] underline text-center mb-1' >GET STARTED </li>
     </ul>
-    <div className="btns">
+    <div className="btns mb-[6.5em]">
       <div className="btn">
         <Button name=" sign in with Facebook" />
       </div>
@@ -23,7 +19,6 @@ const SigninFacebookGoogle = () => {
       <Button name=" sign in with Google" />
       </div>
     </div>
-    </section>
     </main>
   )
 }

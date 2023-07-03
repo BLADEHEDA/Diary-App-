@@ -4,13 +4,17 @@
 import './App.css'
 // import Counter from './components/Counter'
 import SigninFacebookGoogle from './components/Aunthentcation /SigninFacebookGoogle'
+import Footer from './components/shared/Footer'
+import Navbar from './components/shared/Navbar'
 
 function App() {
 
   return (
     <main>
     {/* <Counter/> */}
+    <Navbar/>
     <SigninFacebookGoogle/>
+    <Footer/>
     
     </main>
   )

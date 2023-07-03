@@ -11,13 +11,12 @@ import { BrowserRouter,  Routes,Route} from "react-router-dom"
 function App() {
 
   return (
-    <BrowserRouter className="App">
+    <BrowserRouter >
     {/* <Counter/> */}
     <Navbar/>
     <Routes> 
-    </Routes>
     <Route path='/' element={<SigninFacebookGoogle/>}/> 
-   
+    </Routes>
     <Footer/>
     
     </BrowserRouter>

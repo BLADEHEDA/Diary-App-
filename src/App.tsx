@@ -3,12 +3,14 @@
 // import viteLogo from '/vite.svg'
 import './App.css'
 import Counter from './components/Counter'
+import SigninFacebookGoogle from './components/Aunthentcation /SigninFacebookGoogle'
 
 function App() {
 
   return (
     <>
-    <Counter/>
+    {/* <Counter/> */}
+    <SigninFacebookGoogle/>
     
     </>
   )

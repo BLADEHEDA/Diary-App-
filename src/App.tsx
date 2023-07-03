@@ -6,17 +6,21 @@ import './App.css'
 import SigninFacebookGoogle from './components/Aunthentcation /SigninFacebookGoogle'
 import Footer from './components/shared/Footer'
 import Navbar from './components/shared/Navbar'
+import { BrowserRouter,  Routes,Route} from "react-router-dom"
 
 function App() {
 
   return (
-    <main>
+    <BrowserRouter className="App">
     {/* <Counter/> */}
     <Navbar/>
-    <SigninFacebookGoogle/>
+    <Routes> 
+    </Routes>
+    <Route path='/' element={<SigninFacebookGoogle/>}/> 
+   
     <Footer/>
     
-    </main>
+    </BrowserRouter>
   )
 }
 

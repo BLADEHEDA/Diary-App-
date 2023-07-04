@@ -1,6 +1,24 @@
-// import React from 'react'
 import Button from '../shared/Button'
+// subjected to changes 
+import { GoogleAuthProvider,signInWithPopup } from 'firebase/auth';
+import { auth } from "../../firebase/firebase"
+
+// {subjectd to changes }
 const SigninFacebookGoogle = () => {
+  // Sign in with google 
+  const googleProvider = new GoogleAuthProvider();
+  const GoogleLogin = async()=>{
+    alert('yo')
+    try{
+      const result = await signInWithPopup( auth,googleProvider)
+      console.log(result.user)
+      alert(result.user)
+    }
+    catch(error) {
+    console.log(error);
+    alert(error)
+    }
+  }
   return (
     <main className='px-5 overflow-hidden'>
     <div className="contetn  text-center my-[5em] ">
@@ -12,10 +30,10 @@ const SigninFacebookGoogle = () => {
       <li className='text-[#000000FF] underline text-center mb-1' >GET STARTED </li>
     </ul>
     <div className="btns mb-[6.5em]">
-      <div className="btn">
+      <div  className="btn">
         <Button name=" sign in with Facebook" />
       </div>
-      <div className="btn">
+      <div onClick={GoogleLogin} className="btn">
       <Button name=" sign in with Google" />
       </div>
     </div>

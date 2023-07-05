@@ -13,7 +13,6 @@ function App() {
     <Route path='/' element={<SigninFacebookGoogle/>}/> 
     </Routes>
     <Footer/>
-    
     </BrowserRouter>
   )
 }

@@ -5,20 +5,32 @@ import { auth } from "../../firebase/firebase"
 
 // {subjectd to changes }
 const SigninFacebookGoogle = () => {
-  // Sign in with google 
-  const googleProvider = new GoogleAuthProvider();
-  const GoogleLogin = async()=>{
-    try{
-      const result = await signInWithPopup( auth,googleProvider)
-      console.log(result.user)
-      // alert(result.user)
-    }
-    catch(error) {
+  // sign in with google
+// subjected to changes , 
+const provider = new GoogleAuthProvider();
+const signInWithGoogle=()=>{
+  alert('yo');
+signInWithPopup(auth , provider )
+.then((result)=>{
+  alert('yo bro');
+  console.log(result);
+})
+.catch((error) =>{
+  if (error.code === 'auth/cancelled-popup-request') {
+    console.log('Popup closed by user');
+    // Show appropriate message to the user
+  } else {
     console.log(error);
-    // alert(error)
-    }
+    // Show other error messages
   }
+  
+} );
+};
 // end of changes 
+// sign in with facebook 
+const signInWithFacebook=()=>{
+  alert('yo');
+}
 
 
   return (
@@ -32,10 +44,10 @@ const SigninFacebookGoogle = () => {
       <li className='text-[#000000FF] underline text-center mb-1' >GET STARTED </li>
     </ul>
     <div className="btns mb-[6.5em]">
-      <div className="btn">
+      <div  onClick={signInWithFacebook}  className="btn">
         <Button name=" sign in with Facebook" />
       </div>
-      <div onClick={GoogleLogin} className="btn">
+      <div onClick={signInWithGoogle} className="btn">
       <Button name=" sign in with Google" />
       </div>
     </div>

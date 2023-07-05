@@ -18,7 +18,6 @@ const SigninFacebookGoogle = () => {
     // alert(error)
     }
   }
-
 // end of changes 
 
 

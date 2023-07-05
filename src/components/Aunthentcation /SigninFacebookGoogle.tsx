@@ -11,11 +11,11 @@ const SigninFacebookGoogle = () => {
     try{
       const result = await signInWithPopup( auth,googleProvider)
       console.log(result.user)
-      alert(result.user)
+      // alert(result.user)
     }
     catch(error) {
     console.log(error);
-    alert(error)
+    // alert(error)
     }
   }
 

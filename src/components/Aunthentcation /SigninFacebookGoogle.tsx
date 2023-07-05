@@ -9,7 +9,6 @@ const SigninFacebookGoogle = () => {
 // subjected to changes , 
 const provider = new GoogleAuthProvider();
 const signInWithGoogle=()=>{
-  alert('yo');
 signInWithPopup(auth , provider )
 .then((result)=>{
   alert('yo bro');

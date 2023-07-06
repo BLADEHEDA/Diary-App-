@@ -3,6 +3,7 @@ import Button from '../shared/Button'
 import { GoogleAuthProvider,signInWithPopup } from 'firebase/auth';
 import { auth } from "../../firebase/firebase"
 
+
 // {subjectd to changes }
 const SigninFacebookGoogle = () => {
   // sign in with google
@@ -11,8 +12,16 @@ const provider = new GoogleAuthProvider();
 const signInWithGoogle=()=>{
 signInWithPopup(auth , provider )
 .then((result)=>{
-  alert('yo bro');
   console.log(result);
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      // const credential = GoogleAuthProvider.credentialFromResult(result);
+      // const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      console.log(user.email);
+      
+
+      // IdP data available using getAdditionalUserInfo(result)
 })
 .catch((error) =>{
   if (error.code === 'auth/cancelled-popup-request') {
@@ -20,6 +29,13 @@ signInWithPopup(auth , provider )
     // Show appropriate message to the user
   } else {
     console.log(error);
+     // Handle Errors here.
+    //  const errorCode = error.code;
+    //  const errorMessage = error.message;
+    //  // The email of the user's account used.
+    //  const email = error.customData.email;
+    //  // The AuthCredential type that was used.
+    //  const credential = GoogleAuthProvider.credentialFromError(error);
     // Show other error messages
   }
   

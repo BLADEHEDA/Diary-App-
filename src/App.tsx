@@ -8,10 +8,11 @@ function App() {
 
   return (
     <BrowserRouter >
-    <Routes> 
+    {/* <Routes> 
     <Route path='/' element={<SigninFacebookGoogle/>}/> 
     <Route path='Home' element={<Home/>}/> 
-    </Routes>
+    </Routes> */}
+    <Home/>
     <Footer/>
 
     

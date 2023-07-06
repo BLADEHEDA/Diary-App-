@@ -2,6 +2,7 @@ import Button from '../shared/Button'
 // subjected to changes 
 import { GoogleAuthProvider,signInWithPopup } from 'firebase/auth';
 import { auth } from "../../firebase/firebase"
+import Navbar from '../shared/Navbar';
 
 
 // {subjectd to changes }
@@ -13,14 +14,8 @@ const signInWithGoogle=()=>{
 signInWithPopup(auth , provider )
 .then((result)=>{
   console.log(result);
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      // const credential = GoogleAuthProvider.credentialFromResult(result);
-      // const token = credential.accessToken;
-      // The signed-in user info.
       const user = result.user;
-      console.log(user.email);
-      
-
+      console.log(user.email);  
       // IdP data available using getAdditionalUserInfo(result)
 })
 .catch((error) =>{
@@ -29,14 +24,6 @@ signInWithPopup(auth , provider )
     // Show appropriate message to the user
   } else {
     console.log(error);
-     // Handle Errors here.
-    //  const errorCode = error.code;
-    //  const errorMessage = error.message;
-    //  // The email of the user's account used.
-    //  const email = error.customData.email;
-    //  // The AuthCredential type that was used.
-    //  const credential = GoogleAuthProvider.credentialFromError(error);
-    // Show other error messages
   }
   
 } );
@@ -49,7 +36,9 @@ const signInWithFacebook=()=>{
 
 
   return (
-    <main className='px-5 overflow-hidden'>
+    <main>
+        <Navbar head="My Private Diary" />
+    <section className='px-5 overflow-hidden'>
     <div className="contetn  text-center my-[5em] ">
       <div className="head text-[black] text-[1.6em] font-[600] ">Welcome to private diary</div>
       <p className='text-[#000000FF]  text-[1.135em] mt-3 ' >Create private entries, log your activities update records
@@ -66,6 +55,7 @@ const signInWithFacebook=()=>{
       <Button name=" sign in with Google" />
       </div>
     </div>
+    </section>
     </main>
   )
 }

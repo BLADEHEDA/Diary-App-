@@ -53,7 +53,7 @@ const signInWithFacebook=()=>{
 
 
   return (
-    <main>
+    <main className='text-[white' >
         <Navbar head="My Private Diary" />
     <main className='px-5 overflow-hidden'>
     <div className="contetn  text-center my-[5em] ">

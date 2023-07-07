@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 export  const ErrorPage = () => {
   return (<main>
       <Navbar head="Error" />
-    <div className=""> 
+    <div className="bg-[white]"> 
     Error: Unable to sign in with Google
     </div>
     </main>)

@@ -19,8 +19,6 @@ function App() {
     {/* <Home/> */}
     {/* <ErrorPage/> */}
     <Footer/>
-
-    
     </BrowserRouter>
   )
 }

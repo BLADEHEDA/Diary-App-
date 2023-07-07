@@ -11,7 +11,6 @@ export  const ErrorPage = () => {
     <div className=""> 
     Error: Unable to sign in with Google
     </div>
- 
     </main>)
 };
 const SigninFacebookGoogle = () => {

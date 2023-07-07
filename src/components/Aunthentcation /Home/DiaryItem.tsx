@@ -2,7 +2,7 @@
 
 const DiaryItem = (props:any) => {
   return (
-    <main className="mb-4 px-3 " >
+    <main className="mb-5 px-3 " >
       <section className="flex  ">
         <div className="mr-4">
             <img src={props.src} alt="images-pic" />

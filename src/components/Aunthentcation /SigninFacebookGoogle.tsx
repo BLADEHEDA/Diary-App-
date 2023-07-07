@@ -1,12 +1,18 @@
 import Button from '../shared/Button'
-import { GoogleAuthProvider,signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider,signInWithPopup,FacebookAuthProvider } from 'firebase/auth';
 import { auth } from "../../firebase/firebase"
 import Navbar from '../shared/Navbar';
 import { useNavigate } from 'react-router-dom';
 
 // {subjectd to changes } 
 export  const ErrorPage = () => {
-  return <div>Error: Unable to sign in with Google</div>;
+  return (<main>
+      <Navbar head="Error" />
+    <div className=""> 
+    Error: Unable to sign in with Google
+    </div>
+ 
+    </main>)
 };
 const SigninFacebookGoogle = () => {
   const navigate = useNavigate();
@@ -34,7 +40,16 @@ signInWithPopup(auth , provider )
 };
 // sign in with facebook 
 const signInWithFacebook=()=>{
-  alert('yo');
+  const provider = new FacebookAuthProvider();
+  signInWithPopup(auth , provider )
+  .then((result)=>{
+    console.log(result);
+        navigate('/Home'); 
+  })
+  .catch((error) =>{
+      console.log(error);
+       navigate('/error'); 
+  } );
 }
 
 

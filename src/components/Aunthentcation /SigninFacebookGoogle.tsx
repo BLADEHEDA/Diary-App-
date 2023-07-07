@@ -54,9 +54,11 @@ const signInWithFacebook=()=>{
 
 
   return (
+
     <main>
         <Navbar head="My Private Diary" />
     <main className='px-5 overflow-hidden'>
+    <main className='px-5 overflow-hidden bg-[white] '>
     <div className="contetn  text-center my-[5em] ">
       <div className="head text-[black] text-[1.6em] font-[600] ">Welcome to private diary</div>
       <p className='text-[#000000FF]  text-[1.135em] mt-3 ' >Create private entries, log your activities update records

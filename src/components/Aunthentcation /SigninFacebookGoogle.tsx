@@ -1,28 +1,63 @@
 import Button from '../shared/Button'
-// subjected to changes 
-import { GoogleAuthProvider,signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider,signInWithPopup,FacebookAuthProvider } from 'firebase/auth';
 import { auth } from "../../firebase/firebase"
+import Navbar from '../shared/Navbar';
+import { useNavigate } from 'react-router-dom';
 
-// {subjectd to changes }
+// {subjectd to changes } 
+export  const ErrorPage = () => {
+  return (<main>
+      <Navbar head="Error" />
+    <div className=""> 
+    Error: Unable to sign in with Google
+    </div>
+ 
+    </main>)
+};
 const SigninFacebookGoogle = () => {
-  // Sign in with google 
-  const googleProvider = new GoogleAuthProvider();
-  const GoogleLogin = async()=>{
-    try{
-      const result = await signInWithPopup( auth,googleProvider)
-      console.log(result.user)
-      // alert(result.user)
-    }
-    catch(error) {
+  const navigate = useNavigate();
+  // sign in with google
+const provider = new GoogleAuthProvider();
+const signInWithGoogle=()=>{
+signInWithPopup(auth , provider )
+.then((result)=>{
+  console.log(result);
+      const user = result.user;
+      console.log(user.email); 
+      // navogate to another page whe successful 
+      navigate('/Home'); 
+})
+.catch((error) =>{
+  if (error.code === 'auth/cancelled-popup-request') {
+    console.log('Popup closed by user');
+    // Show appropriate message to the user
+  } else {
     console.log(error);
-    // alert(error)
-    }
+     navigate('/error'); 
   }
-
-// end of changes 
+  
+} );
+};
+// sign in with facebook 
+const signInWithFacebook=()=>{
+  const provider = new FacebookAuthProvider();
+  signInWithPopup(auth , provider )
+  .then((result)=>{
+    console.log(result);
+        navigate('/Home'); 
+  })
+  .catch((error) =>{
+      console.log(error);
+       navigate('/error'); 
+  } );
+}
 
 
   return (
+
+    <main>
+        <Navbar head="My Private Diary" />
+    <main className='px-5 overflow-hidden'>
     <main className='px-5 overflow-hidden bg-[white] '>
     <div className="contetn  text-center my-[5em] ">
       <div className="head text-[black] text-[1.6em] font-[600] ">Welcome to private diary</div>
@@ -33,13 +68,14 @@ const SigninFacebookGoogle = () => {
       <li className='text-[#000000FF] underline text-center mb-1' >GET STARTED </li>
     </ul>
     <div className="btns mb-[6.5em]">
-      <div className="btn">
+      <div  onClick={signInWithFacebook}  className="btn">
         <Button name=" sign in with Facebook" />
       </div>
-      <div onClick={GoogleLogin} className="btn">
+      <div onClick={signInWithGoogle} className="btn">
       <Button name=" sign in with Google" />
       </div>
     </div>
+    </main>
     </main>
   )
 }

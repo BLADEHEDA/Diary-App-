@@ -18,7 +18,6 @@ const counterSlice = createSlice({
     decrement(state) {
       state.value -= 1;
     },
-    // Add more actions as needed
   },
 });
 

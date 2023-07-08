@@ -63,7 +63,7 @@ const signInWithFacebook=()=>{
     <ul>
       <li className='text-[#000000FF] underline text-center mb-1' >GET STARTED </li>
     </ul>
-    <div className="btns mb-[6.5em]">
+    <div className="btns mb-[8em]">
       <div  onClick={signInWithFacebook}  className="btn">
         <Button name=" sign in with Facebook" />
       </div>

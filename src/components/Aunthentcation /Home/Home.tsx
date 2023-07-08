@@ -8,8 +8,9 @@ import book from  "../../../assets/download (3) 1.png"
 
 const Home = () => {
   return (
-    <div>
+    <div className="bg-[white] " >
          <Navbar head="Home" />
+
          <HomeHeader/>
          <Search/>
          <DiaryItem 

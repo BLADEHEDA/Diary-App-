@@ -40,6 +40,7 @@ signInWithPopup(auth , provider )
 // sign in with facebook 
 const signInWithFacebook=()=>{
   const provider = new FacebookAuthProvider();
+  provider.addScope('email')
   signInWithPopup(auth , provider )
   .then((result)=>{
     console.log(result);
@@ -50,8 +51,6 @@ const signInWithFacebook=()=>{
        navigate('/error'); 
   } );
 }
-
-
   return (
     <main className='bg-[white]' >
         <Navbar head="My Private Diary" />

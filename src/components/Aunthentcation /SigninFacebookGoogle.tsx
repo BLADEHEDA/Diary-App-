@@ -24,14 +24,16 @@ signInWithPopup(auth , provider )
 .then((result)=>{
   console.log(result);
       const name = result.user.displayName
-
-      // console.log(name);
-  
-      // console.log(result.user.email); 
+      console.log(result.user.email); 
       // store the date to avoid refreshing all the times 
-      localStorage.setItem("name",name);
-      // navogate to another page whe successful 
-      navigate('/home'); 
+      if (name !== null) {
+        localStorage.setItem("name", name);
+              // navogate to another page whe successf
+        navigate('/home'); 
+      } else {
+              // navogate to another page whe successf
+        navigate('/home');
+      }
 })
 .catch((error) =>{
   if (error.code === 'auth/cancelled-popup-request') {

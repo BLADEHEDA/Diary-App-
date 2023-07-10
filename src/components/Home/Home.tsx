@@ -8,7 +8,6 @@ import cook from  "../../assets/pic2.png"
 import book from  "../../assets/pic1.png"
 // import book from '../../assets/download (3) 1 (1).png'
 
-
 const Home = () => {
   return (
     <div className="bg-[white] " >

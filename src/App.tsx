@@ -16,6 +16,7 @@ function App() {
     <Route path='/' element={<SigninFacebookGoogle/>}/> 
     <Route path='/home' element={<Home/>}/> 
     <Route path="/error" element={<ErrorPage />} />
+    <Route path="*" element={<Home />} /> 
     </Routes>
     {/* <Home/> */}
     {/* <ErrorPage /> */}

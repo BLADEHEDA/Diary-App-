@@ -75,5 +75,4 @@ const signInWithFacebook=()=>{
     </main>
   )
 }
-
 export default SigninFacebookGoogle

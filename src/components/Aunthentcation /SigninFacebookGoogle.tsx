@@ -68,7 +68,7 @@ const signInWithFacebook=()=>{
         <Button name=" sign in with Facebook" />
       </div>
       <div onClick={signInWithGoogle} className="btn">
-      <Button name=" sign in with Google" />
+      <Button name=" Sign in with Google" />
       </div>
     </div>
     </section>

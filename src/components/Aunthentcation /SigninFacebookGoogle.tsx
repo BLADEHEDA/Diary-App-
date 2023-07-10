@@ -3,6 +3,8 @@ import { GoogleAuthProvider,signInWithPopup,FacebookAuthProvider } from 'firebas
 import { auth } from "../../firebase/firebase"
 import Navbar from '../shared/Navbar';
 import { useNavigate } from 'react-router-dom';
+// import { localStorage } from 'windo
+
 
 // {subjectd to changes } 
 export  const ErrorPage = () => {
@@ -13,7 +15,7 @@ export  const ErrorPage = () => {
     </div>
     </main>)
 };
-const SigninFacebookGoogle = () => {
+export const SigninFacebookGoogle = () => {
   const navigate = useNavigate();
   // sign in with google
 const provider = new GoogleAuthProvider();
@@ -21,8 +23,13 @@ const signInWithGoogle=()=>{
 signInWithPopup(auth , provider )
 .then((result)=>{
   console.log(result);
-      const user = result.user;
-      console.log(user.email); 
+      const name = result.user.displayName
+
+      // console.log(name);
+  
+      // console.log(result.user.email); 
+      // store the date to avoid refreshing all the times 
+      localStorage.setItem("name",name);
       // navogate to another page whe successful 
       navigate('/home'); 
 })

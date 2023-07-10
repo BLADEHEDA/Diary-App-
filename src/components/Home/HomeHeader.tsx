@@ -13,6 +13,8 @@ const HomeHeader = () => {
      }}
     name="New entry" />
 </div>
+{/* <div className="">{localStorage.getItem("name")} </div> */}
+
     </main>
    )
 }

@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 export  const ErrorPage = () => {
   return (<main>
       <Navbar head="Error" />
-    <div className="bg-[white]"> 
+    <div className="bg-[white] px-3 py-3"> 
     Error: Unable to sign in with Google
     </div>
     </main>)
@@ -24,7 +24,7 @@ signInWithPopup(auth , provider )
       const user = result.user;
       console.log(user.email); 
       // navogate to another page whe successful 
-      navigate('/Home'); 
+      navigate('/home'); 
 })
 .catch((error) =>{
   if (error.code === 'auth/cancelled-popup-request') {
@@ -44,7 +44,7 @@ const signInWithFacebook=()=>{
   signInWithPopup(auth , provider )
   .then((result)=>{
     console.log(result);
-        navigate('/Home'); 
+        navigate('/home'); 
   })
   .catch((error) =>{
       console.log(error);
@@ -63,7 +63,7 @@ const signInWithFacebook=()=>{
     <ul>
       <li className='text-[#000000FF] underline text-center mb-1' >GET STARTED </li>
     </ul>
-    <div className="btns mb-[6.5em]">
+    <div className="btns mb-[8em]">
       <div  onClick={signInWithFacebook}  className="btn">
         <Button name=" sign in with Facebook" />
       </div>
@@ -75,5 +75,4 @@ const signInWithFacebook=()=>{
     </main>
   )
 }
-
 export default SigninFacebookGoogle

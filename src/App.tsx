@@ -14,10 +14,11 @@ function App() {
     <BrowserRouter  >
     <Routes> 
     <Route path='/' element={<SigninFacebookGoogle/>}/> 
-    <Route path='Home' element={<Home/>}/> 
+    <Route path='/home' element={<Home/>}/> 
     <Route path="/error" element={<ErrorPage />} />
     </Routes>
     {/* <Home/> */}
+    {/* <ErrorPage /> */}
     <Footer/>
     </BrowserRouter>
   )

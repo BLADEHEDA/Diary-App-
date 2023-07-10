@@ -13,7 +13,6 @@ const Home = () => {
   return (
     <div className="bg-[white] " >
          <Navbar head="Home" />
-
          <HomeHeader/>
          <Search/>
          <DiaryItem 

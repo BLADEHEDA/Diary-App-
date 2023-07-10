@@ -1,6 +1,5 @@
 // import React from 'react'
 import Button from "../shared/Button"
-
 const HomeHeader = () => {
   return (
     <main className="px-3 flex justify-between bg-[white]  ">

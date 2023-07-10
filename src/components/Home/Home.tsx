@@ -1,10 +1,13 @@
 // import React from 'react'
-import Navbar from "../../shared/Navbar"
+// import Navbar from "../../shared/Navbar"
+import Navbar from "../shared/Navbar"
 import DiaryItem from "./DiaryItem"
 import HomeHeader from "./HomeHeader"
 import Search from "./Search"
-import cook from  "../../../assets/download (3) 1 (1).png"
-import book from  "../../../assets/download (3) 1.png"
+import cook from  "../../assets/pic2.png"
+import book from  "../../assets/pic1.png"
+// import book from '../../assets/download (3) 1 (1).png'
+
 
 const Home = () => {
   return (

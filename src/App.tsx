@@ -1,5 +1,5 @@
 import './App.css'
-import Home from './components/Aunthentcation /Home/Home'
+import Home from './components/Home/Home'
 import SigninFacebookGoogle, { ErrorPage } from './components/Aunthentcation /SigninFacebookGoogle'
 import Footer from './components/shared/Footer'
 import { BrowserRouter,  Routes,Route} from "react-router-dom"

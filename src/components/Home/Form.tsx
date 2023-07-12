@@ -46,43 +46,24 @@ const Form = () => {
             className="w-full  border border-black bprer-solid  px-3
             rounded-[5px] h-[8em] " ></textarea>
            </article>
-         {/* image uplad field */}
+         {/* image upload field */}
          <article className="mb-4" >
             <div className="mb-2">
             <label className="text-[1.25em] italic text-black " >Upload image (optional)</label>
+            <input
+               className="w-full  border border-black border-solid 
+               rounded-[5px] h-[8em] "
+            type="file" />
             </div>
-            <textarea 
-            className="w-full  border border-black bprer-solid 
-            rounded-[5px] h-[8em] " ></textarea>
            </article>
-
-
-
-         <div>
-            <label htmlFor="">Image (optional)</label>
-            <input type="file" />
-         </div>
-         <section>
-            <label htmlFor="">Category (optional)</label>
-            <div className="flex" >  
-            <div>
-                <label htmlFor="">Public</label>
-                <input type="radio" />
-            </div>
-            <div>
-                <label htmlFor="">Private</label>
-                <input type="radio" />
-            </div>
-            </div>
-         </section>
-         <div>
-            <label htmlFor="Date(optional)"></label>
-            <input type="date" />
-         </div>
-         <div>
-         </div>
-         <div className="btn">
-            <Button/>
+           {/* option section  */}
+           <article className="mb-4" >
+            <input type='checkbox' className="bg-black mr-3 h-[1em] w-[1em] mt-2" />
+            <label className=" text-[1.25em] text-black">Is entry public</label>
+           </article>
+           {/* validating button  */}
+           <div className="btn  mb-[5em]">
+            <Button name="Save" />
          </div>
         </form>
       

@@ -1,6 +1,7 @@
 // import React from 'react'
 import Button from "../shared/Button"
 import {  Link } from 'react-router-dom';
+import SigninFacebookGoogle from "../Aunthentcation /SigninFacebookGoogle";
 
 
 const HomeHeader = () => {
@@ -17,7 +18,7 @@ const HomeHeader = () => {
     name="New entry" />
 </Link>
 {/* <div className="">{localStorage.getItem("name")} </div> */}
-
+{/* <img src={localStorage.getItem("pic")} /> */}
     </main>
    )
 }

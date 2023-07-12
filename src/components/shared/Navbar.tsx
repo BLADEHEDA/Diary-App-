@@ -9,7 +9,8 @@ const Navbar = (props:any) => {
         </div>
         <p className=" text-[#FFF] text-[1.6em] font-[700] text-center  " >{props.head} </p>
         <div className=" text-[#FFF]  ">
-          <img src={props.vector} alt="" className="w-[2.35em]   "  />
+          <img src={props.vector} alt="" className="w-[2.5em] h-[2.5em] rounded-[50%]   "  />
+
         </div>
     </div>
   )

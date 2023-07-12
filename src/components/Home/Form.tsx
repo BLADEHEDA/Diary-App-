@@ -2,12 +2,15 @@
 
 import Button from "../shared/Button"
 import Navbar from "../shared/Navbar"
-import vector from "../../assets/Vector.png"
+// import vector from "../../assets/Vector.png"
 
 const Form = () => {
   return (
    <main>  
-      <Navbar head='New entry' vector={vector } />
+      <Navbar 
+      head='New entry' 
+      vector= {localStorage.getItem("pic")}
+       />
       <div className="flex px-5 justify-between text-[black] mt-3 ">
          <div className="font-[600]  text-[1.65em] ">Create new diary</div>
          <div className="font-[600] text-[1.75em]">x</div>

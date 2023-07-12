@@ -13,16 +13,16 @@ function App() {
 
   return (
     <BrowserRouter  >
-    {/* <Routes> 
+    <Routes> 
     <Route path='/' element={<SigninFacebookGoogle/>}/> 
     <Route path='home' element={<Home/>}/> 
     <Route path="error" element={<ErrorPage />} />
      <Route path="form" element={ <Form/>} /> 
     <Route path="*" element={<Home />} /> 
-    </Routes> */}
+    </Routes>
     {/* <Home/> */}
     {/* <ErrorPage /> */}
-    <Form/>
+    {/* <Form/> */}
     <Footer/>
     </BrowserRouter>
   )

@@ -24,10 +24,13 @@ signInWithPopup(auth , provider )
 .then((result)=>{
   console.log(result);
       const name = result.user.displayName
+      const pic = result.user.photoURL
+      console.log(pic);
       console.log(result.user.email); 
       // store the date to avoid refreshing all the times 
-      if (name !== null) {
+      if (name && pic !== null) {
         localStorage.setItem("name", name);
+        localStorage.setItem("pic", pic);
               // navogate to another page whe successf
         navigate('/home'); 
       } else {

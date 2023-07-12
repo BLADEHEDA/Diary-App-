@@ -1,14 +1,22 @@
 // import React from 'react'
 
 import Button from "../shared/Button"
+import Navbar from "../shared/Navbar"
+import vector from "../../assets/Vector.png"
 
 const Form = () => {
   return (
+   <main>  
+      <Navbar head='New entry' vector={vector } />
+      <div className="flex px-5 justify-between text-[black] mt-3 ">
+         <div className="font-[600]  text-[1.65em] ">Create new diary</div>
+         <div className="font-[600] text-[1.75em]">x</div>
+      </div>
     <div>
-        <form action="">
+        <form action="" className=" px-5 " >
          <div>
             <label htmlFor="">Description [required] </label>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <textarea name="" id=""></textarea>
          </div>
          <div>
             <label htmlFor="">Image (optional)</label>
@@ -39,6 +47,7 @@ const Form = () => {
         </form>
       
     </div>
+    </main>
   )
 }
 

@@ -15,8 +15,9 @@ function App() {
     <BrowserRouter  >
     {/* <Routes> 
     <Route path='/' element={<SigninFacebookGoogle/>}/> 
-    <Route path='/home' element={<Home/>}/> 
-    <Route path="/error" element={<ErrorPage />} />
+    <Route path='home' element={<Home/>}/> 
+    <Route path="error" element={<ErrorPage />} />
+     <Route path="form" element={ <Form/>} /> 
     <Route path="*" element={<Home />} /> 
     </Routes> */}
     {/* <Home/> */}

@@ -157,16 +157,16 @@ export const Form = () => {
       </div>
       {/*  
       subjected to changes  */}
-      {
+      {/* {
         newdiaryEntry.map((entry)=>{ const {id,category,description,isPublic,selectedFile}=entry
       return(
-        <section key={id} className='mb-[10em] ' >
+        <section key={id} className='mb-[1em] ' >
           <p>{category} </p>
           <p>{description} </p>
         </section>
       )
       }  )
-      }
+      } */}
     </main>
   );
 };

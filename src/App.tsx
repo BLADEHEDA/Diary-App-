@@ -20,7 +20,7 @@ function App() {
      <Route path="form" element={<Form/>} /> 
     <Route path="*" element={<Home />} /> 
     </Routes> */}
-    {/* <Home/> */}
+    <Home/>
     {/* <ErrorPage /> */}
     <Form/>
     <Footer/>

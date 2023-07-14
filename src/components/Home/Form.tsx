@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import Button from '../shared/Button';
 import Navbar from '../shared/Navbar';
 
-const Form = () => {
+export const Form = () => {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [errors, setErrors] = useState({});
+
+  // create new diary entry on submit 
+  const [newdiaryEntry, setNewdiaryEnrty ] = useState([])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,6 +25,23 @@ const Form = () => {
     setErrors(formErrors);
 
     if (Object.keys(formErrors).length === 0) {
+      // add form values to the list 
+      const diaryEntry={
+        id:Math.floor(Math.random()*10),
+        category,
+        description,
+        isPublic,
+        selectedFile
+      }
+      const addnewdiary = [diaryEntry , ...newdiaryEntry ];
+      setNewdiaryEnrty(addnewdiary);
+      console.log('====================================');
+      console.log(addnewdiary);
+      console.log(newdiaryEntry)
+      console.log('====================================');
+
+
+
       // Logging the form values
       console.log('Category:', category);
       console.log('Description:', description);
@@ -135,6 +155,18 @@ const Form = () => {
           </div>
         </form>
       </div>
+      {/*  
+      subjected to changes  */}
+      {
+        newdiaryEntry.map((entry)=>{ const {id,category,description,isPublic,selectedFile}=entry
+      return(
+        <section key={id} className='mb-[10em] ' >
+          <p>{category} </p>
+          <p>{description} </p>
+        </section>
+      )
+      }  )
+      }
     </main>
   );
 };

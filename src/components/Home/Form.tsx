@@ -26,7 +26,7 @@ export const Form = () => {
 
     if (Object.keys(formErrors).length === 0) {
       // add form values to the list 
-      const diaryEntry={
+     const diaryEntry={
         id:Math.floor(Math.random()*10),
         category,
         description,
@@ -35,10 +35,11 @@ export const Form = () => {
       }
       const addnewdiary = [diaryEntry , ...newdiaryEntry ];
       setNewdiaryEnrty(addnewdiary);
-      console.log('====================================');
+      console.log('=============== array value =====================');
       console.log(addnewdiary);
+      console.log('============== state value ======================');
       console.log(newdiaryEntry)
-      console.log('====================================');
+    
 
 
 
@@ -157,16 +158,17 @@ export const Form = () => {
       </div>
       {/*  
       subjected to changes  */}
-      {/* {
+      {
         newdiaryEntry.map((entry)=>{ const {id,category,description,isPublic,selectedFile}=entry
       return(
-        <section key={id} className='mb-[1em] ' >
+        <section key={id} className='mb-[10em] ' >
           <p>{category} </p>
           <p>{description} </p>
+          <img src={selectedFile} alt="" />
         </section>
       )
       }  )
-      } */}
+      }
     </main>
   );
 };

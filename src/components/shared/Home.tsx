@@ -9,8 +9,8 @@ import book from  "../../assets/pic1.png"
 const Home = () => {
   return (
     <div className="bg-[white] " >
-         <Navbar head="Home"   vector= {localStorage.getItem("pic")} />
 
+         <Navbar head="Home"   vector= {localStorage.getItem("pic")} />
          <HomeHeader/>
          <Search/>
          <DiaryItem 

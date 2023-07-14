@@ -1,8 +1,6 @@
 // import React from 'react'
 import Button from "../shared/Button"
 import {  Link } from 'react-router-dom';
-import SigninFacebookGoogle from "../Aunthentcation /SigninFacebookGoogle";
-
 
 const HomeHeader = () => {
   return (

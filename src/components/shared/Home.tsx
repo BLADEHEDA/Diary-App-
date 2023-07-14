@@ -1,17 +1,16 @@
-// import React from 'react'
-// import Navbar from "../../shared/Navbar"
-import Navbar from "../shared/Navbar"
-import DiaryItem from "./DiaryItem"
-import HomeHeader from "./HomeHeader"
-import Search from "./Search"
+
+import Navbar from "./Navbar"
+import DiaryItem from "../Home/DiaryItem"
+import HomeHeader from "../Home/HomeHeader"
+import Search from "../Home/Search"
 import cook from  "../../assets/pic2.png"
 import book from  "../../assets/pic1.png"
-// import book from '../../assets/download (3) 1 (1).png'
 
 const Home = () => {
   return (
     <div className="bg-[white] " >
-         <Navbar head="Home" />
+
+         <Navbar head="Home"   vector= {localStorage.getItem("pic")} />
          <HomeHeader/>
          <Search/>
          <DiaryItem 
@@ -44,6 +43,8 @@ const Home = () => {
            , making it over 2000 years old. Richard McClintock,
             a Latin professor at Hampden...'
          />
+         {/* appended to the list  */}
+
     </div>
   )
 }

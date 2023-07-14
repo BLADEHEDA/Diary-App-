@@ -72,14 +72,14 @@ const Form = () => {
               onChange={(e) => setCategory(e.target.value)}
             >
                   <option selected="true" className='hidden' >Select language</option>
-              <option value="1">Fun</option>
-              <option value="2">Home</option>
-              <option value="3">Family</option>
-              <option value="4">Spriritual</option>
-              <option value="5">Health</option>
-              <option value="6">School</option>
-              <option value="7">Work</option>
-              <option value="8">Others</option>
+              <option value="Fun">Fun</option>
+              <option value="Home">Home</option>
+              <option value="fAMILY">Family</option>
+              <option value="Spiritual">Spriritual</option>
+              <option value="Heakth">Health</option>
+              <option value="School">School</option>
+              <option value="Work">Work</option>
+              <option value="Others">Others</option>
             </select>
             {errors.category && (
               <p className="text-red-500">{errors.category}</p>

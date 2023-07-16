@@ -7,12 +7,13 @@ export const Form = () => {
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [errors, setErrors] = useState({});
-
+  // const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<{ category?: string; description?: string }>({});
   // create new diary entry on submit 
-  const [newdiaryEntry, setNewdiaryEnrty ] = useState([])
+  // const [newdiaryEntry, setNewdiaryEnrty ] = useState([])
+  const [newdiaryEntry, setNewdiaryEnrty] = useState<{ id: number; category: string; description: string; isPublic: boolean; selectedFile: null }[]>([])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e:any) => {
     e.preventDefault();
     // Perform form validation
     const formErrors = {};

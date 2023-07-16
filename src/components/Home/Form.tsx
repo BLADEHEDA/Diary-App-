@@ -11,7 +11,7 @@ export const Form = () => {
   const [errors, setErrors] = useState<{ category?: string; description?: string }>({});
   // create new diary entry on submit 
   // const [newdiaryEntry, setNewdiaryEnrty ] = useState([])
-  const [newdiaryEntry, setNewdiaryEnrty] = useState<{ id: number; category: string; description: string; isPublic: boolean; selectedFile: null }[]>([])
+  const [newdiaryEntry, setNewdiaryEnrty] = useState<{ id: number; category: string; description: string; isPublic: boolean; selectedFile: string }[]>([])
 
   const handleSubmit = (e:any) => {
     e.preventDefault();
@@ -64,7 +64,7 @@ export const Form = () => {
     }
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e:any) => {
     const file = e.target.files[0];
     setSelectedFile(file);
   };
@@ -93,7 +93,7 @@ export const Form = () => {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
-                  <option selected="true" className='hidden' >Select language</option>
+                  <option  className='hidden' >Select language</option>
               <option value="Fun">Fun</option>
               <option value="Home">Home</option>
               <option value="fAMILY">Family</option>

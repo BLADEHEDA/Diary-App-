@@ -103,9 +103,14 @@ export const Form = () => {
               <option value="Work">Work</option>
               <option value="Others">Others</option>
             </select>
-            {errors.category && (
+
+            {/* {errors.category && (
               <p className="text-red-500">{errors.category}</p>
+            )} */}
+         {(errors as any).category && (
+            <p className="text-red-500">{(errors as any).category}</p>
             )}
+
           </article>
           {/* descritpion input field */}
           <article className="mb-4">
@@ -121,9 +126,13 @@ export const Form = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             ></textarea>
-            {errors.description && (
+            {/* {errors.description && (
               <p className="text-red-500">{errors.description}</p>
+            )} */}
+               {(errors as any).description && (
+             <p className="text-red-500">{(errors as any).description}</p>
             )}
+         
           </article>
           {/* image upload field */}
           <article className="mb-4">
@@ -160,7 +169,7 @@ export const Form = () => {
       {/*  
       subjected to changes  */}
       {
-        newdiaryEntry.map((entry)=>{ const {id,category,description,isPublic,selectedFile}=entry
+        newdiaryEntry.map((entry)=>{ const {id,category,description,selectedFile}=entry
       return(
         <section key={id} className='mb-[10em] ' >
           <p>{category} </p>

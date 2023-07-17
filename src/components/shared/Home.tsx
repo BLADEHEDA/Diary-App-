@@ -8,8 +8,8 @@ import book from  "../../assets/pic1.png"
 
 const Home = () => {
   return (
-    <main className="bg-[white] w-[30%]  home  " >
-      <section> 
+    <main className="bg-[white]  home   " >
+      <section className="w-[30%] " > 
          <Navbar head="Home"   vector= {localStorage.getItem("pic")} />
          <HomeHeader/>
          <Search/>

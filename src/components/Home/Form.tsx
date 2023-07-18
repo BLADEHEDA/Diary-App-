@@ -2,7 +2,8 @@ import React, { useState, ChangeEvent } from 'react';
 import Button from '../shared/Button';
 import Navbar from '../shared/Navbar';
 import {db} from  "../../firebase/firebase"
-import { addDoc, collection } from "firebase/firestore"; 
+import { addDoc, collection, } from "firebase/firestore"; 
+
 
 export const Form = () => {
   const [category, setCategory] = useState('');
@@ -45,36 +46,30 @@ export const Form = () => {
       const addnewdiary = [diaryEntry, ...newdiaryEntry];
       setNewdiaryEntry(addnewdiary);
 
-      // subjected to changes 
-        // Upload data to Firebase
-        addDoc(collection(db, "diaryEntries"), diaryEntry)
-        .then(() => {
-          console.log("Data uploaded to Firebase successfully");
-        })
-        .catch((error) => {
-          console.error("Error uploading data to Firebase", error);
-        });
+             // Upload data to Firebase
+      addDoc(collection(db, 'diaryEntries'), diaryEntry)
+      .then((docRef) => {
+        console.log('Data uploaded to Firebase successfully', docRef.id);
 
-        // upload file to firebase using tyr catch 
-        // try{
-        //   const docRef = await addDoc(collection(db,"diaryEntries"), diaryEntry)
-        //   console.log("Document written with ID: ", docRef.id);
-        // }
-        // catch (e) {
-        //   console.error("Error adding document: ", e);
-        // }
+        // Update the state with the newly added diary entry
+        setNewdiaryEntry((prevEntries) => [diaryEntry, ...prevEntries]);
+        // setNewdiaryEntry(addnewdiary);
+      })
+      .catch((error) => {
+        console.error('Error uploading data to Firebase', error);
+      });
+
 
       // Logging the form values
-      // console.log('Category:', category);
-      // console.log('Description:', description);
-      // console.log('Is Public:', isPublic);
-      // console.log('Selected File:', selectedFile);
+      console.log('Category:', category);
+      console.log('Description:', description);
+      console.log('Is Public:', isPublic);
+      console.log('Selected File:', selectedFile);
 
       // Alerting the form values
-      // alert(
-      //   `Category: ${category}\nDescription: ${description}\nIs Public: ${isPublic}`
-      // );
-
+      alert(
+        `Category: ${category}\nDescription: ${description}\nIs Public: ${isPublic}`
+      );
       // Clearing the form inputs and errors
       setCategory('');
       setDescription('');

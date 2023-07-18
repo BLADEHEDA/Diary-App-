@@ -9,7 +9,7 @@ import book from  "../../assets/pic1.png"
 const Home = () => {
   return (
     <main className="bg-[white]  home   " >
-      <section className="w-[30%] " > 
+      <section className="" > 
          <Navbar head="Home"   vector= {localStorage.getItem("pic")} />
          <HomeHeader/>
          <Search/>

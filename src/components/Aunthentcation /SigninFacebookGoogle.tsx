@@ -32,10 +32,10 @@ signInWithPopup(auth , provider )
         localStorage.setItem("name", name);
         localStorage.setItem("pic", pic);
               // navogate to another page whe successf
-        navigate('/journal'); 
+        navigate('/diary'); 
       } else {
               // navogate to another page whe successf
-        navigate('/journal');
+        navigate('/diary');
       }
 })
 .catch((error) =>{
@@ -56,7 +56,7 @@ const signInWithFacebook=()=>{
   signInWithPopup(auth , provider )
   .then((result)=>{
     console.log(result);
-        navigate('/journal'); 
+        navigate('/diary'); 
   })
   .catch((error) =>{
       console.log(error);

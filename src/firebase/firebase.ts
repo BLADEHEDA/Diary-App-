@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-// subjected 
+// subjected to changes 
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 
 
@@ -21,3 +22,5 @@ const app = initializeApp(firebaseConfig);
 
 
 export const auth = getAuth(app);
+// sujected to changes 
+export const db = getFirestore(app);

@@ -14,6 +14,7 @@ export const Form = () => {
      description?: string;
      file?: string;
     }>({});
+    // define stae of new diary entry 
   const [newdiaryEntry, setNewdiaryEntry] = useState<{
     id: number;
     category: string;
@@ -48,11 +49,11 @@ export const Form = () => {
 
              // Upload data to Firebase
       addDoc(collection(db, 'diaryEntries'), diaryEntry)
-      .then((docRef) => {
-        console.log('Data uploaded to Firebase successfully', docRef.id);
+      .then(() => {
+        console.log('Data uploaded to Firebase successfully');
 
         // Update the state with the newly added diary entry
-        setNewdiaryEntry((prevEntries) => [diaryEntry, ...prevEntries]);
+        // setNewdiaryEntry((prevEntries) => [diaryEntry, ...prevEntries]);
         // setNewdiaryEntry(addnewdiary);
       })
       .catch((error) => {

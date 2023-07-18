@@ -7,7 +7,10 @@ export const Form = () => {
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [errors, setErrors] = useState<{ category?: string; description?: string }>({});
+  const [errors, setErrors] = useState<{ category?: string;
+     description?: string;
+     file?: string;
+    }>({});
   const [newdiaryEntry, setNewdiaryEntry] = useState<{
     id: number;
     category: string;
@@ -59,11 +62,46 @@ export const Form = () => {
       setErrors({});
     }
   };
-// validate a file update 
+  // validate file upload 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    setSelectedFile(file || null);
+    if (file) {
+      // Validate file type
+      const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+      if (!allowedTypes.includes(file.type)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          file: "Only JPEG, PNG, and GIF images are allowed.",
+        }));
+        setSelectedFile(null);
+        return;
+      }
+  
+      // Validate file size
+      const maxSize = 1 * 1024 * 1024; // 1MB
+      if (file.size > maxSize) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          file: "Maximum file size allowed is 1MB.",
+        }));
+        setSelectedFile(null);
+        return;
+      }
+  
+      setSelectedFile(file);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        file: undefined, // Reset the file error
+      }));
+    } else {
+      setSelectedFile(null);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        file: undefined, // Reset the file error
+      }));
+    }
   };
+  
 
   return (
     <main className="w-full">
@@ -128,9 +166,11 @@ export const Form = () => {
               <input
                 className="w-full border border-black border-solid rounded-[5px] h-[8em]"
                 type="file"
+                accept="image/jpeg, image/png, image/gif"
                 onChange={handleFileChange}
               />
             </div>
+            {errors.file && <p className="text-red-500">{errors.file}</p>}
           </article>
           {/* option section */}
           <article className="mb-4">

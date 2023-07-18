@@ -65,7 +65,7 @@ const signInWithFacebook=()=>{
 }
   return (
     <main className=' home  ' >
-      <section className=" lg:w-[30%] bg-[white] " > 
+      <section className=" bg-[white] " > 
         <Navbar head="My Private Diary" />
     <section className='px-5 overflow-hidden bg-[white]'>
     <div className="contetn  text-center my-[5em] ">

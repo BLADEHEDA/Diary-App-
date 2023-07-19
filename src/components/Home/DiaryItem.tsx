@@ -4,7 +4,7 @@ const DiaryItem = (props:any) => {
     <main className="mb-5 px-3  " >
       <section className="flex  ">
         <div className="mr-4">
-            <img src={props.src} alt="images-pic"/>
+            <img src={props.src} alt="images-pic" className=" w-[4em] h-[4em] "  />
         </div>
         <div className="">
             <p className="type text-[1.6em] font-[500] text-[black]  ">{props.title} </p>

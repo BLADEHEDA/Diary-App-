@@ -3,7 +3,7 @@ import Button from '../shared/Button';
 import Navbar from '../shared/Navbar';
 import {db} from  "../../firebase/firebase"
 import { addDoc, collection, } from "firebase/firestore"; 
-
+import { Link } from 'react-router-dom';
 
 export const Form = () => {
   const [category, setCategory] = useState('');
@@ -38,7 +38,7 @@ export const Form = () => {
     if (Object.keys(formErrors).length === 0) {
       // add form values to the list
       const diaryEntry = {
-        id: Math.floor(Math.random() * 10),
+        id: Math.floor(Math.random() * 1000),
         category,
         description,
         isPublic,
@@ -54,7 +54,7 @@ export const Form = () => {
 
         // Update the state with the newly added diary entry
         // setNewdiaryEntry((prevEntries) => [diaryEntry, ...prevEntries]);
-        // setNewdiaryEntry(addnewdiary);
+        setNewdiaryEntry(addnewdiary);
       })
       .catch((error) => {
         console.error('Error uploading data to Firebase', error);
@@ -68,15 +68,16 @@ export const Form = () => {
       console.log('Selected File:', selectedFile);
 
       // Alerting the form values
-      alert(
-        `Category: ${category}\nDescription: ${description}\nIs Public: ${isPublic}`
-      );
+      // alert(
+      //   `Category: ${category}\nDescription: ${description}\nIs Public: ${isPublic}`
+      // );
       // Clearing the form inputs and errors
       setCategory('');
       setDescription('');
       setIsPublic(false);
       setSelectedFile(null);
       setErrors({});
+  alert('Successfully Added Diary Entry')
     }
   };
   // validate file upload 
@@ -125,7 +126,7 @@ export const Form = () => {
       <Navbar head="New entry" vector={localStorage.getItem('pic')} />
       <div className="flex px-5 justify-between text-[black] mt-3">
         <div className="font-[600] text-[1.65em]">Create new diary</div>
-        <div className="font-[600] text-[1.75em]">x</div>
+    <Link to ='/diary'  ><div className="font-[600] text-[1.75em] text-[black]">x</div>  </Link>    
       </div>
       <div className="w-full">
         <form onSubmit={handleSubmit} className="px-5">
@@ -203,7 +204,7 @@ export const Form = () => {
           </article>
           {/* validating button */}
           <div className="btn mb-[5em]">
-            <Button type="submit" name="Save" />
+          <Link to ='/diary'  > <Button type="submit" name="Save" /></Link> 
           </div>
         </form>
       </div>

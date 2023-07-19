@@ -12,7 +12,11 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearchText(value);
-    onSearch(value); // Pass the search text to the parent component
+    // onSearch(value); //pass the value to the parent component where the component is reused 
+  };
+
+  const handleSearch = () => {
+    onSearch(searchText);
   };
 
   return (
@@ -27,7 +31,7 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="">
+        <div className="" onClick={handleSearch}>
           <FontAwesomeIcon className="text-[1.4em]" icon={faSearch} />
         </div>
         <div className="">

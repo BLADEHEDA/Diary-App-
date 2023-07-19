@@ -7,6 +7,7 @@ import { db } from '../../firebase/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import book from "../../assets/pic1.png"
 
+// define the types to be used 
 interface DiaryEntry {
   id: string;
   category: string;
@@ -17,8 +18,7 @@ interface DiaryEntry {
 }
 
 const Home = () => {
-  const [diary, setDiary] = useState<DiaryEntry[]>([]);
-  // subjected to changes 
+  const [diary, setDiary] = useState<DiaryEntry[]>([]); 
   // States for the handle search functionality 
   const [filteredDiary, setFilteredDiary] = useState<DiaryEntry[]>([]);
 

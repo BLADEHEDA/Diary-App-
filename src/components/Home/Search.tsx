@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
+// Define the types 
 interface SearchProps {
   onSearch: (searchText: string) => void;
 }
@@ -16,7 +17,7 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
   };
 
   const handleSearch = () => {
-    onSearch(searchText);
+    onSearch(searchText); 
   };
 
   return (

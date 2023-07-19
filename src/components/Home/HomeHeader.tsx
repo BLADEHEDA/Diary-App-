@@ -6,7 +6,7 @@ const HomeHeader = () => {
   return (
     <main className="px-3 flex justify-between bg-[white]  ">
 <div className=" font-[600]  text-[1.5em] mt-2 "> Welcome back</div>
-<Link to ='form' className="">
+<Link to ='/diary/[create diary]' className="">
     <Button
     style={{
         fontSize:'13px',
@@ -15,8 +15,6 @@ const HomeHeader = () => {
      }}
     name="New entry" />
 </Link>
-{/* <div className="">{localStorage.getItem("name")} </div> */}
-{/* <img src={localStorage.getItem("pic")} /> */}
     </main>
    )
 }

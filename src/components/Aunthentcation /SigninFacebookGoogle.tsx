@@ -32,10 +32,10 @@ signInWithPopup(auth , provider )
         localStorage.setItem("name", name);
         localStorage.setItem("pic", pic);
               // navogate to another page whe successf
-        navigate('/home'); 
+        navigate('/diary'); 
       } else {
               // navogate to another page whe successf
-        navigate('/home');
+        navigate('/diary');
       }
 })
 .catch((error) =>{
@@ -56,7 +56,7 @@ const signInWithFacebook=()=>{
   signInWithPopup(auth , provider )
   .then((result)=>{
     console.log(result);
-        navigate('/home'); 
+        navigate('/diary'); 
   })
   .catch((error) =>{
       console.log(error);
@@ -64,7 +64,8 @@ const signInWithFacebook=()=>{
   } );
 }
   return (
-    <main className='bg-[white]' >
+    <main className=' home  ' >
+      <section className=" bg-[white] " > 
         <Navbar head="My Private Diary" />
     <section className='px-5 overflow-hidden bg-[white]'>
     <div className="contetn  text-center my-[5em] ">
@@ -83,6 +84,7 @@ const signInWithFacebook=()=>{
       <Button name=" Sign in with Google" />
       </div>
     </div>
+    </section>
     </section>
     </main>
   )

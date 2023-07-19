@@ -15,6 +15,7 @@ interface DiaryEntry {
   selectedFile: string;
   date: string;
   isPublic: boolean;
+  Startdate: string; // Add the timestamp field
 }
 
 const Home = () => {
@@ -24,7 +25,11 @@ const Home = () => {
 
   const fetchPost = async () => {
     await getDocs(collection(db, 'diaryEntries')).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({ ...doc.data() } as DiaryEntry));
+      const newData = querySnapshot.docs.map((doc) => ({ ...doc.data(),
+        id: doc.id,
+        Startdate: doc.data().timestamp , // Convert timestamp to a human-readable format
+      } as DiaryEntry));
+      
       setDiary(newData);
       setFilteredDiary(newData);
       console.log(newData);
@@ -60,6 +65,8 @@ const Home = () => {
             date={item.date}
             type={item.isPublic ? 'Public' : 'Private'}
             content={item.description}
+            timestamp={item.Startdate} // Render the timestamp
+            // Startdate={item.Startdate}
           />
         ))}
       </section>

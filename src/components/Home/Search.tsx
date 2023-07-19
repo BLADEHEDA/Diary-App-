@@ -16,14 +16,15 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
     // onSearch(value); //pass the value to the parent component where the component is reused 
   };
 
-  const handleSearch = () => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     onSearch(searchText); 
   };
 
   return (
     <main>
       <section className="flex justify-between px-3 mt-5 mb-1">
-        <div className="bg-[white]">
+        <form onSubmit={handleSearch}  className="bg-[white]">
           <input
             type="text"
             className="bg-[white] input text-red-600::placeholder"
@@ -31,7 +32,7 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
             value={searchText}
             onChange={handleInputChange}
           />
-        </div>
+        </form>
         <div className="" onClick={handleSearch}>
           <FontAwesomeIcon className="text-[1.4em]" icon={faSearch} />
         </div>

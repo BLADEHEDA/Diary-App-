@@ -14,7 +14,7 @@ const firebaseConfig = {
   storageBucket: "diary-app-ca8af.appspot.com",
   messagingSenderId: "296167296869",
   appId: "1:296167296869:web:3898721b457d2891c89b8c",
-  measurementId: "G-KF9LB8G9F6"
+  measurementId: "G-KF9LB8G9F6",
 };
 
 // Initialize Firebase

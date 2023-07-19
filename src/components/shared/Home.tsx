@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import DiaryItem from '../Home/DiaryItem';
 import HomeHeader from '../Home/HomeHeader';
-import Search from '../Home/Search';
+import Search from './Search';
 import { db } from '../../firebase/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import book from "../../assets/pic1.png"

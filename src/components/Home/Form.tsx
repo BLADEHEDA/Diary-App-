@@ -3,7 +3,7 @@ import Button from '../shared/Button';
 import Navbar from '../shared/Navbar';
 import {db} from  "../../firebase/firebase"
 import { addDoc, collection, } from "firebase/firestore"; 
-import { useNavigate,Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const Form = () => {
   const [category, setCategory] = useState('');
@@ -14,7 +14,7 @@ export const Form = () => {
      description?: string;
      file?: string;
     }>({});
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     // define stae of new diary entry 
   const [newdiaryEntry, setNewdiaryEntry] = useState<{
     id: number;

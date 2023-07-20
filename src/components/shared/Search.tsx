@@ -31,7 +31,7 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
   // definethe function to handel the filter by category 
   const handleCategorySelect = (category: string) => {
     onCategorySelect(category);
-    setShow();
+    setShow(false);
   };
 
   return (

@@ -54,7 +54,7 @@ const Home = () => {
         item.description.toLowerCase().includes(searchText.toLowerCase())
     );
     setFilteredDiary(filteredData);
-    
+    setSelectedCategory(selectedCategory)
   };
 
   return (

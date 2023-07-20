@@ -13,13 +13,13 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
   const [ show , setShow ]= useState(false);
 
 
-
+// track the input changes of the search input field and updaye the states 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearchText(value);
     // onSearch(value); //pass the value to the parent component where the component is reused
   };
-
+// defin the funvtion to handle the search functionality 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSearch(searchText);
@@ -28,7 +28,7 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
   const handleShow=()=>{
     setShow(!show);
   }
-  // subjected to changes 
+  // definethe function to handel the filter by category 
   const handleCategorySelect = (category: string) => {
     onCategorySelect(category);
   };

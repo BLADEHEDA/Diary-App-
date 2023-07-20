@@ -15,13 +15,16 @@ interface DiaryEntry {
   selectedFile: string;
   date: string;
   isPublic: boolean;
-  Startdate: string; // Add the timestamp field
+  Startdate: string; 
 }
 
 const Home = () => {
   const [diary, setDiary] = useState<DiaryEntry[]>([]); 
   // States for the handle search functionality 
   const [filteredDiary, setFilteredDiary] = useState<DiaryEntry[]>([]);
+
+// define the states of the fiæter by category 
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const fetchPost = async () => {
     await getDocs(collection(db, 'diaryEntries')).then((querySnapshot) => {
@@ -41,6 +44,8 @@ const Home = () => {
   }, []);
   // handle the search functionality 
   const handleSearch = (searchText: string) => {
+    // pass the staet of the category to that of the search 
+    setSelectedCategory(searchText);      
     // filter the data 
     const filteredData = diary.filter(
       (item) =>
@@ -49,6 +54,7 @@ const Home = () => {
         item.description.toLowerCase().includes(searchText.toLowerCase())
     );
     setFilteredDiary(filteredData);
+    setSelectedCategory(selectedCategory)
   };
 
   return (
@@ -56,7 +62,7 @@ const Home = () => {
       <Navbar head="Home" vector={localStorage.getItem('pic')} />
       <section className="px-3">
         <HomeHeader />
-        <Search onSearch={handleSearch} />
+        <Search onSearch={handleSearch} onCategorySelect={handleSearch} />
         {filteredDiary.map((item) => (
           <DiaryItem
             key={item.id}

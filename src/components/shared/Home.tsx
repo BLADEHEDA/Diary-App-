@@ -15,7 +15,7 @@ interface DiaryEntry {
   selectedFile: string;
   date: string;
   isPublic: boolean;
-  // Startdate: string; 
+  Startdate: string; 
 }
 
 const Home = () => {

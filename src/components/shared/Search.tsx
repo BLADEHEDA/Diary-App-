@@ -31,6 +31,7 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
   // definethe function to handel the filter by category 
   const handleCategorySelect = (category: string) => {
     onCategorySelect(category);
+    setShow();
   };
 
   return (
@@ -58,14 +59,14 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
         </div>
     {/* hide and show the categories involved  */}
         { show  &&  
-        <div className=" absolute top-[11em] right-[1em]  px-2 bg-[white] z-[999] font-[500]  ">
+        <div className=" options absolute top-[11em] right-[1em]  pl-2 pr-5 bg-[white] z-[999] font-[500]  ">
           <div className="option" onClick={() => handleCategorySelect('Fun')}>Fun</div>
           <div className="option" onClick={() => handleCategorySelect('Home')}>Home</div>
           <div className="option" onClick={() => handleCategorySelect('Family')}>Family</div>
-          <div className="option">Spiritual</div>
-          <div className="option">Health</div>
-          <div className="option">Work</div>
-          <div className="option">Others</div>
+          <div className="option" onClick={() => handleCategorySelect('Spiritual')}>Spiritual</div>
+          <div className="option" onClick={() => handleCategorySelect('Health')}>Health</div>
+          <div className="option" onClick={() => handleCategorySelect('Work')}>Work</div>
+          <div className="option" onClick={() => handleCategorySelect('others')}>Others</div>
         </div>
         }
             </section>

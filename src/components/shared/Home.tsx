@@ -15,7 +15,7 @@ interface DiaryEntry {
   selectedFile: string;
   date: string;
   isPublic: boolean;
-  Startdate: string; // Add the timestamp field
+  // Startdate: string; 
 }
 
 const Home = () => {

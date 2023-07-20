@@ -12,7 +12,6 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
   const [searchText, setSearchText] = useState('');
   const [ show , setShow ]= useState(false);
 
-
 // track the input changes of the search input field and updaye the states 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;

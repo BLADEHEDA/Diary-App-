@@ -5,15 +5,14 @@ import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 // Define the types
 interface SearchProps {
   onSearch: (searchText: string) => void;
+  onCategorySelect: (category: string) => void; // Add the new prop to handle category selection
 }
 
-const Search: React.FC<SearchProps> = ({ onSearch,}) => {
+const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
   const [searchText, setSearchText] = useState('');
   const [ show , setShow ]= useState(false);
 
-  const handleShow=()=>{
-    setShow(!show);
-  }
+
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -24,6 +23,14 @@ const Search: React.FC<SearchProps> = ({ onSearch,}) => {
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSearch(searchText);
+  };
+  //handle the hide and show of the categories 
+  const handleShow=()=>{
+    setShow(!show);
+  }
+  // subjected to changes 
+  const handleCategorySelect = (category: string) => {
+    onCategorySelect(category);
   };
 
   return (
@@ -49,34 +56,18 @@ const Search: React.FC<SearchProps> = ({ onSearch,}) => {
         <div className="" onClick={handleShow} >
           <FontAwesomeIcon className="text-[1.4em]" icon={faFilter} />
         </div>
-
+    {/* hide and show the categories involved  */}
         { show  &&  
-        <div className="options absolute top-[11em] right-[1em]  px-2 bg-[white] z-[999] font-[500]  ">
-          <div className="">Fun</div>
-          <div className="">Home</div>
-          <div className="">Family</div>
-          <div className="">Spiritual</div>
-          <div className="">Health</div>
-          <div className="">Work</div>
-          <div className="">Others</div>
+        <div className=" absolute top-[11em] right-[1em]  px-2 bg-[white] z-[999] font-[500]  ">
+          <div className="option" onClick={() => handleCategorySelect('Fun')}>Fun</div>
+          <div className="option" onClick={() => handleCategorySelect('Home')}>Home</div>
+          <div className="option" onClick={() => handleCategorySelect('Family')}>Family</div>
+          <div className="option">Spiritual</div>
+          <div className="option">Health</div>
+          <div className="option">Work</div>
+          <div className="option">Others</div>
         </div>
         }
-        {/* <select
-              className="w-[30px] h-[1px] border-[0.2px] px-2 py-4 text-black text-[1em] 
-              rounded-[5px] border-black border-solid"
-              name="Category"
-              placeholder="Category"
-            >
-              <option className=""></option>
-              <option value="Fun">Fun</option>
-              <option value="Home">Home</option>
-              <option value="Family">Family</option>
-              <option value="Spiritual">Spiritual</option>
-              <option value="Health">Health</option>
-              <option value="School">School</option>
-              <option value="Work">Work</option>
-              <option value="Others">Others</option>
-            </select> */}
             </section>
 
       </section>

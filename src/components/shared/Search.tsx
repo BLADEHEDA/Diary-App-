@@ -69,7 +69,6 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
         </div>
         }
             </section>
-
       </section>
       <div className="border-b mx-3 border-[black] mb-5"></div>
     </main>

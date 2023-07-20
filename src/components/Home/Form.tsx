@@ -79,7 +79,7 @@ export const Form = () => {
       setSelectedFile(null);
       setErrors({});
           // perform navigation
-      navigate('/diary');
+      // navigate('/diary');
   alert('Successfully Added Diary Entry')
     }
 
@@ -210,9 +210,9 @@ export const Form = () => {
           </article>
           {/* validating button */}
           <div className="btn mb-[5em]">
-          {/* <Link to ='/diary'  > */}
+         <Link to ='/diary'  >
              <Button type="submit" name="Save" />
-             {/* </Link>  */}
+             </Link> 
           </div>
         </form>
       </div>

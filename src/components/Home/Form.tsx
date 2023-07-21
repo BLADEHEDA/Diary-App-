@@ -57,10 +57,10 @@ export const Form = () => {
          // Upload data to Firebase
       addDoc(collection(db, 'diaryEntries'), diaryEntry)
       .then(() => {
+                // call the function to upload the image 
+                handleimageUpload();
         console.log('Data uploaded to Firebase successfully');
         setNewdiaryEntry(addnewdiary);
-        // call the function to upload the image 
-        handleimageUpload();
       })
       .catch((error) => {
         console.error('Error uploading data to Firebase', error);
@@ -125,17 +125,16 @@ export const Form = () => {
   };
   // handle the upload of the image to the to the firestore 
   const handleimageUpload=()=>{
-    alert('yo')
 const storage = getStorage();
     console.log(selectedFile);
     const storageRef = ref(storage, `files`);
 uploadBytes(storageRef, selectedFile).then((snapshot) => {
-  console.log('image successfully uploaded to cloud storage ');
+  setSelectedFile(storageRef)
+  console.log('image successfully uploaded to cloud storage :',selectedFile );
 });
     
 
   }
-
   return (
     <main className="w-full">
       <Navbar head="New entry" vector={localStorage.getItem('pic')} />

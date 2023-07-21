@@ -7,6 +7,7 @@ import { db } from '../../firebase/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import book from "../../assets/pic1.png"
 
+
 // define the types to be used 
 interface DiaryEntry {
   id: string;
@@ -15,7 +16,8 @@ interface DiaryEntry {
   selectedFile: string;
   date: string;
   isPublic: boolean;
-  Startdate: string; 
+  Startdate
+  : string; 
 }
 
 const Home = () => {

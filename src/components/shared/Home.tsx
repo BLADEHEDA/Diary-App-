@@ -6,6 +6,7 @@ import Search from './Search';
 import { db } from '../../firebase/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import book from "../../assets/pic1.png"
+import { getStorage, ref } from "firebase/storage";
 
 // define the types to be used 
 interface DiaryEntry {
@@ -15,16 +16,19 @@ interface DiaryEntry {
   selectedFile: string;
   date: string;
   isPublic: boolean;
-  Startdate: string; 
+  Startdate
+  : string; 
 }
 
 const Home = () => {
   const [diary, setDiary] = useState<DiaryEntry[]>([]); 
-  // States for the handle search functionality 
+  // States for the handle search functionality  and filter 
   const [filteredDiary, setFilteredDiary] = useState<DiaryEntry[]>([]);
-
-// define the states of the fiæter by category 
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [imageUrl , setImageUrl ]= useState('')
+  
+  // subjected to changes 
+  const storage = getStorage();
 
   const fetchPost = async () => {
     await getDocs(collection(db, 'diaryEntries')).then((querySnapshot) => {
@@ -32,12 +36,18 @@ const Home = () => {
         id: doc.id,
         Startdate: doc.data().timestamp , // Convert timestamp to a human-readable format
       } as DiaryEntry));
-      
+      // fetchImage();
       setDiary(newData);
       setFilteredDiary(newData);
+
       console.log(newData);
     });
   };
+  // subjected to changes 
+  // const fetchImage=()=>{
+  //   alert('yo')
+
+  // }
   
   useEffect(() => {
     fetchPost();

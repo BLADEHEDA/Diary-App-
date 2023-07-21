@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-// subjected to changes 
 import { getFirestore } from "firebase/firestore";
+// subjected to changes 
+import { getStorage } from "firebase/storage";
 
 
 
@@ -22,5 +23,6 @@ const app = initializeApp(firebaseConfig);
 
 
 export const auth = getAuth(app);
-// sujected to changes 
 export const db = getFirestore(app);
+// sujected to changes 
+export const storage = getStorage(app);

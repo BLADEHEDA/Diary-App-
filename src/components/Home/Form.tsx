@@ -2,8 +2,12 @@ import React, { useState, ChangeEvent } from 'react';
 import Button from '../shared/Button';
 import Navbar from '../shared/Navbar';
 import {db} from  "../../firebase/firebase"
-import { addDoc, collection, } from "firebase/firestore"; 
-import { Link } from 'react-router-dom';
+import { addDoc, collection} from "firebase/firestore"; 
+import { Link,useNavigate } from 'react-router-dom';
+import { storage } from '../../firebase/firebase';
+// import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+
 
 export const Form = () => {
   const [category, setCategory] = useState('');
@@ -14,7 +18,8 @@ export const Form = () => {
      description?: string;
      file?: string;
     }>({});
-    // const navigate = useNavigate();
+
+    const navigate = useNavigate();
     // define stae of new diary entry 
   const [newdiaryEntry, setNewdiaryEntry] = useState<{
     id: number;
@@ -22,6 +27,7 @@ export const Form = () => {
     description: string;
     isPublic: boolean;
     selectedFile: string | null;
+    // createdDate: object | null | Date;
   }[]>([]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -44,34 +50,29 @@ export const Form = () => {
         description,
         isPublic,
         selectedFile: selectedFile ? URL.createObjectURL(selectedFile) : null,
+        // createdDate: serverTimestamp(),
       };
-      const addnewdiary = [diaryEntry, ...newdiaryEntry];
+      const addnewdiary = [diaryEntry,...newdiaryEntry];
       setNewdiaryEntry(addnewdiary);
-
-             // Upload data to Firebase
+         // Upload data to Firebase
       addDoc(collection(db, 'diaryEntries'), diaryEntry)
       .then(() => {
+                // call the function to upload the image 
+                handleimageUpload();
         console.log('Data uploaded to Firebase successfully');
-
-        // Update the state with the newly added diary entry
-        // setNewdiaryEntry((prevEntries) => [diaryEntry, ...prevEntries]);
         setNewdiaryEntry(addnewdiary);
       })
       .catch((error) => {
         console.error('Error uploading data to Firebase', error);
       });
 
-
+      alert('Successfully Added Diary Entry')
       // Logging the form values
       console.log('Category:', category);
       console.log('Description:', description);
       console.log('Is Public:', isPublic);
       console.log('Selected File:', selectedFile);
 
-      // Alerting the form values
-      // alert(
-      //   `Category: ${category}\nDescription: ${description}\nIs Public: ${isPublic}`
-      // );
       // Clearing the form inputs and errors
       setCategory('');
       setDescription('');
@@ -79,11 +80,8 @@ export const Form = () => {
       setSelectedFile(null);
       setErrors({});
           // perform navigation
-      // navigate('/diary');
-  alert('Successfully Added Diary Entry')
+      navigate('/diary');
     }
-
- 
 
   };
   // validate file upload 
@@ -125,8 +123,18 @@ export const Form = () => {
       }));
     }
   };
-  
+  // handle the upload of the image to the to the firestore 
+  const handleimageUpload=()=>{
+const storage = getStorage();
+    console.log(selectedFile);
+    const storageRef = ref(storage, `files`);
+uploadBytes(storageRef, selectedFile).then((snapshot) => {
+  setSelectedFile(storageRef)
+  console.log('image successfully uploaded to cloud storage :',selectedFile );
+});
+    
 
+  }
   return (
     <main className="w-full">
       <Navbar head="New entry" vector={localStorage.getItem('pic')} />
@@ -150,7 +158,7 @@ export const Form = () => {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
-              <option className="hidden">Select language</option>
+              <option className="hidden">Select Category</option>
               <option value="Fun">Fun</option>
               <option value="Home">Home</option>
               <option value="Family">Family</option>
@@ -210,9 +218,9 @@ export const Form = () => {
           </article>
           {/* validating button */}
           <div className="btn mb-[5em]">
-         <Link to ='/diary'  >
+         {/* <Link to ='/diary'  > */}
              <Button type="submit" name="Save" />
-             </Link> 
+             {/* </Link>  */}
           </div>
         </form>
       </div>
@@ -223,6 +231,7 @@ export const Form = () => {
           <section key={id} className="mb-[10em]">
             <p>{category}</p>
             <p>{description}</p>
+            {/* <p>{createdDate} </p> */}
             {selectedFile && <img src={selectedFile} alt="" />}
           </section>
         );

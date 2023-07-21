@@ -12,3 +12,8 @@
 .options{
   border:solid 1px black;
 }
+.option:hover{
+  background: rgb(164, 164, 202);
+  /* width: 100%; */
+  padding: 0;
+}

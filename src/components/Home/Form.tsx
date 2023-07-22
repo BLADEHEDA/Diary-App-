@@ -14,6 +14,7 @@ export const Form = () => {
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ category?: string;
      description?: string;
      file?: string;
@@ -29,10 +30,11 @@ export const Form = () => {
     // createdDate: object | null | Date;
   }[]>([]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Perform form validation
-    const formErrors: { category?: string; description?: string; file?: string; } = {};
+    const formErrors: { category?: string; description?: string; file?: string } = {};
     if (!category.trim()) {
       formErrors.category = 'Category is required';
     }
@@ -40,48 +42,53 @@ export const Form = () => {
       formErrors.description = 'Description is required';
     }
     setErrors(formErrors);
-
+    setIsLoading(true); // Show loading indicator
     if (Object.keys(formErrors).length === 0) {
-      // add form values to the list
-      const diaryEntry = {
-        id: Math.floor(Math.random() * 1000),
-        category,
-        description,
-        isPublic,
-        selectedFile: selectedFile instanceof File ? URL.createObjectURL(selectedFile) : null,
-      };
-      const addnewdiary = [diaryEntry,...newdiaryEntry];
-      setNewdiaryEntry(addnewdiary);
-         // Upload data to Firebase
-      addDoc(collection(db, 'diaryEntries'), diaryEntry)
-      .then(() => {
-                // call the function to upload the image 
-                handleimageUpload();
+      try {
+        // Upload image to Cloud Storage and get the download URL
+        const downloadURL = await handleimageUpload();
+
+        // Add form values to the list
+        const diaryEntry = {
+          id: Math.floor(Math.random() * 1000),
+          category,
+          description,
+          isPublic,
+          selectedFile: downloadURL,
+        };
+
+        const addnewdiary = [diaryEntry, ...newdiaryEntry];
+        setNewdiaryEntry(addnewdiary);
+
+        // Upload data to Firebase
+        await addDoc(collection(db, 'diaryEntries'), diaryEntry);
+
         console.log('Data uploaded to Firebase successfully');
         setNewdiaryEntry(addnewdiary);
-      })
-      .catch((error) => {
+        
+        alert('Successfully Added Diary Entry');
+        // Logging the form values
+        console.log('Category:', category);
+        console.log('Description:', description);
+        console.log('Is Public:', isPublic);
+        console.log('Selected File:', selectedFile);
+
+        // Clearing the form inputs and errors
+        setCategory('');
+        setDescription('');
+        setIsPublic(false);
+        setSelectedFile(null);
+        setErrors({});
+        // Perform navigation
+        navigate('/diary');
+      } catch (error) {
         console.error('Error uploading data to Firebase', error);
-      });
-
-      alert('Successfully Added Diary Entry')
-      // Logging the form values
-      console.log('Category:', category);
-      console.log('Description:', description);
-      console.log('Is Public:', isPublic);
-      console.log('Selected File:', selectedFile);
-
-      // Clearing the form inputs and errors
-      setCategory('');
-      setDescription('');
-      setIsPublic(false);
-      setSelectedFile(null);
-      setErrors({});
-          // perform navigation
-      navigate('/diary');
+        setIsLoading(false); // Hide loading indicator in case of error
+      }
     }
-
   };
+
+
   // validate file upload 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -123,27 +130,21 @@ export const Form = () => {
   };
 
 
-  const handleimageUpload = () => {
-    if (selectedFile == null || !(selectedFile instanceof File)) return;
+  const handleimageUpload = async (): Promise<string> => {
+    if (selectedFile == null || !(selectedFile instanceof File)) return '';
+// upload the image to cloud storage ,then get the download url 
+    try {
+      const storageRef = ref(storage, `images/${selectedFile.name}`);
+      const snapshot = await uploadBytes(storageRef, selectedFile);
+      const downloadURL = await getDownloadURL(snapshot.ref);
 
-    const storageRef = ref(storage, `images/${selectedFile.name}`);
-    uploadBytes(storageRef, selectedFile)
-      .then((snapshot) => {
-        getDownloadURL(snapshot.ref)
-          .then((url) => {
-            setSelectedFile(url)
-            console.log('Image URL fetched from Firestore:',selectedFile);
-            console.log('Image URL fetched from Firestore:', url)
-          })
-          .catch((error) => {
-            console.error('Error fetching image URL:', error);
-          });
-      })
-      .catch((error) => {
-        console.error('Error uploading image:', error);
-      });
+      console.log('Image URL fetched from Firestore:', downloadURL);
+      return downloadURL;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw error;
+    }
   };
-
   return (
     <main className="w-full">
       <Navbar head="New entry" vector={localStorage.getItem('pic')} />
@@ -230,22 +231,17 @@ export const Form = () => {
          {/* <Link to ='/diary'  > */}
              <Button type="submit" name="Save" />
              {/* </Link>  */}
+
           </div>
         </form>
       </div>
-      {/*  subjected to changes  */}
-      {newdiaryEntry.map((entry) => {
-        const { id, category, description, selectedFile } = entry;
-        return (
-          <section key={id} className="mb-[10em]">
-            <p>{category}</p>
-            <p>{description}</p>
-            {/* <p>{createdDate} </p> */}
-            {selectedFile && <img src={selectedFile} alt="" />}
-          </section>
-        );
-      })}
-      {/* end of the changes */}
+      {isLoading && (
+          // Loading indicator JSX
+          <div className="flex justify-center mt-4">
+            <p className="text-black font-semibold">Loading...</p>
+          </div>
+        )}
+
     </main>
   );
 };

@@ -4,21 +4,21 @@ import Navbar from '../shared/Navbar';
 import {db} from  "../../firebase/firebase"
 import { addDoc, collection} from "firebase/firestore"; 
 import { Link,useNavigate } from 'react-router-dom';
-import { storage } from '../../firebase/firebase';
 // import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL,} from "firebase/storage";
+import { storage } from '../../firebase/firebase';
 
 
 export const Form = () => {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  // const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState('')
   const [errors, setErrors] = useState<{ category?: string;
      description?: string;
      file?: string;
     }>({});
-
     const navigate = useNavigate();
     // define stae of new diary entry 
   const [newdiaryEntry, setNewdiaryEntry] = useState<{
@@ -123,16 +123,16 @@ export const Form = () => {
       }));
     }
   };
-  // handle the upload of the image to the to the firestore 
   const handleimageUpload=()=>{
-const storage = getStorage();
-    console.log(selectedFile);
-    const storageRef = ref(storage, `files`);
-uploadBytes(storageRef, selectedFile).then((snapshot) => {
-  setSelectedFile(storageRef)
-  console.log('image successfully uploaded to cloud storage :',selectedFile );
+    if (selectedFile == null) return;
+        const storageRef = ref(storage, `images/${selectedFile.name}`);
+    uploadBytes(storageRef, selectedFile).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        setSelectedFile(url);
+        console.log('This is the url in case of setting it to diary entry',selectedFile, url);
+      });
+  // console.log('image successfully uploaded to cloud storage :',selectedFile.name,selectedFile);
 });
-    
 
   }
   return (

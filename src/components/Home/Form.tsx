@@ -13,8 +13,7 @@ export const Form = () => {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(false);
-  // const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [selectedFile, setSelectedFile] = useState('')
+  const [selectedFile, setSelectedFile] = useState<string | File | null>(null);
   const [errors, setErrors] = useState<{ category?: string;
      description?: string;
      file?: string;
@@ -49,8 +48,7 @@ export const Form = () => {
         category,
         description,
         isPublic,
-        selectedFile: selectedFile ? URL.createObjectURL(selectedFile) : null,
-        // createdDate: serverTimestamp(),
+        selectedFile: selectedFile instanceof File ? URL.createObjectURL(selectedFile) : null,
       };
       const addnewdiary = [diaryEntry,...newdiaryEntry];
       setNewdiaryEntry(addnewdiary);
@@ -123,18 +121,29 @@ export const Form = () => {
       }));
     }
   };
-  const handleimageUpload=()=>{
-    if (selectedFile == null) return;
-        const storageRef = ref(storage, `images/${selectedFile.name}`);
-    uploadBytes(storageRef, selectedFile).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
-        setSelectedFile(url);
-        console.log('This is the url in case of setting it to diary entry',selectedFile, url);
-      });
-  // console.log('image successfully uploaded to cloud storage :',selectedFile.name,selectedFile);
-});
 
-  }
+
+  const handleimageUpload = () => {
+    if (selectedFile == null || !(selectedFile instanceof File)) return;
+
+    const storageRef = ref(storage, `images/${selectedFile.name}`);
+    uploadBytes(storageRef, selectedFile)
+      .then((snapshot) => {
+        getDownloadURL(snapshot.ref)
+          .then((url) => {
+            setSelectedFile(url)
+            console.log('Image URL fetched from Firestore:',selectedFile);
+            console.log('Image URL fetched from Firestore:', url)
+          })
+          .catch((error) => {
+            console.error('Error fetching image URL:', error);
+          });
+      })
+      .catch((error) => {
+        console.error('Error uploading image:', error);
+      });
+  };
+
   return (
     <main className="w-full">
       <Navbar head="New entry" vector={localStorage.getItem('pic')} />

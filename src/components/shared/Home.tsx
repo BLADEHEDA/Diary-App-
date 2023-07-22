@@ -6,7 +6,6 @@ import Search from './Search';
 import { db } from '../../firebase/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import book from "../../assets/pic1.png"
-import { getStorage, ref } from "firebase/storage";
 
 // define the types to be used 
 interface DiaryEntry {
@@ -25,11 +24,7 @@ const Home = () => {
   // States for the handle search functionality  and filter 
   const [filteredDiary, setFilteredDiary] = useState<DiaryEntry[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [imageUrl , setImageUrl ]= useState('')
   
-  // subjected to changes 
-  const storage = getStorage();
-
   const fetchPost = async () => {
     await getDocs(collection(db, 'diaryEntries')).then((querySnapshot) => {
       const newData = querySnapshot.docs.map((doc) => ({ ...doc.data(),

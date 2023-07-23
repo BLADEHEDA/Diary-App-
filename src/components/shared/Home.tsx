@@ -38,12 +38,7 @@ const Home = () => {
       console.log(newData);
     });
   };
-  // subjected to changes 
-  // const fetchImage=()=>{
-  //   alert('yo')
 
-  // }
-  
   useEffect(() => {
     fetchPost();
   }, []);
@@ -61,6 +56,16 @@ const Home = () => {
     setFilteredDiary(filteredData);
     setSelectedCategory(selectedCategory)
   };
+  // display data 
+  if(diary.length===0){
+    return(
+      <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
+      <div className="bg-white p-6 rounded-md">
+        <p className="text-black font-semibold">Loading...</p>
+      </div>
+    </div>
+    ) 
+    } 
 
   return (
     <main className="bg-[white] mb-[3em] ">

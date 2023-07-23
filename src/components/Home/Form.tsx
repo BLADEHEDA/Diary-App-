@@ -58,12 +58,11 @@ export const Form = () => {
           selectedFile: downloadURL,
         };
 
-        const addnewdiary = [diaryEntry, ...newdiaryEntry];
-        setNewdiaryEntry(addnewdiary);
+        // setNewdiaryEntry(addnewdiary);
 
         // Upload data to Firebase
         await addDoc(collection(db, 'diaryEntries'), diaryEntry);
-
+        const addnewdiary = [diaryEntry, ...newdiaryEntry];
         console.log('Data uploaded to Firebase successfully');
         setNewdiaryEntry(addnewdiary);
         
@@ -88,7 +87,6 @@ export const Form = () => {
       }
     }
   };
-
 
   // validate file upload 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -130,7 +128,6 @@ export const Form = () => {
     }
   };
 
-
   const handleimageUpload = async (): Promise<string> => {
     if (selectedFile == null || !(selectedFile instanceof File)) return '';
 // upload the image to cloud storage ,then get the download url 
@@ -161,7 +158,16 @@ const fetchPost = async () => {
 useEffect(() => {
   fetchPost();
 }, []);
-
+// display the loading while the dat is fetched 
+if(category.length===0){
+  return(
+    <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
+    <div className="bg-white p-6 rounded-md">
+      <p className="text-black font-semibold">Loading...</p>
+    </div>
+  </div>
+  ) 
+  } 
   return (
     <main className="w-full">
       <Navbar head="New entry" vector={localStorage.getItem('pic')} />
@@ -286,11 +292,13 @@ useEffect(() => {
         </form>
       </div>
       {isLoading && (
-          // Loading indicator JSX
-          <div className="flex justify-center mt-4">
+        // Loading modal overlay
+        <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-md">
             <p className="text-black font-semibold">Loading...</p>
           </div>
-        )}
+        </div>
+      )}
     </main>
   );
 };

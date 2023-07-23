@@ -6,7 +6,7 @@ import Search from './Search';
 import { db } from '../../firebase/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import book from "../../assets/pic1.png"
-
+import MoonLoader from "react-spinners/ClipLoader";
 // define the types to be used 
 interface DiaryEntry {
   id: string;
@@ -38,12 +38,7 @@ const Home = () => {
       console.log(newData);
     });
   };
-  // subjected to changes 
-  // const fetchImage=()=>{
-  //   alert('yo')
 
-  // }
-  
   useEffect(() => {
     fetchPost();
   }, []);
@@ -61,6 +56,14 @@ const Home = () => {
     setFilteredDiary(filteredData);
     setSelectedCategory(selectedCategory)
   };
+  // display data  when  fetching from the Api 
+  if(diary.length===0){
+    return(
+      <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
+         <MoonLoader color="black"  size={100} />
+      </div>
+    ) 
+    } 
 
   return (
     <main className="bg-[white] mb-[3em] ">

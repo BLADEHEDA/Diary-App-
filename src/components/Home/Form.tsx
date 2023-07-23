@@ -1,23 +1,29 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import Button from '../shared/Button';
 import Navbar from '../shared/Navbar';
 import {db} from  "../../firebase/firebase"
-import { addDoc, collection} from "firebase/firestore"; 
+import { addDoc, collection,getDocs } from "firebase/firestore"; 
 import { Link,useNavigate } from 'react-router-dom';
-// import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL,} from "firebase/storage";
 import { storage } from '../../firebase/firebase';
-
+import MoonLoader from "react-spinners/ClipLoader";
 
 export const Form = () => {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ category?: string;
      description?: string;
      file?: string;
     }>({});
+    // Add the import statement for the 'Option' type
+    type Option = {
+      id: string;
+      option: string;
+      category: string[]; // Change this to an array of strings
+    };
     const navigate = useNavigate();
     // define stae of new diary entry 
   const [newdiaryEntry, setNewdiaryEntry] = useState<{
@@ -27,12 +33,13 @@ export const Form = () => {
     isPublic: boolean;
     selectedFile: string | null;
     // createdDate: object | null | Date;
+    
   }[]>([]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Perform form validation
-    const formErrors: { category?: string; description?: string; file?: string; } = {};
+    const formErrors: { category?: string; description?: string; file?: string } = {};
     if (!category.trim()) {
       formErrors.category = 'Category is required';
     }
@@ -42,46 +49,48 @@ export const Form = () => {
     setErrors(formErrors);
 
     if (Object.keys(formErrors).length === 0) {
-      // add form values to the list
-      const diaryEntry = {
-        id: Math.floor(Math.random() * 1000),
-        category,
-        description,
-        isPublic,
-        selectedFile: selectedFile instanceof File ? URL.createObjectURL(selectedFile) : null,
-      };
-      const addnewdiary = [diaryEntry,...newdiaryEntry];
-      setNewdiaryEntry(addnewdiary);
-         // Upload data to Firebase
-      addDoc(collection(db, 'diaryEntries'), diaryEntry)
-      .then(() => {
-                // call the function to upload the image 
-                handleimageUpload();
+      try {
+        setIsLoading(true); // Show loading indicator
+        // Upload image to Cloud Storage and get the download URL
+        const downloadURL = await handleimageUpload();
+
+        // Add form values to the list
+        const diaryEntry = {
+          id: Math.floor(Math.random() * 1000),
+          category,
+          description,
+          isPublic,
+          selectedFile: downloadURL,
+        };
+        // setNewdiaryEntry(addnewdiary);
+        // Upload data to Firebase
+        await addDoc(collection(db, 'diaryEntries'), diaryEntry);
+        const addnewdiary = [diaryEntry, ...newdiaryEntry];
         console.log('Data uploaded to Firebase successfully');
         setNewdiaryEntry(addnewdiary);
-      })
-      .catch((error) => {
+        
+        alert('Successfully Added Diary Entry');
+        // Logging the form values
+        console.log('Category:', category);
+        console.log('Description:', description);
+        console.log('Is Public:', isPublic);
+        console.log('Selected File:', selectedFile);
+
+        // Clearing the form inputs and errors
+        setCategory('');
+        setDescription('');
+        setIsPublic(false);
+        setSelectedFile(null);
+        setErrors({});
+        // Perform navigation
+        navigate('/diary');
+      } catch (error) {
         console.error('Error uploading data to Firebase', error);
-      });
-
-      alert('Successfully Added Diary Entry')
-      // Logging the form values
-      console.log('Category:', category);
-      console.log('Description:', description);
-      console.log('Is Public:', isPublic);
-      console.log('Selected File:', selectedFile);
-
-      // Clearing the form inputs and errors
-      setCategory('');
-      setDescription('');
-      setIsPublic(false);
-      setSelectedFile(null);
-      setErrors({});
-          // perform navigation
-      navigate('/diary');
+        setIsLoading(false); // Hide loading indicator in case of error
+      }
     }
-
   };
+
   // validate file upload 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -122,28 +131,43 @@ export const Form = () => {
     }
   };
 
-
-  const handleimageUpload = () => {
-    if (selectedFile == null || !(selectedFile instanceof File)) return;
-
+const handleimageUpload = async (): Promise<string> => {
+  if (selectedFile == null || !(selectedFile instanceof File)) return '';
+  try {
     const storageRef = ref(storage, `images/${selectedFile.name}`);
-    uploadBytes(storageRef, selectedFile)
-      .then((snapshot) => {
-        getDownloadURL(snapshot.ref)
-          .then((url) => {
-            setSelectedFile(url)
-            console.log('Image URL fetched from Firestore:',selectedFile);
-            console.log('Image URL fetched from Firestore:', url)
-          })
-          .catch((error) => {
-            console.error('Error fetching image URL:', error);
-          });
-      })
-      .catch((error) => {
-        console.error('Error uploading image:', error);
-      });
-  };
+    const snapshot = await uploadBytes(storageRef, selectedFile);
+    const downloadURL = await getDownloadURL(snapshot.ref);
 
+    console.log('Image URL fetched from Firestore:', downloadURL);
+    return downloadURL;
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    throw error;
+  }
+};
+// fetching category options from the firestore 
+const fetchPost = async () => {
+  await getDocs(collection(db, "category"))
+    .then((querySnapshot) => {
+      const newData: Option[] = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        option: doc.data().option, // Add the 'option' property
+        category: doc.data().category, // Add the 'category' property
+      }));
+      setCategory(newData[0]["option"]);
+    });
+};
+useEffect(() => {
+  fetchPost();
+}, []);
+// display the loading while the dat is fetched 
+if(category.length===0){
+  return(
+    <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
+    <MoonLoader color="black"  size={100} />
+  </div>
+  ) 
+  } 
   return (
     <main className="w-full">
       <Navbar head="New entry" vector={localStorage.getItem('pic')} />
@@ -154,7 +178,7 @@ export const Form = () => {
       <div className="w-full">
         <form onSubmit={handleSubmit} className="px-5">
           {/* select input field */}
-          <article className="mb-4">
+          {/* <article className="mb-4">
             <div className="mb-2">
               <label htmlFor="" className="text-[1.25em] italic text-black">
                 Category
@@ -180,7 +204,39 @@ export const Form = () => {
             {errors.category && (
               <p className="text-red-500">{errors.category}</p>
             )}
-          </article>
+          </article> */}
+          {/* // subjected to changes  */}
+
+           <article className="mb-4"> 
+            <div className="mb-2">
+              <label htmlFor="" className="text-[1.25em] italic text-black">
+                Category
+              </label>
+            </div>
+            <select
+              className="w-[100%] border-[0.2px] px-2 py-4 text-black text-[1em] rounded-[5px] border-black border-solid"
+              name="Category"
+              placeholder="Category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+                {Array.isArray(category) &&
+                  category?.map((el: string, index: number) => {
+                    return (
+                      <option
+                        value={el === "choose category" ? "" : el}
+                        key={index}
+                      >
+                        {el}
+                      </option>
+                    );
+                  })}
+              </select>
+              {errors.category && (
+              <p className="text-red-500">{errors.category}</p>
+            )}
+              </article>
+      
           {/* description input field */}
           <article className="mb-4">
             <div className="mb-2">
@@ -225,27 +281,17 @@ export const Form = () => {
               Is entry public
             </label>
           </article>
-          {/* validating button */}
           <div className="btn mb-[5em]">
-         {/* <Link to ='/diary'  > */}
              <Button type="submit" name="Save" />
-             {/* </Link>  */}
-          </div>
+         </div>
         </form>
       </div>
-      {/*  subjected to changes  */}
-      {newdiaryEntry.map((entry) => {
-        const { id, category, description, selectedFile } = entry;
-        return (
-          <section key={id} className="mb-[10em]">
-            <p>{category}</p>
-            <p>{description}</p>
-            {/* <p>{createdDate} </p> */}
-            {selectedFile && <img src={selectedFile} alt="" />}
-          </section>
-        );
-      })}
-      {/* end of the changes */}
+       {/* display loader during Api calls  */}
+      {isLoading && (
+        <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
+        <MoonLoader color="black"  size={100} />
+      </div>
+      )}
     </main>
   );
 };

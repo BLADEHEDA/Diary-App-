@@ -28,8 +28,8 @@ export const Form = () => {
     isPublic: boolean;
     selectedFile: string | null;
     // createdDate: object | null | Date;
+    
   }[]>([]);
-
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -152,7 +152,7 @@ const fetchPost = async () => {
        
   await getDocs(collection(db, "category"))
       .then((querySnapshot)=>{               
-          const newData = querySnapshot.docs
+        const newData: OptionData[]  = querySnapshot.docs
               .map((doc) => ({...doc.data(), id:doc.id }));
               setCategory(newData[0]["option"]);      
       })
@@ -207,18 +207,19 @@ useEffect(() => {
                 Category
               </label>
             </div>
-              <select
-                    className="w-[100%] border-[0.2px] px-2 py-4 text-black text-[1em] rounded-[5px] border-black border-solid"
-                    name="Category"
-                    placeholder="Category"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-              >
+            <select
+              className="w-[100%] border-[0.2px] px-2 py-4 text-black text-[1em] rounded-[5px] border-black border-solid"
+              name="Category"
+              placeholder="Category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
                 {Array.isArray(category) &&
                   category?.map((el: string, index: number) => {
                     return (
                       <option
-                        value={el === "choose category" ? "" : el}
+                        // value={el === "choose category" ? "" : el}
+                          value={el}
                         key={index}
                       >
                         {el}

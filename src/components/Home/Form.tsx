@@ -1,8 +1,8 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent,useEffect } from 'react';
 import Button from '../shared/Button';
 import Navbar from '../shared/Navbar';
 import {db} from  "../../firebase/firebase"
-import { addDoc, collection} from "firebase/firestore"; 
+import { addDoc, collection,getDocs } from "firebase/firestore"; 
 import { Link,useNavigate } from 'react-router-dom';
 // import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL,} from "firebase/storage";
@@ -42,9 +42,10 @@ export const Form = () => {
       formErrors.description = 'Description is required';
     }
     setErrors(formErrors);
-    setIsLoading(true); // Show loading indicator
+
     if (Object.keys(formErrors).length === 0) {
       try {
+        setIsLoading(true); // Show loading indicator
         // Upload image to Cloud Storage and get the download URL
         const downloadURL = await handleimageUpload();
 
@@ -145,6 +146,22 @@ export const Form = () => {
       throw error;
     }
   };
+
+// fetching fro  the firestore 
+const fetchPost = async () => {
+       
+  await getDocs(collection(db, "category"))
+      .then((querySnapshot)=>{               
+          const newData = querySnapshot.docs
+              .map((doc) => ({...doc.data(), id:doc.id }));
+              setCategory(newData[0]["option"]);      
+      })
+ 
+}
+useEffect(() => {
+  fetchPost();
+}, []);
+
   return (
     <main className="w-full">
       <Navbar head="New entry" vector={localStorage.getItem('pic')} />
@@ -155,7 +172,7 @@ export const Form = () => {
       <div className="w-full">
         <form onSubmit={handleSubmit} className="px-5">
           {/* select input field */}
-          <article className="mb-4">
+          {/* <article className="mb-4">
             <div className="mb-2">
               <label htmlFor="" className="text-[1.25em] italic text-black">
                 Category
@@ -181,7 +198,39 @@ export const Form = () => {
             {errors.category && (
               <p className="text-red-500">{errors.category}</p>
             )}
-          </article>
+          </article> */}
+          {/* // subjected to changes  */}
+
+           <article className="mb-4"> 
+            <div className="mb-2">
+              <label htmlFor="" className="text-[1.25em] italic text-black">
+                Category
+              </label>
+            </div>
+              <select
+                    className="w-[100%] border-[0.2px] px-2 py-4 text-black text-[1em] rounded-[5px] border-black border-solid"
+                    name="Category"
+                    placeholder="Category"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+              >
+                {Array.isArray(category) &&
+                  category?.map((el: string, index: number) => {
+                    return (
+                      <option
+                        value={el === "choose category" ? "" : el}
+                        key={index}
+                      >
+                        {el}
+                      </option>
+                    );
+                  })}
+              </select>
+              {errors.category && (
+              <p className="text-red-500">{errors.category}</p>
+            )}
+              </article>
+      
           {/* description input field */}
           <article className="mb-4">
             <div className="mb-2">
@@ -241,7 +290,6 @@ export const Form = () => {
             <p className="text-black font-semibold">Loading...</p>
           </div>
         )}
-
     </main>
   );
 };

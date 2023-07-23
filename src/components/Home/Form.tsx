@@ -6,7 +6,7 @@ import { addDoc, collection,getDocs } from "firebase/firestore";
 import { Link,useNavigate } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL,} from "firebase/storage";
 import { storage } from '../../firebase/firebase';
-import { Audio } from 'react-loader-spinner'
+import MoonLoader from "react-spinners/ClipLoader";
 
 
 export const Form = () => {
@@ -134,22 +134,6 @@ export const Form = () => {
     }
   };
 
-//   const handleimageUpload = async (): Promise<string> => {
-//     if (selectedFile == null || !(selectedFile instanceof File)) return '';
-// // upload the image to cloud storage ,then get the download url 
-//     try {
-//       const storageRef = ref(storage, `images/${selectedFile.name}`);
-//       const snapshot = await uploadBytes(storageRef, selectedFile);
-//       const downloadURL = await getDownloadURL(snapshot.ref);
-
-//       console.log('Image URL fetched from Firestore:', downloadURL);
-//       return downloadURL;
-//     } catch (error) {
-//       console.error('Error uploading image:', error);
-//       throw error;
-//     }
-//   };
-
 const handleimageUpload = async (): Promise<string> => {
   if (selectedFile == null || !(selectedFile instanceof File)) return '';
   try {
@@ -161,7 +145,7 @@ const handleimageUpload = async (): Promise<string> => {
     return downloadURL;
   } catch (error) {
     console.error('Error uploading image:', error);
-    throw error; // Rethrow the error to handle it in the handleSubmit function
+    throw error;
   }
 };
 // fetching fro  the firestore 
@@ -181,10 +165,8 @@ useEffect(() => {
 // display the loading while the dat is fetched 
 if(category.length===0){
   return(
-    <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
-    <div className="bg-white p-6 rounded-md">
-      <p className="text-black font-semibold">Loading...</p>
-    </div>
+    <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
+    <MoonLoader color="black"  size={100} />
   </div>
   ) 
   } 
@@ -313,20 +295,9 @@ if(category.length===0){
       </div>
       {isLoading && (
         // Loading modal overlay
-        <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-md">
-            {/* <p className="text-black font-semibold">Loading...</p> */}
-            <Audio
-        height="80"
-        width="80"
-        radius="9"
-        color="green"
-        ariaLabel="loading"
-        wrapperStyle
-        wrapperClass
-            />
-          </div>
-        </div>
+        <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
+        <MoonLoader color="black"  size={100} />
+      </div>
       )}
     </main>
   );

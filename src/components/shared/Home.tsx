@@ -60,7 +60,7 @@ const Home = () => {
   if(diary.length===0){
     return(
       <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
-    <MoonLoader color="black"  size={100} />
+         <MoonLoader color="black"  size={100} />
       </div>
     ) 
     } 

@@ -1,4 +1,5 @@
-import React, { useState, ChangeEvent,useEffect } from 'react';
+// import React, { useState, ChangeEvent,useEffect } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import Button from '../shared/Button';
 import Navbar from '../shared/Navbar';
 import {db} from  "../../firebase/firebase"
@@ -19,6 +20,12 @@ export const Form = () => {
      description?: string;
      file?: string;
     }>({});
+    // Add the import statement for the 'Option' type
+type Option = {
+  id: string;
+  option: string; 
+  category: string;
+};
     const navigate = useNavigate();
     // define stae of new diary entry 
   const [newdiaryEntry, setNewdiaryEntry] = useState<{
@@ -128,28 +135,42 @@ export const Form = () => {
     }
   };
 
-  const handleimageUpload = async (): Promise<string> => {
-    if (selectedFile == null || !(selectedFile instanceof File)) return '';
-// upload the image to cloud storage ,then get the download url 
-    try {
-      const storageRef = ref(storage, `images/${selectedFile.name}`);
-      const snapshot = await uploadBytes(storageRef, selectedFile);
-      const downloadURL = await getDownloadURL(snapshot.ref);
+//   const handleimageUpload = async (): Promise<string> => {
+//     if (selectedFile == null || !(selectedFile instanceof File)) return '';
+// // upload the image to cloud storage ,then get the download url 
+//     try {
+//       const storageRef = ref(storage, `images/${selectedFile.name}`);
+//       const snapshot = await uploadBytes(storageRef, selectedFile);
+//       const downloadURL = await getDownloadURL(snapshot.ref);
 
-      console.log('Image URL fetched from Firestore:', downloadURL);
-      return downloadURL;
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      throw error;
-    }
-  };
+//       console.log('Image URL fetched from Firestore:', downloadURL);
+//       return downloadURL;
+//     } catch (error) {
+//       console.error('Error uploading image:', error);
+//       throw error;
+//     }
+//   };
 
+const handleimageUpload = async (): Promise<string> => {
+  if (selectedFile == null || !(selectedFile instanceof File)) return '';
+  try {
+    const storageRef = ref(storage, `images/${selectedFile.name}`);
+    const snapshot = await uploadBytes(storageRef, selectedFile);
+    const downloadURL = await getDownloadURL(snapshot.ref);
+
+    console.log('Image URL fetched from Firestore:', downloadURL);
+    return downloadURL;
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    throw error; // Rethrow the error to handle it in the handleSubmit function
+  }
+};
 // fetching fro  the firestore 
 const fetchPost = async () => {
        
   await getDocs(collection(db, "category"))
       .then((querySnapshot)=>{               
-        const newData: OptionData[]  = querySnapshot.docs
+        const newData: Option[]  = querySnapshot.docs
               .map((doc) => ({...doc.data(), id:doc.id }));
               setCategory(newData[0]["option"]);      
       })

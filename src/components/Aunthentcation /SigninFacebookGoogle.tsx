@@ -3,6 +3,7 @@ import { GoogleAuthProvider,signInWithPopup,FacebookAuthProvider } from 'firebas
 import { auth } from "../../firebase/firebase"
 import Navbar from '../shared/Navbar';
 import { useNavigate } from 'react-router-dom';
+import vector from  '../../assets/Vector.png'
 // import { localStorage } from 'windo
 
 
@@ -66,7 +67,7 @@ const signInWithFacebook=()=>{
   return (
     <main className=' home  ' >
       <section className=" bg-[white] " > 
-        <Navbar head="My Private Diary" />
+        <Navbar head="My Private Diary" vector={vector}  />
     <section className='px-5 overflow-hidden bg-[white]'>
     <div className="contetn  text-center my-[5em] ">
       <div className="head text-[black] text-[1.6em] font-[600] ">Welcome to private diary</div>

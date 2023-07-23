@@ -1,13 +1,12 @@
-// import React, { useState, ChangeEvent,useEffect } from 'react';
 import React, { useState, ChangeEvent, useEffect } from 'react';
 import Button from '../shared/Button';
 import Navbar from '../shared/Navbar';
 import {db} from  "../../firebase/firebase"
 import { addDoc, collection,getDocs } from "firebase/firestore"; 
 import { Link,useNavigate } from 'react-router-dom';
-// import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { ref, uploadBytes, getDownloadURL,} from "firebase/storage";
 import { storage } from '../../firebase/firebase';
+import { Audio } from 'react-loader-spinner'
 
 
 export const Form = () => {
@@ -21,11 +20,11 @@ export const Form = () => {
      file?: string;
     }>({});
     // Add the import statement for the 'Option' type
-type Option = {
-  id: string;
-  option: string; 
-  category: string;
-};
+    type Option = {
+      id: string;
+      option: string;
+      category: string[]; // Change this to an array of strings
+    };
     const navigate = useNavigate();
     // define stae of new diary entry 
   const [newdiaryEntry, setNewdiaryEntry] = useState<{
@@ -316,7 +315,16 @@ if(category.length===0){
         // Loading modal overlay
         <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-md">
-            <p className="text-black font-semibold">Loading...</p>
+            {/* <p className="text-black font-semibold">Loading...</p> */}
+            <Audio
+        height="80"
+        width="80"
+        radius="9"
+        color="green"
+        ariaLabel="loading"
+        wrapperStyle
+        wrapperClass
+            />
           </div>
         </div>
       )}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , CSSProperties} from 'react';
 import Navbar from './Navbar';
 import DiaryItem from '../Home/DiaryItem';
 import HomeHeader from '../Home/HomeHeader';
@@ -6,7 +6,7 @@ import Search from './Search';
 import { db } from '../../firebase/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import book from "../../assets/pic1.png"
-
+import MoonLoader from "react-spinners/ClipLoader";
 // define the types to be used 
 interface DiaryEntry {
   id: string;
@@ -56,14 +56,12 @@ const Home = () => {
     setFilteredDiary(filteredData);
     setSelectedCategory(selectedCategory)
   };
-  // display data 
+  // display data  when  fetching from the Api 
   if(diary.length===0){
     return(
-      <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded-md">
-        <p className="text-black font-semibold">Loading...</p>
+      <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
+    <MoonLoader color="black"  size={100} />
       </div>
-    </div>
     ) 
     } 
 

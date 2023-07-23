@@ -1,4 +1,4 @@
-import { useState, useEffect , CSSProperties} from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import DiaryItem from '../Home/DiaryItem';
 import HomeHeader from '../Home/HomeHeader';

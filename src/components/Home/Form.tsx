@@ -8,7 +8,6 @@ import { ref, uploadBytes, getDownloadURL,} from "firebase/storage";
 import { storage } from '../../firebase/firebase';
 import MoonLoader from "react-spinners/ClipLoader";
 
-
 export const Form = () => {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
@@ -63,9 +62,7 @@ export const Form = () => {
           isPublic,
           selectedFile: downloadURL,
         };
-
         // setNewdiaryEntry(addnewdiary);
-
         // Upload data to Firebase
         await addDoc(collection(db, 'diaryEntries'), diaryEntry);
         const addnewdiary = [diaryEntry, ...newdiaryEntry];
@@ -148,17 +145,18 @@ const handleimageUpload = async (): Promise<string> => {
     throw error;
   }
 };
-// fetching fro  the firestore 
+// fetching category options from the firestore 
 const fetchPost = async () => {
-       
   await getDocs(collection(db, "category"))
-      .then((querySnapshot)=>{               
-        const newData: Option[]  = querySnapshot.docs
-              .map((doc) => ({...doc.data(), id:doc.id }));
-              setCategory(newData[0]["option"]);      
-      })
- 
-}
+    .then((querySnapshot) => {
+      const newData: Option[] = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        option: doc.data().option, // Add the 'option' property
+        category: doc.data().category, // Add the 'category' property
+      }));
+      setCategory(newData[0]["option"]);
+    });
+};
 useEffect(() => {
   fetchPost();
 }, []);
@@ -226,8 +224,7 @@ if(category.length===0){
                   category?.map((el: string, index: number) => {
                     return (
                       <option
-                        // value={el === "choose category" ? "" : el}
-                          value={el}
+                        value={el === "choose category" ? "" : el}
                         key={index}
                       >
                         {el}
@@ -289,8 +286,7 @@ if(category.length===0){
          {/* <Link to ='/diary'  > */}
              <Button type="submit" name="Save" />
              {/* </Link>  */}
-
-          </div>
+         </div>
         </form>
       </div>
       {isLoading && (

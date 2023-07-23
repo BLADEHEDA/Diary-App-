@@ -281,16 +281,13 @@ if(category.length===0){
               Is entry public
             </label>
           </article>
-          {/* validating button */}
           <div className="btn mb-[5em]">
-         {/* <Link to ='/diary'  > */}
              <Button type="submit" name="Save" />
-             {/* </Link>  */}
          </div>
         </form>
       </div>
+       {/* display loader during Api calls  */}
       {isLoading && (
-        // Loading modal overlay
         <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
         <MoonLoader color="black"  size={100} />
       </div>

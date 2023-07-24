@@ -188,6 +188,7 @@ export const Form = () => {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
+
               {Array.isArray(category) &&
                 category?.map((el: string, index: number) => (
                   <option className="bg-[white] text-[black]" value={el} key={index}>
@@ -197,6 +198,24 @@ export const Form = () => {
             </select>
             {errors.category && <p className="text-red-500">{errors.category}</p>}
           </article>
+                {Array.isArray(category) &&
+                  category?.map((el: string, index: number) => {
+                    return (
+                      <option
+                      className='bg-[white] '
+                        value={el === "choose category" ? "" : el}
+                        key={index}
+                      >
+                        {el}
+                      </option>
+                    );
+                  })}
+              </select>
+              {errors.category && (
+              <p className="text-red-500">{errors.category}</p>
+            )}
+              </article>
+
           {/* description input field */}
           <article className="mb-4">
             <div className="mb-2">

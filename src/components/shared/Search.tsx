@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 
-// Define the types
+// Define the data  types 
 interface SearchProps {
   onSearch: (searchText: string) => void;
   onCategorySelect: (category: string) => void; // Add the new prop to handle category selection

@@ -14,8 +14,6 @@ export const Form = () => {
   const [isPublic, setIsPublic] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [imageURL, setImageURL] = useState<string | null>(null);
 
   const [errors, setErrors] = useState<{ category?: string;
      description?: string;

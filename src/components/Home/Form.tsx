@@ -1,12 +1,18 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
 import Button from '../shared/Button';
 import Navbar from '../shared/Navbar';
-import {db} from  "../../firebase/firebase"
-import { addDoc, collection,getDocs } from "firebase/firestore"; 
-import { Link,useNavigate } from 'react-router-dom';
-import { ref, uploadBytes, getDownloadURL,} from "firebase/storage";
+import { db } from '../../firebase/firebase';
+import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { Link, useNavigate } from 'react-router-dom';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../firebase/firebase';
-import MoonLoader from "react-spinners/ClipLoader";
+import MoonLoader from 'react-spinners/ClipLoader';
+// define the option type 
+type Option = {
+  id: string;
+  option: string;
+  category: string[];
+};
 
 export const Form = () => {
   const [category, setCategory] = useState('');
@@ -14,31 +20,22 @@ export const Form = () => {
   const [isPublic, setIsPublic] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState<{ category?: string;
-     description?: string;
-     file?: string;
-    }>({});
-    // Add the import statement for the 'Option' type
-    type Option = {
-      id: string;
-      option: string;
-      category: string[]; // Change this to an array of strings
-    };
-    const navigate = useNavigate();
-    // define stae of new diary entry 
+  const [imageURL, setImageURL] = useState<string | null>(null);
+  const [errors, setErrors] = useState<{ category?: string; description?: string; file?: string }>({});
+
+  const navigate = useNavigate();
+// define the idary entry datat types 
   const [newdiaryEntry, setNewdiaryEntry] = useState<{
     id: number;
     category: string;
     description: string;
     isPublic: boolean;
     selectedFile: string | null;
-    // createdDate: object | null | Date;
-    
   }[]>([]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Perform form validation
+
     const formErrors: { category?: string; description?: string; file?: string } = {};
     if (!category.trim()) {
       formErrors.category = 'Category is required';
@@ -50,11 +47,9 @@ export const Form = () => {
 
     if (Object.keys(formErrors).length === 0) {
       try {
-        setIsLoading(true); // Show loading indicator
-        // Upload image to Cloud Storage and get the download URL
+        setIsLoading(true);
         const downloadURL = await handleimageUpload();
-
-        // Add form values to the list
+    // define the diaryEntry
         const diaryEntry = {
           id: Math.floor(Math.random() * 1000),
           category,
@@ -62,152 +57,125 @@ export const Form = () => {
           isPublic,
           selectedFile: downloadURL,
         };
-        // setNewdiaryEntry(addnewdiary);
-        // Upload data to Firebase
+      // upload the diaryEntries data to the firestore 
         await addDoc(collection(db, 'diaryEntries'), diaryEntry);
         const addnewdiary = [diaryEntry, ...newdiaryEntry];
         console.log('Data uploaded to Firebase successfully');
         setNewdiaryEntry(addnewdiary);
-        
+
         alert('Successfully Added Diary Entry');
-        // Logging the form values
         console.log('Category:', category);
         console.log('Description:', description);
         console.log('Is Public:', isPublic);
         console.log('Selected File:', selectedFile);
-
-        // Clearing the form inputs and errors
+      // reset the states of the form 
         setCategory('');
         setDescription('');
         setIsPublic(false);
         setSelectedFile(null);
+        setImageURL(null); // Reset image preview
         setErrors({});
-        // Perform navigation
         navigate('/diary');
       } catch (error) {
         console.error('Error uploading data to Firebase', error);
-        setIsLoading(false); // Hide loading indicator in case of error
+        setIsLoading(false);
       }
     }
   };
-
-  // validate file upload 
+// handle the file input field
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file type
-      const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
       if (!allowedTypes.includes(file.type)) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          file: "Only JPEG, PNG, and GIF images are allowed.",
+          file: 'Only JPEG, PNG, and GIF images are allowed.',
         }));
         setSelectedFile(null);
         return;
       }
-  
-      // Validate file size
+// ensure a maximum size of the image is valid 
       const maxSize = 1 * 1024 * 1024; // 1MB
       if (file.size > maxSize) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          file: "Maximum file size allowed is 1MB.",
+          file: 'Maximum file size allowed is 1MB.',
         }));
         setSelectedFile(null);
         return;
       }
-  
+
       setSelectedFile(file);
       setErrors((prevErrors) => ({
         ...prevErrors,
         file: undefined, // Reset the file error
       }));
+// make the image to be previewed before beign uploaded 
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageURL(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     } else {
       setSelectedFile(null);
       setErrors((prevErrors) => ({
         ...prevErrors,
         file: undefined, // Reset the file error
       }));
+      setImageURL(null);
+    }
+  };
+// post image to cloud firestore 
+  const handleimageUpload = async (): Promise<string> => {
+    if (selectedFile == null || !(selectedFile instanceof File)) return '';
+    try {
+      const storageRef = ref(storage, `images/${selectedFile.name}`);
+      const snapshot = await uploadBytes(storageRef, selectedFile);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+
+      console.log('Image URL fetched from Firestore:', downloadURL);
+      return downloadURL;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw error;
+    }
+  };
+// load categories from firestore
+  const fetchCategories = async () => {
+    try {
+      setIsLoading(true);
+      const querySnapshot = await getDocs(collection(db, 'category'));
+      const newData: Option[] = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        option: doc.data().option,
+        category: doc.data().category,
+      }));
+      setCategory(newData[0]['option']);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching category:', error);
+      setIsLoading(false);
     }
   };
 
-const handleimageUpload = async (): Promise<string> => {
-  if (selectedFile == null || !(selectedFile instanceof File)) return '';
-  try {
-    const storageRef = ref(storage, `images/${selectedFile.name}`);
-    const snapshot = await uploadBytes(storageRef, selectedFile);
-    const downloadURL = await getDownloadURL(snapshot.ref);
+  useEffect(() => {
+    fetchCategories
+  }, []);
 
-    console.log('Image URL fetched from Firestore:', downloadURL);
-    return downloadURL;
-  } catch (error) {
-    console.error('Error uploading image:', error);
-    throw error;
-  }
-};
-// fetching category options from the firestore 
-const fetchPost = async () => {
-  await getDocs(collection(db, "category"))
-    .then((querySnapshot) => {
-      const newData: Option[] = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        option: doc.data().option, // Add the 'option' property
-        category: doc.data().category, // Add the 'category' property
-      }));
-      setCategory(newData[0]["option"]);
-    });
-};
-useEffect(() => {
-  fetchPost();
-}, []);
-// display the loading while the dat is fetched 
-if(category.length===0){
-  return(
-    <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
-    <MoonLoader color="black"  size={100} />
-  </div>
-  ) 
-  } 
   return (
     <main className="w-full">
       <Navbar head="New entry" vector={localStorage.getItem('pic')} />
       <div className="flex px-5 justify-between text-[black] mt-3">
         <div className="font-[600] text-[1.65em]">Create new diary</div>
-    <Link to ='/diary'  ><div className="font-[600] text-[1.75em] text-[black]">x</div>  </Link>    
+        <Link to="/diary">
+          <div className="font-[600] text-[1.75em] text-[black]">x</div>
+        </Link>
       </div>
       <div className="w-full">
         <form onSubmit={handleSubmit} className="px-5">
-          {/* select input field */}
-          {/* <article className="mb-4">
-            <div className="mb-2">
-              <label htmlFor="" className="text-[1.25em] italic text-black">
-                Category
-              </label>
-            </div>
-            <select
-              className="w-[100%] border-[0.2px] px-2 py-4 text-black text-[1em] rounded-[5px] border-black border-solid"
-              name="Category"
-              placeholder="Category"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option className="hidden">Select Category</option>
-              <option value="Fun">Fun</option>
-              <option value="Home">Home</option>
-              <option value="Family">Family</option>
-              <option value="Spiritual">Spiritual</option>
-              <option value="Health">Health</option>
-              <option value="School">School</option>
-              <option value="Work">Work</option>
-              <option value="Others">Others</option>
-            </select>
-            {errors.category && (
-              <p className="text-red-500">{errors.category}</p>
-            )}
-          </article> */}
-          {/* // subjected to changes  */}
-
-           <article className="mb-4"> 
+          {/* categories inout field and options fetched from the firestore */}
+          <article className="mb-4">
             <div className="mb-2">
               <label htmlFor="" className="text-[1.25em] italic text-black">
                 Category
@@ -220,6 +188,16 @@ if(category.length===0){
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
+
+              {Array.isArray(category) &&
+                category?.map((el: string, index: number) => (
+                  <option className="bg-[white] text-[black]" value={el} key={index}>
+                    {el}
+                  </option>
+                ))}
+            </select>
+            {errors.category && <p className="text-red-500">{errors.category}</p>}
+          </article>
                 {Array.isArray(category) &&
                   category?.map((el: string, index: number) => {
                     return (
@@ -237,12 +215,11 @@ if(category.length===0){
               <p className="text-red-500">{errors.category}</p>
             )}
               </article>
+
           {/* description input field */}
           <article className="mb-4">
             <div className="mb-2">
-              <label className="text-[1.25em] italic text-black">
-                Description
-              </label>
+              <label className="text-[1.25em] italic text-black">Description</label>
             </div>
             <textarea
               placeholder="Enter description here"
@@ -250,26 +227,24 @@ if(category.length===0){
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             ></textarea>
-            {errors.description && (
-              <p className="text-red-500">{errors.description}</p>
-            )}
+            {errors.description && <p className="text-red-500">{errors.description}</p>}
           </article>
-          {/* image upload field */}
+        {/* image upload input field */}
           <article className="mb-4">
             <div className="mb-2">
-              <label className="text-[1.25em] italic text-black">
-                Upload image (optional)
-              </label>
+              <label className="text-[1.25em] italic text-black">Upload image (optional)</label>
               <input
                 className="w-full border border-black border-solid bg-[white]  rounded-[5px] h-[8em]"
                 type="file"
                 accept="image/jpeg, image/png, image/gif"
                 onChange={handleFileChange}
               />
+              {/* display the image choosen */}
+              {imageURL && <img src={imageURL} alt="Preview" className="my-3 border border-black border-solid" />}
             </div>
             {errors.file && <p className="text-red-500">{errors.file}</p>}
           </article>
-          {/* option section */}
+          {/*checkbox input field   */}
           <article className="mb-4">
             <input
               type="checkbox"
@@ -277,20 +252,21 @@ if(category.length===0){
               checked={isPublic}
               onChange={(e) => setIsPublic(e.target.checked)}
             />
-            <label className="text-[1.25em] text-black">
-              Is entry public
-            </label>
+            <label className="text-[1.25em] text-black">Is entry public</label>
           </article>
+
           <div className="btn mb-[5em]">
-             <Button type="submit" name="Save" />
-         </div>
+            <Button type="submit" name="Save" />
+          </div>
         </form>
       </div>
-       {/* display loader during Api calls  */}
+
       {isLoading && (
         <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
-        <MoonLoader color="black"  size={100} />
-      </div>
+          <div className="absolute top-[11em] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <MoonLoader color="black" size={70} />
+          </div>
+        </div>
       )}
     </main>
   );

@@ -220,7 +220,7 @@ export const Form = () => {
                 onChange={handleFileChange}
               />
               {/* display the image choosen */}
-              {imageURL && <img src={imageURL} alt="Preview" className="h-[50%] w-full" />}
+              {imageURL && <img src={imageURL} alt="Preview" className="my-3 border border-black border-solid" />}
             </div>
             {errors.file && <p className="text-red-500">{errors.file}</p>}
           </article>

@@ -14,6 +14,9 @@ export const Form = () => {
   const [isPublic, setIsPublic] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageURL, setImageURL] = useState<string | null>(null);
+
   const [errors, setErrors] = useState<{ category?: string;
      description?: string;
      file?: string;
@@ -129,6 +132,7 @@ export const Form = () => {
         file: undefined, // Reset the file error
       }));
     }
+    
   };
 
 const handleimageUpload = async (): Promise<string> => {
@@ -146,18 +150,6 @@ const handleimageUpload = async (): Promise<string> => {
   }
 };
 // fetching category options from the firestore 
-// const fetchPost = async () => {
-//   await getDocs(collection(db, "category"))
-//     .then((querySnapshot) => {
-//       const newData: Option[] = querySnapshot.docs.map((doc) => ({
-//         id: doc.id,
-//         option: doc.data().option, // Add the 'option' property
-//         category: doc.data().category, // Add the 'category' property
-//       }));
-//       setCategory(newData[0]["option"]);
-//     });
-// };
-
 const fetchPost = async () => {
   try {
     setIsLoading(true)
@@ -178,15 +170,6 @@ const fetchPost = async () => {
 useEffect(() => {
   fetchPost();
 }, []);
-// display the loading while the dat is fetched 
-// if(category.length===0){
-//   return(
-//     <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
-//     <MoonLoader color="black"  size={100} />
-//   </div>
-//   ) 
-//   setIsLoading(false)
-//   }
   return (
     <main className="w-full">
       <Navbar head="New entry" vector={localStorage.getItem('pic')} />
@@ -243,8 +226,9 @@ useEffect(() => {
                   category?.map((el: string, index: number) => {
                     return (
                       <option
-                      className='bg-[white] '
-                        value={el === "choose category" ? "" : el}
+                      className='bg-[white] text-[black] '
+                        // value={el === "choose category" ? "" : el}
+                        value= {el}
                         key={index}
                       >
                         {el}

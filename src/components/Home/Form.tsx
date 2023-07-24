@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../firebase/firebase';
 import MoonLoader from 'react-spinners/ClipLoader';
-// define the options type 
+
 type Option = {
   id: string;
   option: string;
@@ -24,7 +24,7 @@ export const Form = () => {
   const [errors, setErrors] = useState<{ category?: string; description?: string; file?: string }>({});
 
   const navigate = useNavigate();
-// define the idary entry datat types 
+
   const [newdiaryEntry, setNewdiaryEntry] = useState<{
     id: number;
     category: string;
@@ -49,7 +49,7 @@ export const Form = () => {
       try {
         setIsLoading(true);
         const downloadURL = await handleimageUpload();
-    // define the diaryEntry
+
         const diaryEntry = {
           id: Math.floor(Math.random() * 1000),
           category,
@@ -57,7 +57,7 @@ export const Form = () => {
           isPublic,
           selectedFile: downloadURL,
         };
-     // upload the diaryEntries data to the firestore 
+
         await addDoc(collection(db, 'diaryEntries'), diaryEntry);
         const addnewdiary = [diaryEntry, ...newdiaryEntry];
         console.log('Data uploaded to Firebase successfully');
@@ -68,7 +68,7 @@ export const Form = () => {
         console.log('Description:', description);
         console.log('Is Public:', isPublic);
         console.log('Selected File:', selectedFile);
-      // reset the states of the form 
+
         setCategory('');
         setDescription('');
         setIsPublic(false);
@@ -82,7 +82,7 @@ export const Form = () => {
       }
     }
   };
-// handle the file input field
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -95,7 +95,7 @@ export const Form = () => {
         setSelectedFile(null);
         return;
       }
-// ensure a maximum size of the image is valid 
+
       const maxSize = 1 * 1024 * 1024; // 1MB
       if (file.size > maxSize) {
         setErrors((prevErrors) => ({
@@ -111,7 +111,7 @@ export const Form = () => {
         ...prevErrors,
         file: undefined, // Reset the file error
       }));
-// make the image to be previewed before beign uploaded 
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageURL(reader.result as string);
@@ -126,7 +126,7 @@ export const Form = () => {
       setImageURL(null);
     }
   };
-// post image to cloud firestore 
+
   const handleimageUpload = async (): Promise<string> => {
     if (selectedFile == null || !(selectedFile instanceof File)) return '';
     try {
@@ -142,27 +142,26 @@ export const Form = () => {
     }
   };
 
-// load categories from firestore
-const fetchCategories = async () => {
-  try {
-    setIsLoading(true);
-    const querySnapshot = await getDocs(collection(db, 'category'));
-    const newData: Option[] = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      option: doc.data().option,
-      category: doc.data().category,
-    }));
-    setCategory(newData[0]['option']);
-    setIsLoading(false);
-  } catch (error) {
-    console.error('Error fetching category:', error);
-    setIsLoading(false);
-  }
-};
+  const fetchPost = async () => {
+    try {
+      setIsLoading(true);
+      const querySnapshot = await getDocs(collection(db, 'category'));
+      const newData: Option[] = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        option: doc.data().option,
+        category: doc.data().category,
+      }));
+      setCategory(newData[0]['option']);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching category:', error);
+      setIsLoading(false);
+    }
+  };
 
-useEffect(() => {
-  fetchCategories
-}, []);
+  useEffect(() => {
+    fetchPost();
+  }, []);
 
   return (
     <main className="w-full">
@@ -175,7 +174,6 @@ useEffect(() => {
       </div>
       <div className="w-full">
         <form onSubmit={handleSubmit} className="px-5">
-           {/* categories inout field and options fetched from the firestore */}
           <article className="mb-4">
             <div className="mb-2">
               <label htmlFor="" className="text-[1.25em] italic text-black">
@@ -198,7 +196,7 @@ useEffect(() => {
             </select>
             {errors.category && <p className="text-red-500">{errors.category}</p>}
           </article>
-      {/* description input field */}
+
           <article className="mb-4">
             <div className="mb-2">
               <label className="text-[1.25em] italic text-black">Description</label>
@@ -211,7 +209,7 @@ useEffect(() => {
             ></textarea>
             {errors.description && <p className="text-red-500">{errors.description}</p>}
           </article>
-      {/* image upload input field */}
+
           <article className="mb-4">
             <div className="mb-2">
               <label className="text-[1.25em] italic text-black">Upload image (optional)</label>
@@ -221,12 +219,11 @@ useEffect(() => {
                 accept="image/jpeg, image/png, image/gif"
                 onChange={handleFileChange}
               />
-                {/* display the image choosen */}
               {imageURL && <img src={imageURL} alt="Preview" className="max-h-[8em]" />}
             </div>
             {errors.file && <p className="text-red-500">{errors.file}</p>}
           </article>
-         {/*checkbox input field   */}
+
           <article className="mb-4">
             <input
               type="checkbox"

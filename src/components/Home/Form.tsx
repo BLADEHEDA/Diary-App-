@@ -214,7 +214,7 @@ if(category.length===0){
               </label>
             </div>
             <select
-              className="w-[100%] border-[0.2px] px-2 py-4 text-black text-[1em] rounded-[5px] border-black border-solid"
+              className="w-[100%] border-[0.2px] px-2 py-4 text-black bg-[white] text-[1em] rounded-[5px] border-black border-solid"
               name="Category"
               placeholder="Category"
               value={category}
@@ -224,6 +224,7 @@ if(category.length===0){
                   category?.map((el: string, index: number) => {
                     return (
                       <option
+                      className='bg-[white] '
                         value={el === "choose category" ? "" : el}
                         key={index}
                       >
@@ -246,7 +247,7 @@ if(category.length===0){
             </div>
             <textarea
               placeholder="Enter description here"
-              className="w-full border border-black border-solid px-3 rounded-[5px] h-[8em]"
+              className="w-full border border-black bg-[white]  border-solid px-3 rounded-[5px] h-[8em]"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             ></textarea>
@@ -261,7 +262,7 @@ if(category.length===0){
                 Upload image (optional)
               </label>
               <input
-                className="w-full border border-black border-solid rounded-[5px] h-[8em]"
+                className="w-full border border-black border-solid bg-[white]  rounded-[5px] h-[8em]"
                 type="file"
                 accept="image/jpeg, image/png, image/gif"
                 onChange={handleFileChange}

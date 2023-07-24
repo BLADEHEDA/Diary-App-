@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../firebase/firebase';
 import MoonLoader from 'react-spinners/ClipLoader';
-
+// define the option type 
 type Option = {
   id: string;
   option: string;
@@ -24,7 +24,7 @@ export const Form = () => {
   const [errors, setErrors] = useState<{ category?: string; description?: string; file?: string }>({});
 
   const navigate = useNavigate();
-
+// define the idary entry datat types 
   const [newdiaryEntry, setNewdiaryEntry] = useState<{
     id: number;
     category: string;
@@ -49,7 +49,7 @@ export const Form = () => {
       try {
         setIsLoading(true);
         const downloadURL = await handleimageUpload();
-
+    // define the diaryEntry
         const diaryEntry = {
           id: Math.floor(Math.random() * 1000),
           category,
@@ -57,7 +57,7 @@ export const Form = () => {
           isPublic,
           selectedFile: downloadURL,
         };
-
+      // upload the diaryEntries data to the firestore 
         await addDoc(collection(db, 'diaryEntries'), diaryEntry);
         const addnewdiary = [diaryEntry, ...newdiaryEntry];
         console.log('Data uploaded to Firebase successfully');
@@ -68,7 +68,7 @@ export const Form = () => {
         console.log('Description:', description);
         console.log('Is Public:', isPublic);
         console.log('Selected File:', selectedFile);
-
+      // reset the states of the form 
         setCategory('');
         setDescription('');
         setIsPublic(false);
@@ -174,6 +174,7 @@ export const Form = () => {
       </div>
       <div className="w-full">
         <form onSubmit={handleSubmit} className="px-5">
+          {/* categories inout field and options fetched from the firestore */}
           <article className="mb-4">
             <div className="mb-2">
               <label htmlFor="" className="text-[1.25em] italic text-black">
@@ -196,7 +197,7 @@ export const Form = () => {
             </select>
             {errors.category && <p className="text-red-500">{errors.category}</p>}
           </article>
-
+          {/* description input field */}
           <article className="mb-4">
             <div className="mb-2">
               <label className="text-[1.25em] italic text-black">Description</label>
@@ -209,7 +210,7 @@ export const Form = () => {
             ></textarea>
             {errors.description && <p className="text-red-500">{errors.description}</p>}
           </article>
-
+        {/* image upload input field */}
           <article className="mb-4">
             <div className="mb-2">
               <label className="text-[1.25em] italic text-black">Upload image (optional)</label>
@@ -224,7 +225,7 @@ export const Form = () => {
             </div>
             {errors.file && <p className="text-red-500">{errors.file}</p>}
           </article>
-
+          {/*checkbox input field   */}
           <article className="mb-4">
             <input
               type="checkbox"

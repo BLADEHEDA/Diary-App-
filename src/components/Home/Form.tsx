@@ -126,7 +126,7 @@ export const Form = () => {
       setImageURL(null);
     }
   };
-
+// post image to cloud firestore 
   const handleimageUpload = async (): Promise<string> => {
     if (selectedFile == null || !(selectedFile instanceof File)) return '';
     try {
@@ -141,7 +141,7 @@ export const Form = () => {
       throw error;
     }
   };
-
+// load categories from firestore
   const fetchPost = async () => {
     try {
       setIsLoading(true);
@@ -174,6 +174,7 @@ export const Form = () => {
       </div>
       <div className="w-full">
         <form onSubmit={handleSubmit} className="px-5">
+            {/* categories inout field and options fetched from the firestore */}
           <article className="mb-4">
             <div className="mb-2">
               <label htmlFor="" className="text-[1.25em] italic text-black">
@@ -196,7 +197,7 @@ export const Form = () => {
             </select>
             {errors.category && <p className="text-red-500">{errors.category}</p>}
           </article>
-
+  {/* description input field */}
           <article className="mb-4">
             <div className="mb-2">
               <label className="text-[1.25em] italic text-black">Description</label>
@@ -209,7 +210,7 @@ export const Form = () => {
             ></textarea>
             {errors.description && <p className="text-red-500">{errors.description}</p>}
           </article>
-
+   {/* image upload input field */}
           <article className="mb-4">
             <div className="mb-2">
               <label className="text-[1.25em] italic text-black">Upload image (optional)</label>
@@ -219,11 +220,12 @@ export const Form = () => {
                 accept="image/jpeg, image/png, image/gif"
                 onChange={handleFileChange}
               />
+               {/* display the image choosen */}
               {imageURL && <img src={imageURL} alt="Preview" className="max-h-[8em]" />}
             </div>
             {errors.file && <p className="text-red-500">{errors.file}</p>}
           </article>
-
+      {/*checkbox input field   */}
           <article className="mb-4">
             <input
               type="checkbox"

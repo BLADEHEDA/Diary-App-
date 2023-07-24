@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../firebase/firebase';
 import MoonLoader from 'react-spinners/ClipLoader';
-// define the option type 
+// define the options type
 type Option = {
   id: string;
   option: string;
@@ -22,9 +22,9 @@ export const Form = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageURL, setImageURL] = useState<string | null>(null);
   const [errors, setErrors] = useState<{ category?: string; description?: string; file?: string }>({});
-
+ 
   const navigate = useNavigate();
-// define the idary entry datat types 
+// define the idary entry datat types
   const [newdiaryEntry, setNewdiaryEntry] = useState<{
     id: number;
     category: string;
@@ -49,7 +49,7 @@ export const Form = () => {
       try {
         setIsLoading(true);
         const downloadURL = await handleimageUpload();
-    // define the diaryEntry
+   // define the diaryEntry
         const diaryEntry = {
           id: Math.floor(Math.random() * 1000),
           category,
@@ -142,7 +142,7 @@ export const Form = () => {
     }
   };
 // load categories from firestore
-  const fetchCategories = async () => {
+  const fetchPost = async () => {
     try {
       setIsLoading(true);
       const querySnapshot = await getDocs(collection(db, 'category'));
@@ -160,7 +160,7 @@ export const Form = () => {
   };
 
   useEffect(() => {
-    fetchCategories
+    fetchPost();
   }, []);
 
   return (
@@ -174,7 +174,7 @@ export const Form = () => {
       </div>
       <div className="w-full">
         <form onSubmit={handleSubmit} className="px-5">
-          {/* categories inout field and options fetched from the firestore */}
+            {/* categories inout field and options fetched from the firestore */}
           <article className="mb-4">
             <div className="mb-2">
               <label htmlFor="" className="text-[1.25em] italic text-black">
@@ -188,7 +188,6 @@ export const Form = () => {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
-
               {Array.isArray(category) &&
                 category?.map((el: string, index: number) => (
                   <option className="bg-[white] text-[black]" value={el} key={index}>
@@ -198,25 +197,7 @@ export const Form = () => {
             </select>
             {errors.category && <p className="text-red-500">{errors.category}</p>}
           </article>
-                {Array.isArray(category) &&
-                  category?.map((el: string, index: number) => {
-                    return (
-                      <option
-                      className='bg-[white] '
-                        value={el === "choose category" ? "" : el}
-                        key={index}
-                      >
-                        {el}
-                      </option>
-                    );
-                  })}
-              </select>
-              {errors.category && (
-              <p className="text-red-500">{errors.category}</p>
-            )}
-              </article>
-
-          {/* description input field */}
+  {/* description input field */}
           <article className="mb-4">
             <div className="mb-2">
               <label className="text-[1.25em] italic text-black">Description</label>
@@ -229,7 +210,7 @@ export const Form = () => {
             ></textarea>
             {errors.description && <p className="text-red-500">{errors.description}</p>}
           </article>
-        {/* image upload input field */}
+   {/* image upload input field */}
           <article className="mb-4">
             <div className="mb-2">
               <label className="text-[1.25em] italic text-black">Upload image (optional)</label>
@@ -239,12 +220,12 @@ export const Form = () => {
                 accept="image/jpeg, image/png, image/gif"
                 onChange={handleFileChange}
               />
-              {/* display the image choosen */}
-              {imageURL && <img src={imageURL} alt="Preview" className="my-3 border border-black border-solid" />}
+               {/* display the image choosen */}
+              {imageURL && <img src={imageURL} alt="Preview" className="max-h-[8em]" />}
             </div>
             {errors.file && <p className="text-red-500">{errors.file}</p>}
           </article>
-          {/*checkbox input field   */}
+      {/*checkbox input field   */}
           <article className="mb-4">
             <input
               type="checkbox"

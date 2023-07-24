@@ -236,7 +236,6 @@ if(category.length===0){
               <p className="text-red-500">{errors.category}</p>
             )}
               </article>
-      
           {/* description input field */}
           <article className="mb-4">
             <div className="mb-2">

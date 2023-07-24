@@ -82,7 +82,7 @@ export const Form = () => {
       }
     }
   };
-
+// handle the file input field
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -95,7 +95,7 @@ export const Form = () => {
         setSelectedFile(null);
         return;
       }
-
+// ensure a maximum size of the image is valid 
       const maxSize = 1 * 1024 * 1024; // 1MB
       if (file.size > maxSize) {
         setErrors((prevErrors) => ({
@@ -111,7 +111,7 @@ export const Form = () => {
         ...prevErrors,
         file: undefined, // Reset the file error
       }));
-
+// make the image to be previewed before beign uploaded 
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageURL(reader.result as string);
@@ -126,7 +126,7 @@ export const Form = () => {
       setImageURL(null);
     }
   };
-
+// post image to cloud firestore 
   const handleimageUpload = async (): Promise<string> => {
     if (selectedFile == null || !(selectedFile instanceof File)) return '';
     try {
@@ -141,8 +141,8 @@ export const Form = () => {
       throw error;
     }
   };
-
-  const fetchPost = async () => {
+// load categories from firestore
+  const fetchCategories = async () => {
     try {
       setIsLoading(true);
       const querySnapshot = await getDocs(collection(db, 'category'));
@@ -160,7 +160,7 @@ export const Form = () => {
   };
 
   useEffect(() => {
-    fetchPost();
+    fetchCategories
   }, []);
 
   return (
@@ -220,7 +220,7 @@ export const Form = () => {
                 onChange={handleFileChange}
               />
               {/* display the image choosen */}
-              {imageURL && <img src={imageURL} alt="Preview" className="h-full w-full" />}
+              {imageURL && <img src={imageURL} alt="Preview" className="h-[50%] w-full" />}
             </div>
             {errors.file && <p className="text-red-500">{errors.file}</p>}
           </article>

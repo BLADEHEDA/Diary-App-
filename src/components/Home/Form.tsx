@@ -146,28 +146,47 @@ const handleimageUpload = async (): Promise<string> => {
   }
 };
 // fetching category options from the firestore 
+// const fetchPost = async () => {
+//   await getDocs(collection(db, "category"))
+//     .then((querySnapshot) => {
+//       const newData: Option[] = querySnapshot.docs.map((doc) => ({
+//         id: doc.id,
+//         option: doc.data().option, // Add the 'option' property
+//         category: doc.data().category, // Add the 'category' property
+//       }));
+//       setCategory(newData[0]["option"]);
+//     });
+// };
+
 const fetchPost = async () => {
-  await getDocs(collection(db, "category"))
-    .then((querySnapshot) => {
-      const newData: Option[] = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        option: doc.data().option, // Add the 'option' property
-        category: doc.data().category, // Add the 'category' property
-      }));
-      setCategory(newData[0]["option"]);
-    });
+  try {
+    setIsLoading(true)
+    const querySnapshot = await getDocs(collection(db, "category"));
+    const newData: Option[] = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      option: doc.data().option,
+      category: doc.data().category,
+    }));
+    setCategory(newData[0]["option"]);
+    setIsLoading(false)
+  } catch (error) {
+    console.error("Error fetching category:", error);
+    setIsLoading(false)
+  }
 };
+
 useEffect(() => {
   fetchPost();
 }, []);
 // display the loading while the dat is fetched 
-if(category.length===0){
-  return(
-    <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
-    <MoonLoader color="black"  size={100} />
-  </div>
-  ) 
-  } 
+// if(category.length===0){
+//   return(
+//     <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
+//     <MoonLoader color="black"  size={100} />
+//   </div>
+//   ) 
+//   setIsLoading(false)
+//   }
   return (
     <main className="w-full">
       <Navbar head="New entry" vector={localStorage.getItem('pic')} />
@@ -289,9 +308,12 @@ if(category.length===0){
       </div>
        {/* display loader during Api calls  */}
       {isLoading && (
-        <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
-        <MoonLoader color="black"  size={100} />
-      </div>
+   <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
+   <div className="absolute top-[11em] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+     <MoonLoader color="black" size={70} />
+   </div>
+ </div>
+ 
       )}
     </main>
   );

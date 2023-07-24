@@ -5,7 +5,7 @@ import HomeHeader from '../Home/HomeHeader';
 import Search from './Search';
 import { db } from '../../firebase/firebase';
 import { collection, getDocs } from 'firebase/firestore';
-import book from "../../assets/pic1.png"
+import book from "../../assets/pic2.png"
 import MoonLoader from "react-spinners/ClipLoader";
 // define the types to be used 
 interface DiaryEntry {

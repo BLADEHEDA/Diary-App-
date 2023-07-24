@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../firebase/firebase';
 import MoonLoader from 'react-spinners/ClipLoader';
-// define the option type 
+// define the options type 
 type Option = {
   id: string;
   option: string;
@@ -57,7 +57,7 @@ export const Form = () => {
           isPublic,
           selectedFile: downloadURL,
         };
-      // upload the diaryEntries data to the firestore 
+     // upload the diaryEntries data to the firestore 
         await addDoc(collection(db, 'diaryEntries'), diaryEntry);
         const addnewdiary = [diaryEntry, ...newdiaryEntry];
         console.log('Data uploaded to Firebase successfully');
@@ -141,27 +141,28 @@ export const Form = () => {
       throw error;
     }
   };
-// load categories from firestore
-  const fetchCategories = async () => {
-    try {
-      setIsLoading(true);
-      const querySnapshot = await getDocs(collection(db, 'category'));
-      const newData: Option[] = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        option: doc.data().option,
-        category: doc.data().category,
-      }));
-      setCategory(newData[0]['option']);
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Error fetching category:', error);
-      setIsLoading(false);
-    }
-  };
 
-  useEffect(() => {
-    fetchCategories
-  }, []);
+// load categories from firestore
+const fetchCategories = async () => {
+  try {
+    setIsLoading(true);
+    const querySnapshot = await getDocs(collection(db, 'category'));
+    const newData: Option[] = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      option: doc.data().option,
+      category: doc.data().category,
+    }));
+    setCategory(newData[0]['option']);
+    setIsLoading(false);
+  } catch (error) {
+    console.error('Error fetching category:', error);
+    setIsLoading(false);
+  }
+};
+
+useEffect(() => {
+  fetchCategories
+}, []);
 
   return (
     <main className="w-full">
@@ -174,7 +175,7 @@ export const Form = () => {
       </div>
       <div className="w-full">
         <form onSubmit={handleSubmit} className="px-5">
-          {/* categories inout field and options fetched from the firestore */}
+           {/* categories inout field and options fetched from the firestore */}
           <article className="mb-4">
             <div className="mb-2">
               <label htmlFor="" className="text-[1.25em] italic text-black">
@@ -188,7 +189,6 @@ export const Form = () => {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
-
               {Array.isArray(category) &&
                 category?.map((el: string, index: number) => (
                   <option className="bg-[white] text-[black]" value={el} key={index}>
@@ -198,25 +198,7 @@ export const Form = () => {
             </select>
             {errors.category && <p className="text-red-500">{errors.category}</p>}
           </article>
-                {Array.isArray(category) &&
-                  category?.map((el: string, index: number) => {
-                    return (
-                      <option
-                      className='bg-[white] '
-                        value={el === "choose category" ? "" : el}
-                        key={index}
-                      >
-                        {el}
-                      </option>
-                    );
-                  })}
-              </select>
-              {errors.category && (
-              <p className="text-red-500">{errors.category}</p>
-            )}
-              </article>
-
-          {/* description input field */}
+      {/* description input field */}
           <article className="mb-4">
             <div className="mb-2">
               <label className="text-[1.25em] italic text-black">Description</label>
@@ -229,7 +211,7 @@ export const Form = () => {
             ></textarea>
             {errors.description && <p className="text-red-500">{errors.description}</p>}
           </article>
-        {/* image upload input field */}
+      {/* image upload input field */}
           <article className="mb-4">
             <div className="mb-2">
               <label className="text-[1.25em] italic text-black">Upload image (optional)</label>
@@ -239,12 +221,12 @@ export const Form = () => {
                 accept="image/jpeg, image/png, image/gif"
                 onChange={handleFileChange}
               />
-              {/* display the image choosen */}
-              {imageURL && <img src={imageURL} alt="Preview" className="my-3 border border-black border-solid" />}
+                {/* display the image choosen */}
+              {imageURL && <img src={imageURL} alt="Preview" className="max-h-[8em]" />}
             </div>
             {errors.file && <p className="text-red-500">{errors.file}</p>}
           </article>
-          {/*checkbox input field   */}
+         {/*checkbox input field   */}
           <article className="mb-4">
             <input
               type="checkbox"

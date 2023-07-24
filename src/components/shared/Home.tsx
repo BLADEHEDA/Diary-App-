@@ -8,6 +8,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import book from "../../assets/pic2.png"
 import MoonLoader from "react-spinners/ClipLoader";
 // define the types to be used 
+
 interface DiaryEntry {
   id: string;
   category: string;

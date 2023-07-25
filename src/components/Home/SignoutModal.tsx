@@ -1,6 +1,7 @@
 import React from 'react';
 import { signOut } from "firebase/auth";
-import {auth} from '../../firebase/firebase'
+import { auth } from '../../firebase/firebase';
+import { useNavigate } from 'react-router-dom';
 
 interface SignoutModalProps {
   showModal: boolean;
@@ -8,12 +9,15 @@ interface SignoutModalProps {
 }
 
 const SignoutModal: React.FC<SignoutModalProps> = ({ showModal, onCloseModal }) => {
+  const navigate = useNavigate(); // Move the useNavigate hook here
+
+  // Sign out users from firebase
   const handleSignOut = () => {
-    // const auth = getAuth();
     signOut(auth)
       .then(() => {
         localStorage.removeItem('pic'); // Remove the image from local storage
         alert('Successfully signed out');
+        navigate('/'); // Use navigate here directly
         onCloseModal(); // Close the modal after successful sign out
       })
       .catch((error) => {

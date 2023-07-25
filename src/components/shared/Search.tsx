@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
+import Filtermodal from '../Home/Filtermodal';
 
 // Define the data  types 
 interface SearchProps {
@@ -11,6 +12,8 @@ interface SearchProps {
 const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
   const [searchText, setSearchText] = useState('');
   const [ show , setShow ]= useState(false);
+  // State to control Filtermodal
+  const [showFilterModal, setShowFilterModal] = useState(false); 
 
 // track the input changes of the search input field and updaye the states 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +30,11 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
   const handleShow=()=>{
     setShow(!show);
   }
+  // handle the select category filter
+  const handleShowFilterModal = () => {
+    setShowFilterModal(true);
+  };
+
   // definethe function to handel the filter by category 
   const handleCategorySelect = (category: string) => {
     onCategorySelect(category);
@@ -56,6 +64,10 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
         <div className="" onClick={handleShow} >
           <FontAwesomeIcon className="text-[1.4em]" icon={faFilter} />
         </div>
+        {/* second filter */}
+        <div className="" onClick={handleShowFilterModal}  >
+          <FontAwesomeIcon className="text-[1.4em]" icon={faFilter} />
+        </div>
     {/* hide and show the categories involved  */}
         { show  &&  
         <div className=" options absolute top-[11em] right-[1em]  pl-2 pr-5 bg-[white] z-[999] font-[500]  ">
@@ -68,6 +80,8 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
           <div className="option cursor-pointer" onClick={() => handleCategorySelect('others')}>Others</div>
         </div>
         }
+        {/* hide and show the select category filter modal */}
+        {showFilterModal && <Filtermodal onClose={() => setShowFilterModal(false)} />}
             </section>
       </section>
       <div className="border-b mx-3 border-[black] mb-5"></div>

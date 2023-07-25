@@ -77,7 +77,7 @@ const Home = () => {
             key={item.id}
             src={item.selectedFile || book}
             title={item.category}
-            date={item.date}
+            // date={item.date}
             type={item.isPublic ? 'Public' : 'Private'}
             content={item.description}
             timestamp={item.Startdate} // Render the timestamp

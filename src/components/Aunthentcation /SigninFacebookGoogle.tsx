@@ -4,13 +4,12 @@ import { auth } from "../../firebase/firebase"
 import Navbar from '../shared/Navbar';
 import { useNavigate } from 'react-router-dom';
 import vector from  '../../assets/Vector.png'
-// import { localStorage } from 'windo
 
 
 // {subjectd to changes } 
 export  const ErrorPage = () => {
   return (<main>
-      <Navbar head="Error" />
+      <Navbar head="Error" vector={vector} />
     <div className="bg-[white] px-3 py-3"> 
     Error: Unable to sign in with Google
     </div>

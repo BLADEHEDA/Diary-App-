@@ -1,5 +1,5 @@
 import React from "react";
-import danger from "../../../public/mdi_alert.png"
+import danger from "../../assets/Vector.png"
 
 type ModalProps = {
   onClose: () => void;

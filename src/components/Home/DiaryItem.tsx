@@ -36,10 +36,15 @@ const DiaryItem = (props: DiaryItemProps) => {
             <div className="flex">
               <p className="italic text-[black] " >{props.type} </p>
               <FontAwesomeIcon className={`text-[1em] text-[${lockIconColor}] mt-1 mx-2`} icon={faLock} />
-              <p>
-                <Switch
-                  onChange={handleChange} checked={checked}
-                  height={17} width={40} offColor="red" />
+              <p className="mt-1" >
+          <Switch
+        onChange={handleChange}
+        checked={checked}
+        onColor="#4CAF50"
+        // offColor="#FF5733"
+        height={15} 
+        width={30} 
+      />
               </p>
             </div>
 

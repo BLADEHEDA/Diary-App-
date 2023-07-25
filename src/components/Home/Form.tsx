@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../firebase/firebase';
 import MoonLoader from 'react-spinners/ClipLoader';
+import vector from '../../assets/Vector.png'
 // define the options type
 type Option = {
   id: string;
@@ -126,7 +127,7 @@ export const Form = () => {
       setImageURL(null);
     }
   };
-// post image to cloud firestore 
+// post image to cloud storage  
   const handleimageUpload = async (): Promise<string> => {
     if (selectedFile == null || !(selectedFile instanceof File)) return '';
     try {
@@ -165,7 +166,7 @@ export const Form = () => {
 
   return (
     <main className="w-full">
-      <Navbar head="New entry" vector={localStorage.getItem('pic')} />
+      <Navbar head="New entry" vector={localStorage.getItem('pic') || vector } />
       <div className="flex px-5 justify-between text-[black] mt-3">
         <div className="font-[600] text-[1.65em]">Create new diary</div>
         <Link to="/diary">

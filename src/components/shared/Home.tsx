@@ -7,6 +7,7 @@ import { db } from '../../firebase/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import book from "../../assets/pic2.png"
 import MoonLoader from "react-spinners/ClipLoader";
+import vactor from "../../assets/Vector.png"
 // define the types to be used 
 
 interface DiaryEntry {
@@ -68,7 +69,8 @@ const Home = () => {
 
   return (
     <main className="bg-[white] mb-[3em] ">
-      <Navbar head="Home" vector={localStorage.getItem('pic')} />
+      {/* <Navbar head="Home" vector={localStorage.getItem('pic')} /> */}
+      <Navbar head="New entry" vector={localStorage.getItem('pic') || vactor} />
       <section className="px-3">
         <HomeHeader />
         <Search onSearch={handleSearch} onCategorySelect={handleSearch} />

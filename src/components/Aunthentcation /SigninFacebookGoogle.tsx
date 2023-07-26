@@ -5,7 +5,6 @@ import Navbar from '../shared/Navbar';
 import { useNavigate } from 'react-router-dom';
 import vector from  '../../assets/Vector.png'
 
-
 // {subjectd to changes } 
 export  const ErrorPage = () => {
   return (<main>

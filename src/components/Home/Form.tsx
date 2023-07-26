@@ -166,6 +166,7 @@ export const Form = () => {
 
   return (
     <main className="w-full">
+          {/* conditionally display a default image in case of logged  */}
       <Navbar head="New entry" vector={localStorage.getItem('pic') || vector } />
       <div className="flex px-5 justify-between text-[black] mt-3">
         <div className="font-[600] text-[1.65em]">Create new diary</div>

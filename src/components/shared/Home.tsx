@@ -44,6 +44,17 @@ const Home = () => {
   useEffect(() => {
     fetchPost();
   }, []);
+
+  // Handle the privacy toggle callback
+  const handlePrivacyToggle = (id: string, isPublic: boolean) => {
+    // Update the diary array with the new privacy status
+    const updatedDiary = diary.map((item) =>
+      item.id === id ? { ...item, isPublic } : item
+    );
+    setDiary(updatedDiary);
+  };
+  
+
   // handle the search functionality 
   const handleSearch = (searchText: string) => {
     // pass the staet of the category to that of the search 
@@ -69,7 +80,7 @@ const Home = () => {
 
   return (
     <main className="bg-[white] mb-[3em] ">
-      {/* <Navbar head="Home" vector={localStorage.getItem('pic')} /> */}
+    {/* conditionally display a default image in case of logged  */}
       <Navbar head="New entry" vector={localStorage.getItem('pic') || vactor} />
       <section className="px-3">
         <HomeHeader />
@@ -84,6 +95,10 @@ const Home = () => {
             content={item.description}
             timestamp={item.Startdate} // Render the timestamp
             // Startdate={item.Startdate}
+            // subjected to changes
+            id={item.id} // Pass the unique ID of the diary item
+            isPublic={item.isPublic} // Pass the current privacy status
+            onPrivacyToggle={handlePrivacyToggle} // Pass the callback function to handle the toggle
           />
         ))}
       </section>

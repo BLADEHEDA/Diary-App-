@@ -10,18 +10,22 @@ type DiaryItemProps = {
   timestamp: string;
   type: string;
   content: string;
+  id: string;
+  isPublic: boolean;
+  onPrivacyToggle: (id: string, isPublic: boolean) => void;
 };
 
 const DiaryItem: React.FC<DiaryItemProps> = (props) => {
-  const [checked, setChecked] = useState<boolean>(false);
+  const { id, isPublic, onPrivacyToggle } = props;
+  const [checked, setChecked] = useState<boolean>(isPublic);
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const handleChange = (checked: boolean) => {
     setChecked(checked);
+    onPrivacyToggle(id, checked); // Update the privacy status in the Home component
   };
+  const lockIconColor = props.type === "Public" ? "red" : "yellow";
 
-  const lockIconColor = props.type === "Public" ? "red" : "green";
-  
     // Perform the delete action here
   const handleDelete = () => {
     console.log("Delete diary:", props.title);
@@ -40,7 +44,7 @@ const DiaryItem: React.FC<DiaryItemProps> = (props) => {
             <p className="text-[1em] ">{props.timestamp} </p>
 
             <div className="flex">
-              <p className="italic text-[black] ">{props.type}</p>
+              <p className="italic text-[black] ">{checked ? "Public" : "Private"}</p>
               <FontAwesomeIcon
                 className={`text-[1em] text-[${lockIconColor}] mt-1 mx-2`}
                 icon={faLock}

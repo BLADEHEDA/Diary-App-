@@ -24,7 +24,7 @@ const DiaryItem: React.FC<DiaryItemProps> = (props) => {
     setChecked(checked);
     onPrivacyToggle(id, checked); // Update the privacy status in the Home component
   };
-  const lockIconColor = props.type === "Public" ? "red" : "yellow";
+  const lockIconColor = props.type === "Public" ? "red" : "green";
 
     // Perform the delete action here
   const handleDelete = () => {
@@ -49,6 +49,10 @@ const DiaryItem: React.FC<DiaryItemProps> = (props) => {
                 className={`text-[1em] text-[${lockIconColor}] mt-1 mx-2`}
                 icon={faLock}
               />
+                    <FontAwesomeIcon
+                    className={`text-[1em] text-[${lockIconColor}] mt-1 mx-2`}
+                    icon={faLock}
+                  />
               <p className="mt-1">
                 <Switch
                   onChange={handleChange}

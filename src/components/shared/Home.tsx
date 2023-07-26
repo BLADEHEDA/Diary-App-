@@ -4,7 +4,7 @@ import DiaryItem from '../Home/DiaryItem';
 import HomeHeader from '../Home/HomeHeader';
 import Search from './Search';
 import { db } from '../../firebase/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs,updateDoc,doc,deleteDoc } from 'firebase/firestore';
 import book from "../../assets/pic2.png"
 import MoonLoader from "react-spinners/ClipLoader";
 import vactor from "../../assets/Vector.png"
@@ -44,16 +44,30 @@ const Home = () => {
   useEffect(() => {
     fetchPost();
   }, []);
+    // Create a function to update the Firestore document with the new privacy status
+    const updateDiaryPrivacyStatus = async (id: string, isPublic: boolean) => {
+      try {
+
+        const docRef = doc(db, 'diaryEntries', id); // Assuming 'diaryEntries' is the collection name
+        await updateDoc(docRef, { isPublic }); // Update the 'isPublic' field in Firestore
+      } catch (error) {
+        console.error('Error updating privacy status:', error);
+      }
+    };
+  
 
   // Handle the privacy toggle callback
-  const handlePrivacyToggle = (id: string, isPublic: boolean) => {
+    const handlePrivacyToggle = async (id: string, isPublic: boolean) => {
     // Update the diary array with the new privacy status
     const updatedDiary = diary.map((item) =>
       item.id === id ? { ...item, isPublic } : item
     );
     setDiary(updatedDiary);
+    console.log('successful update');
+    
+       // Update the Firestore document with the new privacy status
+       await updateDiaryPrivacyStatus(id, isPublic);
   };
-  
 
   // handle the search functionality 
   const handleSearch = (searchText: string) => {
@@ -69,6 +83,21 @@ const Home = () => {
     setFilteredDiary(filteredData);
     setSelectedCategory(selectedCategory)
   };
+  // subjected to changes 
+
+  // Create a function to delete the diary item from Firestore
+  const deleteDiaryItem = async (id: string) => {
+    try {
+      const docRef = doc(db, 'diaryEntries', id);
+      await deleteDoc(docRef);
+      // After successful deletion, update the state to remove the deleted item
+      setDiary((prevDiary) => prevDiary.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error('Error deleting diary item:', error);
+    }
+  };
+
+  
   // display data  when  fetching from the Api 
   if(diary.length===0){
     return(
@@ -99,7 +128,8 @@ const Home = () => {
             id={item.id} // Pass the unique ID of the diary item
             isPublic={item.isPublic} // Pass the current privacy status
             onPrivacyToggle={handlePrivacyToggle} // Pass the callback function to handle the toggle
-          />
+            onDeleteDiaryItem={deleteDiaryItem} // Pass the function to handle deletion
+            />
         ))}
       </section>
     </main>

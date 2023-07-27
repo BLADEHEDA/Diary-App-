@@ -37,13 +37,13 @@ const Home = () => {
       setDiary(newData);
       setFilteredDiary(newData);
 
-      console.log(newData);
+      // console.log(newData);
     });
   };
 
   useEffect(() => {
     fetchPost();
-  }, []);
+  }, [diary]);
     // Create a function to update the Firestore document with the new privacy status
     const updateDiaryPrivacyStatus = async (id: string, isPublic: boolean) => {
       try {
@@ -113,7 +113,7 @@ const Home = () => {
       <Navbar head="New entry" vector={localStorage.getItem('pic') || vactor} />
       <section className="px-3">
         <HomeHeader />
-        <Search onSearch={handleSearch} onCategorySelect={handleSearch} />
+        <Search onSearch={handleSearch} onCategorySelect={handleSearch} diary={diary} />
         {filteredDiary.map((item) => (
           <DiaryItem
             key={item.id}

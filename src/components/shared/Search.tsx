@@ -9,7 +9,7 @@ interface SearchProps {
   onCategorySelect: (category: string) => void; // Add the new prop to handle category selection
 }
 
-const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
+const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect,diary}) => {
   const [searchText, setSearchText] = useState('');
   const [ show , setShow ]= useState(false);
   // State to control Filtermodal
@@ -32,13 +32,17 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
   }
   // handle the select category filter
   const handleShowFilterModal = () => {
+    // console.log('diaryEntry states:', diary);
+    
     setShowFilterModal(true);
+
   };
 
   // definethe function to handel the filter by category 
   const handleCategorySelect = (category: string) => {
     onCategorySelect(category);
     setShow(false);
+    // the logic to search filter the data from the Api would get it nhere , 
   };
 
   return (
@@ -81,7 +85,7 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect}) => {
         </div>
         }
         {/* hide and show the select category filter modal */}
-        {showFilterModal && <Filtermodal onClose={() => setShowFilterModal(false)} />}
+        {showFilterModal && <Filtermodal onClose={() => setShowFilterModal(false)} diary={diary} />}
             </section>
       </section>
       <div className="border-b mx-3 border-[black] mb-5"></div>

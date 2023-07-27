@@ -37,7 +37,7 @@ const Home = () => {
       setDiary(newData);
       setFilteredDiary(newData);
 
-      console.log(newData);
+      // console.log(newData);
     });
   };
 

@@ -9,9 +9,20 @@ const Filtermodal: React.FC<FiltermodalProps> = ({ onClose,diary }) => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [category, setCategory] = useState("All");
+  const [filtered, setFiltered  ] = useState(diary)
 
   const handleFilter = () => {
-    const filtered = 
+
+      const filteredDiaries = diary.filter((filteredEntry) => filteredEntry.category.trim() === category.trim());
+      if( filteredDiaries.length ===0 ){
+        console.log('No Results');
+        
+      }
+      else{
+        setFiltered(filteredDiaries)        
+        console.log('Filterd data ', filteredDiaries);
+      }
+
     console.log("Start Date:", startDate);
     console.log("End Date:", endDate);
     console.log("Category:", category);

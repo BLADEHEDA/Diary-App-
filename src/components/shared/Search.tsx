@@ -32,7 +32,7 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect,diary}) => {
   }
   // handle the select category filter
   const handleShowFilterModal = () => {
-    console.log('diaryEntry states:', diary);
+    // console.log('diaryEntry states:', diary);
     
     setShowFilterModal(true);
 

@@ -2,18 +2,21 @@ import React, { useState } from "react";
 
 type FiltermodalProps = {
   onClose: () => void;
+  diary:string;
 };
 
-const Filtermodal: React.FC<FiltermodalProps> = ({ onClose }) => {
+const Filtermodal: React.FC<FiltermodalProps> = ({ onClose,diary }) => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [category, setCategory] = useState("All");
 
   const handleFilter = () => {
-    // Implement your filtering logic here based on the selected options
+    
     console.log("Start Date:", startDate);
     console.log("End Date:", endDate);
     console.log("Category:", category);
+    console.log('diary state ', diary );
+    
     onClose();
   };
 

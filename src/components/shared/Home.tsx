@@ -113,7 +113,7 @@ const Home = () => {
       <Navbar head="New entry" vector={localStorage.getItem('pic') || vactor} />
       <section className="px-3">
         <HomeHeader />
-        <Search onSearch={handleSearch} onCategorySelect={handleSearch} />
+        <Search onSearch={handleSearch} onCategorySelect={handleSearch} diary={diary} />
         {filteredDiary.map((item) => (
           <DiaryItem
             key={item.id}

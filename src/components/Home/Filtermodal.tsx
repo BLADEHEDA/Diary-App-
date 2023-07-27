@@ -11,7 +11,7 @@ const Filtermodal: React.FC<FiltermodalProps> = ({ onClose,diary }) => {
   const [category, setCategory] = useState("All");
 
   const handleFilter = () => {
-    
+    const filtered = 
     console.log("Start Date:", startDate);
     console.log("End Date:", endDate);
     console.log("Category:", category);

@@ -43,7 +43,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchPost();
-  }, []);
+  }, [diary]);
     // Create a function to update the Firestore document with the new privacy status
     const updateDiaryPrivacyStatus = async (id: string, isPublic: boolean) => {
       try {

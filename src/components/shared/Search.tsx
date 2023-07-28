@@ -33,17 +33,20 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect,diary}) => {
   // handle the select category filter
   const handleShowFilterModal = () => {
     // console.log('diaryEntry states:', diary);
-    
     setShowFilterModal(true);
-
+    // getFiltered()
   };
 
   // definethe function to handel the filter by category 
   const handleCategorySelect = (category: string) => {
     onCategorySelect(category);
     setShow(false);
-    // the logic to search filter the data from the Api would get it nhere , 
   };
+// create a function ot get states from the child component 
+  const getFiltered=(data)=>{
+console.log('gotten from  FilterModal ,child component ' , data);
+
+  }
 
   return (
     <main>
@@ -85,7 +88,11 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect,diary}) => {
         </div>
         }
         {/* hide and show the select category filter modal */}
-        {showFilterModal && <Filtermodal onClose={() => setShowFilterModal(false)} diary={diary} />}
+        {showFilterModal && <Filtermodal onClose={() => setShowFilterModal(false)} 
+        diary={diary}
+        // subjected to changes 
+        onFilter={getFiltered}
+        />}
             </section>
       </section>
       <div className="border-b mx-3 border-[black] mb-5"></div>

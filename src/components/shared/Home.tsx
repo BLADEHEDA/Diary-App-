@@ -43,7 +43,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchPost();
-  }, [diary]);
+  }, []);
     // Create a function to update the Firestore document with the new privacy status
     const updateDiaryPrivacyStatus = async (id: string, isPublic: boolean) => {
       try {
@@ -83,8 +83,6 @@ const Home = () => {
     setFilteredDiary(filteredData);
     setSelectedCategory(selectedCategory)
   };
-  // subjected to changes 
-
   // Create a function to delete the diary item from Firestore
   const deleteDiaryItem = async (id: string) => {
     try {
@@ -96,7 +94,9 @@ const Home = () => {
       console.error('Error deleting diary item:', error);
     }
   };
-
+  // subjected to changes 
+  // define the states to the data received from the child account 
+    // const[filterdData , setfilteredData  ]=useState()
   
   // display data  when  fetching from the Api 
   if(diary.length===0){

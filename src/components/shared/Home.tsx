@@ -94,18 +94,42 @@ const Home = () => {
       console.error('Error deleting diary item:', error);
     }
   };
-  // subjected to changes 
-  // define the states to the data received from the child account 
-    // const[filterdData , setfilteredData  ]=useState()
+// subjected to changes , receive data from parwnt that was passed from grand child 
+  const getfilterdData = (filterdata)=>{
+    console.log('gotten from grandChild:', filterdata);
+    // setDiary(filterdata)
+    setFilteredDiary(filterdata)
+    console.log('observe the value of diary',diary);
+    console.log('observe the value of filterddiary',filterdata);
+  }
   
   // display data  when  fetching from the Api 
-  if(diary.length===0){
-    return(
-      <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
-         <MoonLoader color="black"  size={100} />
-      </div>
-    ) 
-    } 
+  // if(diary.length===0){
+  //   return(
+  //     <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
+  //        <MoonLoader color="black"  size={100} />
+  //     </div>
+  //   ) 
+  //   } 
+    // display information when nothing is gotten from the filtering 
+   if (diary.length===0){
+      return(
+        <main className="bg-[white] mb-[3em] ">
+          <Navbar head="New entry" vector={localStorage.getItem('pic') || vactor} />
+          <section className="px-3">
+            <HomeHeader />
+            <Search onSearch={handleSearch} onCategorySelect={handleSearch} diary={diary}
+            // onFiltered={getfilterdData}
+            />
+            
+          <div className="fixed inset-0 flex justify-center items-center 
+          z-50 bg-black bg-opacity-0 text-[red]">
+          <MoonLoader color="black"  size={100} />
+        </div>
+          </section>
+        </main>
+      )
+    }
 
   return (
     <main className="bg-[white] mb-[3em] ">
@@ -113,7 +137,9 @@ const Home = () => {
       <Navbar head="New entry" vector={localStorage.getItem('pic') || vactor} />
       <section className="px-3">
         <HomeHeader />
-        <Search onSearch={handleSearch} onCategorySelect={handleSearch} diary={diary} />
+        <Search onSearch={handleSearch} onCategorySelect={handleSearch} diary={diary}
+        onFiltered={getfilterdData}
+        />
         {filteredDiary.map((item) => (
           <DiaryItem
             key={item.id}

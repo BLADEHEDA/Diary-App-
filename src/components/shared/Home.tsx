@@ -10,15 +10,14 @@ import MoonLoader from "react-spinners/ClipLoader";
 import vactor from "../../assets/Vector.png"
 // define the types to be used 
 
-interface DiaryEntry {
+export interface DiaryEntry {
   id: string;
   category: string;
   description: string;
   selectedFile: string;
   date: string;
   isPublic: boolean;
-  Startdate
-  : string; 
+  Startdate: string;
 }
 
 const Home = () => {
@@ -94,32 +93,21 @@ const Home = () => {
       console.error('Error deleting diary item:', error);
     }
   };
-// subjected to changes , receive data from parwnt that was passed from grand child 
-  const getfilterdData = (filterdata)=>{
-    console.log('gotten from grandChild:', filterdata);
-    // setDiary(filterdata)
+// callback fxn to receive stae as prop from  child componenr 
+const getfilterdData = (filterdata: DiaryEntry[]) => {
+    console.log('state  gotten from grandChild to grandParewnt:', filterdata);
     setFilteredDiary(filterdata)
-    console.log('observe the value of diary',diary);
-    console.log('observe the value of filterddiary',filterdata);
   }
   
-  // display data  when  fetching from the Api 
-  // if(diary.length===0){
-  //   return(
-  //     <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
-  //        <MoonLoader color="black"  size={100} />
-  //     </div>
-  //   ) 
-  //   } 
-    // display information when nothing is gotten from the filtering 
+  // display loader while fetching from the Api 
    if (diary.length===0){
       return(
         <main className="bg-[white] mb-[3em] ">
           <Navbar head="New entry" vector={localStorage.getItem('pic') || vactor} />
           <section className="px-3">
             <HomeHeader />
-            <Search onSearch={handleSearch} onCategorySelect={handleSearch} diary={diary}
-            // onFiltered={getfilterdData}
+            <Search onSearch={handleSearch}  diary={diary}
+            onFiltered={getfilterdData}
             />
             
           <div className="fixed inset-0 flex justify-center items-center 
@@ -130,17 +118,21 @@ const Home = () => {
         </main>
       )
     }
-
   return (
     <main className="bg-[white] mb-[3em] ">
     {/* conditionally display a default image in case of logged  */}
       <Navbar head="New entry" vector={localStorage.getItem('pic') || vactor} />
       <section className="px-3">
         <HomeHeader />
-        <Search onSearch={handleSearch} onCategorySelect={handleSearch} diary={diary}
+        <Search onSearch={handleSearch} diary={diary}
         onFiltered={getfilterdData}
         />
-        {filteredDiary.map((item) => (
+        { filteredDiary.length===0 ?(
+         <div className="flex justify-center items-center h-[400px] text-2xl font-bold">
+         NO RESULTS
+        </div>
+        ):(
+        filteredDiary.map((item) => (
           <DiaryItem
             key={item.id}
             src={item.selectedFile || book}
@@ -149,14 +141,13 @@ const Home = () => {
             type={item.isPublic ? 'Public' : 'Private'}
             content={item.description}
             timestamp={item.Startdate} // Render the timestamp
-            // Startdate={item.Startdate}
-            // subjected to changes
             id={item.id} // Pass the unique ID of the diary item
             isPublic={item.isPublic} // Pass the current privacy status
             onPrivacyToggle={handlePrivacyToggle} // Pass the callback function to handle the toggle
             onDeleteDiaryItem={deleteDiaryItem} // Pass the function to handle deletion
             />
-        ))}
+            ))
+            )}
       </section>
     </main>
   );

@@ -3,15 +3,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import Filtermodal from '../Home/Filtermodal';
 
-// Define the data  types 
+// Define the data types
+interface DiaryEntry {
+  id: string;
+  category: string;
+  description: string;
+  selectedFile: string;
+  date: string;
+  isPublic: boolean;
+  Startdate: string;
+}
 interface SearchProps {
   onSearch: (searchText: string) => void;
-  onCategorySelect: (category: string) => void; // Add the new prop to handle category selection
+  diary: DiaryEntry[]; // Add the diary prop with the correct type
+  onFiltered: (data: DiaryEntry[]) => void; // Add the new prop to handle category selection
 }
 
-const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect,diary,onFiltered}) => {
+const Search: React.FC<SearchProps> = ({ onSearch,diary,onFiltered}) => {
   const [searchText, setSearchText] = useState('');
-  const [ show , setShow ]= useState(false);
+
   // State to control Filtermodal
   const [showFilterModal, setShowFilterModal] = useState(false); 
 
@@ -19,31 +29,18 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect,diary,onFilte
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearchText(value);
-    // onSearch(value); //pass the value to the parent component where the component is reused
   };
-// defin the funvtion to handle the search functionality 
+// define the to get the states from the the parent coponet 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSearch(searchText);
   };
-  //handle the hide and show of the categories 
-  const handleShow=()=>{
-    setShow(!show);
-  }
   // handle the select category filter
   const handleShowFilterModal = () => {
-    // console.log('diaryEntry states:', diary);
     setShowFilterModal(true);
-    // getFiltered()
-  };
-
-  // definethe function to handel the filter by category 
-  const handleCategorySelect = (category: string) => {
-    onCategorySelect(category);
-    setShow(false);
   };
 // create a function ot get states from the child component 
-  const getFiltered=(data)=>{
+const getFiltered = (data: DiaryEntry[]) => {
 console.log('gotten from  FilterModal ,child component ' , data);
 // Send this data to the parent compoonent (Home)
 onFiltered(data)
@@ -69,25 +66,9 @@ onFiltered(data)
         {/* </div> */}
         </form>
        <section className='flex' >  
-        <div className="" onClick={handleShow} >
-          <FontAwesomeIcon className="text-[1.4em]" icon={faFilter} />
-        </div>
-        {/* second filter */}
         <div className="" onClick={handleShowFilterModal}  >
           <FontAwesomeIcon className="text-[1.4em]" icon={faFilter} />
         </div>
-    {/* hide and show the categories involved  */}
-        { show  &&  
-        <div className=" options absolute top-[11em] right-[1em]  pl-2 pr-5 bg-[white] z-[999] font-[500]  ">
-          <div className="option cursor-pointer " onClick={() => handleCategorySelect('Fun')}>Fun</div>
-          <div className="option cursor-pointer " onClick={() => handleCategorySelect('Home')}>Home</div>
-          <div className="option cursor-pointer" onClick={() => handleCategorySelect('Family')}>Family</div>
-          <div className="option cursor-pointer" onClick={() => handleCategorySelect('Spiritual')}>Spiritual</div>
-          <div className="option cursor-pointer" onClick={() => handleCategorySelect('Health')}>Health</div>
-          <div className="option cursor-pointer" onClick={() => handleCategorySelect('Work')}>Work</div>
-          <div className="option cursor-pointer" onClick={() => handleCategorySelect('others')}>Others</div>
-        </div>
-        }
         {/* hide and show the select category filter modal */}
         {showFilterModal && <Filtermodal onClose={() => setShowFilterModal(false)} 
         diary={diary}

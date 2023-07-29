@@ -32,15 +32,7 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect,diary,onFilte
   }
   // handle the select category filter
   const handleShowFilterModal = () => {
-    // console.log('diaryEntry states:', diary);
     setShowFilterModal(true);
-    // getFiltered()
-  };
-
-  // definethe function to handel the filter by category 
-  const handleCategorySelect = (category: string) => {
-    onCategorySelect(category);
-    setShow(false);
   };
 // create a function ot get states from the child component 
   const getFiltered=(data)=>{
@@ -69,25 +61,9 @@ onFiltered(data)
         {/* </div> */}
         </form>
        <section className='flex' >  
-        <div className="" onClick={handleShow} >
-          <FontAwesomeIcon className="text-[1.4em]" icon={faFilter} />
-        </div>
-        {/* second filter */}
         <div className="" onClick={handleShowFilterModal}  >
           <FontAwesomeIcon className="text-[1.4em]" icon={faFilter} />
         </div>
-    {/* hide and show the categories involved  */}
-        { show  &&  
-        <div className=" options absolute top-[11em] right-[1em]  pl-2 pr-5 bg-[white] z-[999] font-[500]  ">
-          <div className="option cursor-pointer " onClick={() => handleCategorySelect('Fun')}>Fun</div>
-          <div className="option cursor-pointer " onClick={() => handleCategorySelect('Home')}>Home</div>
-          <div className="option cursor-pointer" onClick={() => handleCategorySelect('Family')}>Family</div>
-          <div className="option cursor-pointer" onClick={() => handleCategorySelect('Spiritual')}>Spiritual</div>
-          <div className="option cursor-pointer" onClick={() => handleCategorySelect('Health')}>Health</div>
-          <div className="option cursor-pointer" onClick={() => handleCategorySelect('Work')}>Work</div>
-          <div className="option cursor-pointer" onClick={() => handleCategorySelect('others')}>Others</div>
-        </div>
-        }
         {/* hide and show the select category filter modal */}
         {showFilterModal && <Filtermodal onClose={() => setShowFilterModal(false)} 
         diary={diary}

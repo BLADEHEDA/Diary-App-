@@ -10,7 +10,7 @@ import MoonLoader from "react-spinners/ClipLoader";
 import vactor from "../../assets/Vector.png"
 // define the types to be used 
 
-interface DiaryEntry {
+export interface DiaryEntry {
   id: string;
   category: string;
   description: string;

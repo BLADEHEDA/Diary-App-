@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { DiaryEntry } from "../shared/Home"; 
 
 type FiltermodalProps = {
   onClose: () => void;
-  diary: string;
+  diary: DiaryEntry[]; // Change the type to an array of DiaryEntry
+  onFilter: (filteredData: DiaryEntry[]) => void; // Add the onFilter prop
 };
 const Filtermodal: React.FC<FiltermodalProps> = ({ onClose,diary,
   onFilter
@@ -10,13 +12,13 @@ const Filtermodal: React.FC<FiltermodalProps> = ({ onClose,diary,
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [category, setCategory] = useState("All");
-  const [filtered, setFiltered  ] = useState(diary)
+  const [filtered, setFiltered] = useState<DiaryEntry[]>(diary); // Use DiaryEntry[] as the type
 
   const handleFilter = () => {
 
       const filteredDiaries = diary.filter((filteredEntry) => filteredEntry.category.trim() === category.trim());
       if( filteredDiaries.length ===0 ){
-        console.log('No Results');
+        console.log('No Results',filtered);
         onFilter(filteredDiaries) 
       }
       else{

@@ -6,12 +6,11 @@ import Filtermodal from '../Home/Filtermodal';
 // Define the data  types 
 interface SearchProps {
   onSearch: (searchText: string) => void;
-  onCategorySelect: (category: string) => void; // Add the new prop to handle category selection
+  onFiltered: (category: string) => void; // Add the new prop to handle category selection
 }
 
-const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect,diary,onFiltered}) => {
+const Search: React.FC<SearchProps> = ({ onSearch,diary,onFiltered}) => {
   const [searchText, setSearchText] = useState('');
-  const [ show , setShow ]= useState(false);
   // State to control Filtermodal
   const [showFilterModal, setShowFilterModal] = useState(false); 
 
@@ -26,10 +25,6 @@ const Search: React.FC<SearchProps> = ({ onSearch,onCategorySelect,diary,onFilte
     e.preventDefault();
     onSearch(searchText);
   };
-  //handle the hide and show of the categories 
-  const handleShow=()=>{
-    setShow(!show);
-  }
   // handle the select category filter
   const handleShowFilterModal = () => {
     setShowFilterModal(true);

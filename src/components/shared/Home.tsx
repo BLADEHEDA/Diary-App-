@@ -104,14 +104,6 @@ const Home = () => {
   }
   
   // display data  when  fetching from the Api 
-  // if(diary.length===0){
-  //   return(
-  //     <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-0">
-  //        <MoonLoader color="black"  size={100} />
-  //     </div>
-  //   ) 
-  //   } 
-    // display information when nothing is gotten from the filtering 
    if (diary.length===0){
       return(
         <main className="bg-[white] mb-[3em] ">
@@ -119,7 +111,7 @@ const Home = () => {
           <section className="px-3">
             <HomeHeader />
             <Search onSearch={handleSearch} onCategorySelect={handleSearch} diary={diary}
-            // onFiltered={getfilterdData}
+            onFiltered={getfilterdData}
             />
             
           <div className="fixed inset-0 flex justify-center items-center 
@@ -130,7 +122,28 @@ const Home = () => {
         </main>
       )
     }
-
+    // display information when nothing is gotten from the filtering 
+   else if (filteredDiary.length===0){
+      return(
+        <main className="bg-[white] mb-[3em] ">
+          <Navbar head="New entry" vector={localStorage.getItem('pic') || vactor} />
+          <section className="px-3">
+            {/* <HomeHeader /> */}
+            <Search 
+            onSearch={handleSearch} 
+            onCategorySelect={handleSearch} 
+            diary={diary}
+            onFiltered={getfilterdData}
+            />
+                        
+          <div className="fixed inset-0 flex justify-center items-center 
+          z-50 bg-black bg-opacity-0 text-[red]">
+            No Results
+        </div>
+          </section>
+        </main>
+      )
+   }
   return (
     <main className="bg-[white] mb-[3em] ">
     {/* conditionally display a default image in case of logged  */}
@@ -149,8 +162,6 @@ const Home = () => {
             type={item.isPublic ? 'Public' : 'Private'}
             content={item.description}
             timestamp={item.Startdate} // Render the timestamp
-            // Startdate={item.Startdate}
-            // subjected to changes
             id={item.id} // Pass the unique ID of the diary item
             isPublic={item.isPublic} // Pass the current privacy status
             onPrivacyToggle={handlePrivacyToggle} // Pass the callback function to handle the toggle

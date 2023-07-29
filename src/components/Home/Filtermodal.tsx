@@ -2,10 +2,11 @@ import React, { useState } from "react";
 
 type FiltermodalProps = {
   onClose: () => void;
-  diary:string;
+  diary: string;
 };
-
-const Filtermodal: React.FC<FiltermodalProps> = ({ onClose,diary }) => {
+const Filtermodal: React.FC<FiltermodalProps> = ({ onClose,diary,
+  onFilter
+ }) => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [category, setCategory] = useState("All");
@@ -16,13 +17,14 @@ const Filtermodal: React.FC<FiltermodalProps> = ({ onClose,diary }) => {
       const filteredDiaries = diary.filter((filteredEntry) => filteredEntry.category.trim() === category.trim());
       if( filteredDiaries.length ===0 ){
         console.log('No Results');
-        
+        onFilter(filteredDiaries) 
       }
       else{
         setFiltered(filteredDiaries)        
         console.log('Filterd data ', filteredDiaries);
+        onFilter(filteredDiaries) 
       }
-
+      // onFilter(filtered) 
     console.log("Start Date:", startDate);
     console.log("End Date:", endDate);
     console.log("Category:", category);

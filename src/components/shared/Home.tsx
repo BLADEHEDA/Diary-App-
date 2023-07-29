@@ -123,27 +123,26 @@ const Home = () => {
       )
     }
     // display information when nothing is gotten from the filtering 
-   else if (filteredDiary.length===0){
-      return(
-        <main className="bg-[white] mb-[3em] ">
-          <Navbar head="New entry" vector={localStorage.getItem('pic') || vactor} />
-          <section className="px-3">
-            {/* <HomeHeader /> */}
-            <Search 
-            onSearch={handleSearch} 
-            onCategorySelect={handleSearch} 
-            diary={diary}
-            onFiltered={getfilterdData}
-            />
+  //  else if (filteredDiary.length===0){
+  //     return(
+  //       <main className="bg-[white] mb-[3em] ">
+  //         <Navbar head="New entry" vector={localStorage.getItem('pic') || vactor} />
+  //         <section className="px-3">
+  //           {/* <HomeHeader /> */}
+  //           <Search 
+  //           onSearch={handleSearch} 
+  //           onCategorySelect={handleSearch} 
+  //           diary={diary}
+  //           onFiltered={getfilterdData}
+  //           />
                         
-          <div className="fixed inset-0 flex justify-center items-center 
-          z-50 bg-black bg-opacity-0 text-[red]">
-            No Results
-        </div>
-          </section>
-        </main>
-      )
-   }
+  //        <div className="flex justify-center items-center h-[400px] text-2xl font-bold">
+  //           NO RESULTS
+  //         </div>
+  //         </section>
+  //       </main>
+  //     )
+  //  }
   return (
     <main className="bg-[white] mb-[3em] ">
     {/* conditionally display a default image in case of logged  */}
@@ -153,7 +152,13 @@ const Home = () => {
         <Search onSearch={handleSearch} onCategorySelect={handleSearch} diary={diary}
         onFiltered={getfilterdData}
         />
-        {filteredDiary.map((item) => (
+        { filteredDiary.length===0 ?(
+         <div className="flex justify-center items-center h-[400px] text-2xl font-bold">
+         NO RESULTS
+         
+       </div>
+        ):(
+        filteredDiary.map((item) => (
           <DiaryItem
             key={item.id}
             src={item.selectedFile || book}
@@ -167,7 +172,8 @@ const Home = () => {
             onPrivacyToggle={handlePrivacyToggle} // Pass the callback function to handle the toggle
             onDeleteDiaryItem={deleteDiaryItem} // Pass the function to handle deletion
             />
-        ))}
+            ))
+            )}
       </section>
     </main>
   );

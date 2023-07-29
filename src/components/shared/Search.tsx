@@ -29,9 +29,8 @@ const Search: React.FC<SearchProps> = ({ onSearch,diary,onFiltered}) => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearchText(value);
-    // onSearch(value); //pass the value to the parent component where the component is reused
   };
-// defin the funvtion to handle the search functionality 
+// define the to get the states from the the parent coponet 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSearch(searchText);

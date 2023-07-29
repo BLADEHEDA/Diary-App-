@@ -17,8 +17,7 @@ export interface DiaryEntry {
   selectedFile: string;
   date: string;
   isPublic: boolean;
-  Startdate
-  : string; 
+  Startdate: string;
 }
 
 const Home = () => {
@@ -95,7 +94,7 @@ const Home = () => {
     }
   };
 // callback fxn to receive stae as prop from  child componenr 
-  const getfilterdData = (filterdata)=>{
+const getfilterdData = (filterdata: DiaryEntry[]) => {
     console.log('state  gotten from grandChild to grandParewnt:', filterdata);
     setFilteredDiary(filterdata)
   }
@@ -107,7 +106,7 @@ const Home = () => {
           <Navbar head="New entry" vector={localStorage.getItem('pic') || vactor} />
           <section className="px-3">
             <HomeHeader />
-            <Search onSearch={handleSearch} onCategorySelect={handleSearch} diary={diary}
+            <Search onSearch={handleSearch}  diary={diary}
             onFiltered={getfilterdData}
             />
             
@@ -125,7 +124,7 @@ const Home = () => {
       <Navbar head="New entry" vector={localStorage.getItem('pic') || vactor} />
       <section className="px-3">
         <HomeHeader />
-        <Search onSearch={handleSearch} onCategorySelect={handleSearch} diary={diary}
+        <Search onSearch={handleSearch} diary={diary}
         onFiltered={getfilterdData}
         />
         { filteredDiary.length===0 ?(
@@ -141,7 +140,7 @@ const Home = () => {
             // date={item.date}
             type={item.isPublic ? 'Public' : 'Private'}
             content={item.description}
-            // timestamp={item.Startdate} // Render the timestamp
+            timestamp={item.Startdate} // Render the timestamp
             id={item.id} // Pass the unique ID of the diary item
             isPublic={item.isPublic} // Pass the current privacy status
             onPrivacyToggle={handlePrivacyToggle} // Pass the callback function to handle the toggle

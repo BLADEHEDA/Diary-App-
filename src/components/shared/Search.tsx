@@ -3,14 +3,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import Filtermodal from '../Home/Filtermodal';
 
-// Define the data  types 
+// Define the data types
+interface DiaryEntry {
+  id: string;
+  category: string;
+  description: string;
+  selectedFile: string;
+  date: string;
+  isPublic: boolean;
+  Startdate: string;
+}
 interface SearchProps {
   onSearch: (searchText: string) => void;
-  onFiltered: (category: string) => void; // Add the new prop to handle category selection
+  diary: DiaryEntry[]; // Add the diary prop with the correct type
+  onFiltered: (data: DiaryEntry[]) => void; // Add the new prop to handle category selection
 }
 
 const Search: React.FC<SearchProps> = ({ onSearch,diary,onFiltered}) => {
   const [searchText, setSearchText] = useState('');
+
   // State to control Filtermodal
   const [showFilterModal, setShowFilterModal] = useState(false); 
 
@@ -30,7 +41,7 @@ const Search: React.FC<SearchProps> = ({ onSearch,diary,onFiltered}) => {
     setShowFilterModal(true);
   };
 // create a function ot get states from the child component 
-  const getFiltered=(data)=>{
+const getFiltered = (data: DiaryEntry[]) => {
 console.log('gotten from  FilterModal ,child component ' , data);
 // Send this data to the parent compoonent (Home)
 onFiltered(data)

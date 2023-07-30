@@ -15,7 +15,8 @@ export interface DiaryEntry {
   description: string;
   selectedFile: string;
   isPublic: boolean;
-  serverTimestamp: Date;
+  // serverTimestamp: Date;
+  date: { seconds: number; nanoseconds: number }; // Use the correct type for the date object
 }
 
 const Home = () => {
@@ -24,23 +25,61 @@ const Home = () => {
   const [filteredDiary, setFilteredDiary] = useState<DiaryEntry[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   
+  // const fetchPost = async () => {
+  //   await getDocs(collection(db, 'diaryEntries')).then((querySnapshot) => {
+  //     const newData = querySnapshot.docs.map((doc) => ({ 
+  //       ...doc.data(),
+  //       id: doc.id,
+  //     } as DiaryEntry));
+  //     // fetchImage();
+  //     setDiary(newData);
+  //     console.log('here is the data from the firestore ', newData);
+      
+  //     setFilteredDiary(newData);
+  //   });
+  // };
+  // subjected to changes 
   const fetchPost = async () => {
-    await getDocs(collection(db, 'diaryEntries')).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({ 
-        ...doc.data(),
-        id: doc.id,
-      } as DiaryEntry));
-      // fetchImage();
+    try {
+      const querySnapshot = await getDocs(collection(db, 'diaryEntries'));
+      const newData: DiaryEntry[] = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        const serverTimestamp = data.date ? data.date.seconds * 1000 : null; // Convert seconds to milliseconds
+
+        return {
+          ...data,
+          id: doc.id,
+          serverTimestamp: serverTimestamp,
+        };
+      });
       setDiary(newData);
       console.log('here is the data from the firestore ', newData);
-      
       setFilteredDiary(newData);
-    });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   useEffect(() => {
     fetchPost();
   }, []);
+  // subjectd to changs 
+    // Function to format the timestamp to "23 June 2023 @ 10:20" format
+    const formatTimestamp = (timestamp: number | null): string => {
+      if (!timestamp) return '';
+  
+      const date = new Date(timestamp);
+      const options = {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+      };
+  
+      return date.toLocaleDateString('en', options);
+    };
+  
     // Create a function to update the Firestore document with the new privacy status
     const updateDiaryPrivacyStatus = async (id: string, isPublic: boolean) => {
       try {
@@ -130,18 +169,30 @@ const getfilterdData = (filterdata: DiaryEntry[]) => {
         </div>
         ):(
         filteredDiary.map((item) => (
+          // <DiaryItem
+          //   key={item.id}
+          //   src={item.selectedFile || book}
+          //   title={item.category}
+          //   type={item.isPublic ? 'Public' : 'Private'}
+          //   content={item.description}
+          //   timestamp={item.date.nanoseconds} // Use the server timestamp
+          //   id={item.id} // Pass the unique ID of the diary item
+          //   isPublic={item.isPublic} // Pass the current privacy status
+          //   onPrivacyToggle={handlePrivacyToggle} // Pass the callback function to handle the toggle
+          //   onDeleteDiaryItem={deleteDiaryItem} // Pass the function to handle deletion
+          //   />
           <DiaryItem
-            key={item.id}
-            src={item.selectedFile || book}
-            title={item.category}
-            type={item.isPublic ? 'Public' : 'Private'}
-            content={item.description}
-            timestamp={item.date.nanoseconds} // Use the server timestamp
-            id={item.id} // Pass the unique ID of the diary item
-            isPublic={item.isPublic} // Pass the current privacy status
-            onPrivacyToggle={handlePrivacyToggle} // Pass the callback function to handle the toggle
-            onDeleteDiaryItem={deleteDiaryItem} // Pass the function to handle deletion
-            />
+          key={item.id}
+          src={item.selectedFile || book}
+          title={item.category}
+          type={item.isPublic ? 'Public' : 'Private'}
+          content={item.description}
+          timestamp={formatTimestamp(item.serverTimestamp)} // Use the formatted timestamp
+          id={item.id} // Pass the unique ID of the diary item
+          isPublic={item.isPublic} // Pass the current privacy status
+          onPrivacyToggle={handlePrivacyToggle} // Pass the callback function to handle the toggle
+          onDeleteDiaryItem={deleteDiaryItem} // Pass the function to handle deletion
+        />
             ))
             )}
       </section>

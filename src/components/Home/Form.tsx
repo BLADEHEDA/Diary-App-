@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, useEffect } from 'react';
 import Button from '../shared/Button';
 import Navbar from '../shared/Navbar';
 import { db } from '../../firebase/firebase';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, getDocs,serverTimestamp } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../firebase/firebase';
@@ -57,6 +57,7 @@ export const Form = () => {
           description,
           isPublic,
           selectedFile: downloadURL,
+          date: serverTimestamp(), // Include the serverTimestamp here
         };
       // upload the diaryEntries data to the firestore 
         await addDoc(collection(db, 'diaryEntries'), diaryEntry);
@@ -64,6 +65,8 @@ export const Form = () => {
         console.log('Data uploaded to Firebase successfully');
         setNewdiaryEntry(addnewdiary);
 
+        console.log('the diary Entry ', addnewdiary);
+        
         alert('Successfully Added Diary Entry');
         console.log('Category:', category);
         console.log('Description:', description);

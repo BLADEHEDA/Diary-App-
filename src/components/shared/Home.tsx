@@ -4,7 +4,7 @@ import DiaryItem from '../Home/DiaryItem';
 import HomeHeader from '../Home/HomeHeader';
 import Search from './Search';
 import { db } from '../../firebase/firebase';
-import { collection, getDocs,updateDoc,doc,deleteDoc } from 'firebase/firestore';
+import { collection, getDocs,updateDoc,doc,deleteDoc} from 'firebase/firestore';
 import book from "../../assets/pic2.png"
 import MoonLoader from "react-spinners/ClipLoader";
 import vactor from "../../assets/Vector.png"
@@ -14,9 +14,9 @@ export interface DiaryEntry {
   category: string;
   description: string;
   selectedFile: string;
-  date: string;
   isPublic: boolean;
-  Startdate: string;
+  // serverTimestamp: Date;
+  date: { seconds: number; nanoseconds: number }; // Use the correct type for the date object
 }
 
 const Home = () => {
@@ -24,24 +24,45 @@ const Home = () => {
   // States for the handle search functionality  and filter 
   const [filteredDiary, setFilteredDiary] = useState<DiaryEntry[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  
   const fetchPost = async () => {
-    await getDocs(collection(db, 'diaryEntries')).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({ 
-        ...doc.data(),
-        id: doc.id,
-             // Convert timestamp to a human-readable format
-        Startdate: doc.data().timestamp , // Convert timestamp to a human-readable format
-      } as DiaryEntry));
-      // fetchImage();
+    try {
+      const querySnapshot = await getDocs(collection(db, 'diaryEntries'));
+      const newData: DiaryEntry[] = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        const serverTimestamp = data.date ? data.date.seconds * 1000 : null; // Convert seconds to milliseconds
+
+        return {
+          ...data,
+          id: doc.id,
+          serverTimestamp: serverTimestamp,
+        };
+      });
       setDiary(newData);
+      console.log('here is the data from the firestore ', newData);
       setFilteredDiary(newData);
-    });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   useEffect(() => {
     fetchPost();
   }, []);
+    // Function to format the timestamp to "23 June 2023 @ 10:20" format
+    const formatTimestamp = (timestamp: number | null): string => {
+      if (!timestamp) return '';
+  
+      const date = new Date(timestamp);
+      const options = {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+      };
+      return date.toLocaleDateString('en', options);
+    };
+  
     // Create a function to update the Firestore document with the new privacy status
     const updateDiaryPrivacyStatus = async (id: string, isPublic: boolean) => {
       try {
@@ -132,17 +153,17 @@ const getfilterdData = (filterdata: DiaryEntry[]) => {
         ):(
         filteredDiary.map((item) => (
           <DiaryItem
-            key={item.id}
-            src={item.selectedFile || book}
-            title={item.category}
-            type={item.isPublic ? 'Public' : 'Private'}
-            content={item.description}
-            timestamp={item.Startdate} // Render the timestamp
-            id={item.id} // Pass the unique ID of the diary item
-            isPublic={item.isPublic} // Pass the current privacy status
-            onPrivacyToggle={handlePrivacyToggle} // Pass the callback function to handle the toggle
-            onDeleteDiaryItem={deleteDiaryItem} // Pass the function to handle deletion
-            />
+          key={item.id}
+          src={item.selectedFile || book}
+          title={item.category}
+          type={item.isPublic ? 'Public' : 'Private'}
+          content={item.description}
+          timestamp={formatTimestamp(item.serverTimestamp)} // Use the formatted timestamp
+          id={item.id} // Pass the unique ID of the diary item
+          isPublic={item.isPublic} // Pass the current privacy status
+          onPrivacyToggle={handlePrivacyToggle} // Pass the callback function to handle the toggle
+          onDeleteDiaryItem={deleteDiaryItem} // Pass the function to handle deletion
+        />
             ))
             )}
       </section>

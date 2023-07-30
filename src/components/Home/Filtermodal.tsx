@@ -50,7 +50,7 @@ const Filtermodal: React.FC<FiltermodalProps> = ({ onClose,diary,
             </label>
             <select
               id="category"
-              className="w-full border border-black rounded px-2 py-3 bg.[white]  "
+              className="w-full border border-black rounded px-2 py-3 bg-[white]  "
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
@@ -71,7 +71,7 @@ const Filtermodal: React.FC<FiltermodalProps> = ({ onClose,diary,
             <input
               type="date"
               id="startDate"
-              className="w-full border border-black rounded px-2 py-2"
+              className="w-full border border-black rounded px-2 py-2 bg-[white] "
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
@@ -83,7 +83,7 @@ const Filtermodal: React.FC<FiltermodalProps> = ({ onClose,diary,
             <input
               type="date"
               id="endDate"
-              className="w-full border border-black rounded px-2 py-2"
+              className="w-full border border-black rounded px-2 py-2 bg-[white] "
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
             />

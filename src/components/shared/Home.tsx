@@ -48,20 +48,40 @@ const Home = () => {
   useEffect(() => {
     fetchPost();
   }, []);
-    // Function to format the timestamp to "23 June 2023 @ 10:20" format
-    const formatTimestamp = (timestamp: number | null): string => {
-      if (!timestamp) return '';
+    // // Function to format the timestamp to "23 June 2023 @ 10:20" format
+    // const formatTimestamp = (timestamp: number | null): string => {
+    //   if (!timestamp) return '';
   
-      const date = new Date(timestamp);
-      const options = {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-      };
-      return date.toLocaleDateString('en', options);
-    };
+    //   const date = new Date(timestamp);
+    //   const options = {
+    //     day: 'numeric',
+    //     month: 'long',
+    //     year: 'numeric',
+    //     hour: 'numeric',
+    //     minute: 'numeric',
+    //   };
+    //   return date.toLocaleDateString('en', options);
+    // };
+    // Function to format the timestamp to "23 June 2023 @ 10:20" format
+const formatTimestamp = (timestamp: number | null): string => {
+  if (!timestamp) return '';
+
+  const date = new Date(timestamp);
+  const day = date.getDate();
+  const monthIndex = date.getMonth();
+  const year = date.getFullYear();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June', 'July',
+    'August', 'September', 'October', 'November', 'December',
+  ];
+
+  const formattedDate = `${day} ${months[monthIndex]} ${year} @ ${hours}:${minutes.toString().padStart(2, '0')}`;
+  return formattedDate;
+};
+
   
     // Create a function to update the Firestore document with the new privacy status
     const updateDiaryPrivacyStatus = async (id: string, isPublic: boolean) => {

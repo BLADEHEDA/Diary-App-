@@ -36,8 +36,6 @@ const Home = () => {
       // fetchImage();
       setDiary(newData);
       setFilteredDiary(newData);
-
-      // console.log(newData);
     });
   };
 
@@ -53,8 +51,7 @@ const Home = () => {
       } catch (error) {
         console.error('Error updating privacy status:', error);
       }
-    };
-  
+    }; 
 
   // Handle the privacy toggle callback
     const handlePrivacyToggle = async (id: string, isPublic: boolean) => {
@@ -138,7 +135,6 @@ const getfilterdData = (filterdata: DiaryEntry[]) => {
             key={item.id}
             src={item.selectedFile || book}
             title={item.category}
-            // date={item.date}
             type={item.isPublic ? 'Public' : 'Private'}
             content={item.description}
             timestamp={item.Startdate} // Render the timestamp

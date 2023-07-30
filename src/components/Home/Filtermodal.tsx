@@ -26,7 +26,6 @@ const Filtermodal: React.FC<FiltermodalProps> = ({ onClose,diary,
         console.log('Filterd data ', filteredDiaries);
         onFilter(filteredDiaries) 
       }
-      // onFilter(filtered) 
     console.log("Start Date:", startDate);
     console.log("End Date:", endDate);
     console.log("Category:", category);

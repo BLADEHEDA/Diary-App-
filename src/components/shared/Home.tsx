@@ -24,21 +24,6 @@ const Home = () => {
   // States for the handle search functionality  and filter 
   const [filteredDiary, setFilteredDiary] = useState<DiaryEntry[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  
-  // const fetchPost = async () => {
-  //   await getDocs(collection(db, 'diaryEntries')).then((querySnapshot) => {
-  //     const newData = querySnapshot.docs.map((doc) => ({ 
-  //       ...doc.data(),
-  //       id: doc.id,
-  //     } as DiaryEntry));
-  //     // fetchImage();
-  //     setDiary(newData);
-  //     console.log('here is the data from the firestore ', newData);
-      
-  //     setFilteredDiary(newData);
-  //   });
-  // };
-  // subjected to changes 
   const fetchPost = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'diaryEntries'));
@@ -63,7 +48,6 @@ const Home = () => {
   useEffect(() => {
     fetchPost();
   }, []);
-  // subjectd to changs 
     // Function to format the timestamp to "23 June 2023 @ 10:20" format
     const formatTimestamp = (timestamp: number | null): string => {
       if (!timestamp) return '';
@@ -76,7 +60,6 @@ const Home = () => {
         hour: 'numeric',
         minute: 'numeric',
       };
-  
       return date.toLocaleDateString('en', options);
     };
   

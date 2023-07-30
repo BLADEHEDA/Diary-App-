@@ -9,7 +9,6 @@ import book from "../../assets/pic2.png"
 import MoonLoader from "react-spinners/ClipLoader";
 import vactor from "../../assets/Vector.png"
 // define the types to be used 
-
 export interface DiaryEntry {
   id: string;
   category: string;
@@ -28,8 +27,10 @@ const Home = () => {
   
   const fetchPost = async () => {
     await getDocs(collection(db, 'diaryEntries')).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({ ...doc.data(),
+      const newData = querySnapshot.docs.map((doc) => ({ 
+        ...doc.data(),
         id: doc.id,
+             // Convert timestamp to a human-readable format
         Startdate: doc.data().timestamp , // Convert timestamp to a human-readable format
       } as DiaryEntry));
       // fetchImage();

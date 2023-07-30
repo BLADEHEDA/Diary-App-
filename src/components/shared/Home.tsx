@@ -48,20 +48,6 @@ const Home = () => {
   useEffect(() => {
     fetchPost();
   }, []);
-    // // Function to format the timestamp to "23 June 2023 @ 10:20" format
-    // const formatTimestamp = (timestamp: number | null): string => {
-    //   if (!timestamp) return '';
-  
-    //   const date = new Date(timestamp);
-    //   const options = {
-    //     day: 'numeric',
-    //     month: 'long',
-    //     year: 'numeric',
-    //     hour: 'numeric',
-    //     minute: 'numeric',
-    //   };
-    //   return date.toLocaleDateString('en', options);
-    // };
     // Function to format the timestamp to "23 June 2023 @ 10:20" format
 const formatTimestamp = (timestamp: number | null): string => {
   if (!timestamp) return '';

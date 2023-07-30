@@ -169,18 +169,6 @@ const getfilterdData = (filterdata: DiaryEntry[]) => {
         </div>
         ):(
         filteredDiary.map((item) => (
-          // <DiaryItem
-          //   key={item.id}
-          //   src={item.selectedFile || book}
-          //   title={item.category}
-          //   type={item.isPublic ? 'Public' : 'Private'}
-          //   content={item.description}
-          //   timestamp={item.date.nanoseconds} // Use the server timestamp
-          //   id={item.id} // Pass the unique ID of the diary item
-          //   isPublic={item.isPublic} // Pass the current privacy status
-          //   onPrivacyToggle={handlePrivacyToggle} // Pass the callback function to handle the toggle
-          //   onDeleteDiaryItem={deleteDiaryItem} // Pass the function to handle deletion
-          //   />
           <DiaryItem
           key={item.id}
           src={item.selectedFile || book}

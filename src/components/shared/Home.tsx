@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import DiaryItem from '../Home/DiaryItem';
 import HomeHeader from '../Home/HomeHeader';
-import Search from './Search';
+import Search from './Search';  
 import { db } from '../../firebase/firebase';
 import { collection, getDocs,updateDoc,doc,deleteDoc} from 'firebase/firestore';
 import book from "../../assets/pic2.png"
@@ -15,25 +15,31 @@ export interface DiaryEntry {
   description: string;
   selectedFile: string;
   isPublic: boolean;
-  // serverTimestamp: Date;
-  date: { seconds: number; nanoseconds: number }; // Use the correct type for the date object
+  date: { seconds: number; nanoseconds: number };
+  serverTimestamp: number | null; // Add serverTimestamp property to the DiaryEntry interface
 }
 
+
 const Home = () => {
-  const [diary, setDiary] = useState<DiaryEntry[]>([]); 
-  // States for the handle search functionality  and filter 
+  const [diary, setDiary] = useState<DiaryEntry[]>([]);
+  // States for the handle search functionality  and filter z
   const [filteredDiary, setFilteredDiary] = useState<DiaryEntry[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
+  // fetch the data from firestore 
   const fetchPost = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'diaryEntries'));
       const newData: DiaryEntry[] = querySnapshot.docs.map((doc) => {
         const data = doc.data();
-        const serverTimestamp = data.date ? data.date.seconds * 1000 : null; // Convert seconds to milliseconds
+        const serverTimestamp = data.date ? data.date.seconds * 1000 : null;
 
         return {
-          ...data,
           id: doc.id,
+          category: data.category,
+          description: data.description,
+          selectedFile: data.selectedFile,
+          isPublic: data.isPublic,
+          date: data.date,
           serverTimestamp: serverTimestamp,
         };
       });
@@ -45,11 +51,12 @@ const Home = () => {
     }
   };
 
+
   useEffect(() => {
     fetchPost();
   }, []);
     // Function to format the timestamp to "23 June 2023 @ 10:20" format
-const formatTimestamp = (timestamp: number | null): string => {
+    const formatTimestamp = (timestamp: number | null): string => {
   if (!timestamp) return '';
 
   const date = new Date(timestamp);
@@ -119,10 +126,11 @@ const formatTimestamp = (timestamp: number | null): string => {
     }
   };
 // callback fxn to receive stae as prop from  child componenr 
-const getfilterdData = (filterdata: DiaryEntry[]) => {
-    console.log('state  gotten from grandChild to grandParewnt:', filterdata);
-    setFilteredDiary(filterdata)
-  }
+const getfilterdData = (filterData: DiaryEntry[]) => {
+  console.log('state gotten from grandChild to grandParent:', filterData);
+  setFilteredDiary(filterData);
+};
+
   
   // display loader while fetching from the Api 
    if (diary.length===0){

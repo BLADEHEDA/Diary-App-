@@ -2,17 +2,8 @@ import React, { ChangeEvent, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import Filtermodal from '../Home/Filtermodal';
+import { DiaryEntry } from './Home';
 
-// Define the data types
-interface DiaryEntry {
-  id: string;
-  category: string;
-  description: string;
-  selectedFile: string;
-  date: string;
-  isPublic: boolean;
-  Startdate: string;
-}
 interface SearchProps {
   onSearch: (searchText: string) => void;
   diary: DiaryEntry[]; // Add the diary prop with the correct type
@@ -21,7 +12,6 @@ interface SearchProps {
 
 const Search: React.FC<SearchProps> = ({ onSearch,diary,onFiltered}) => {
   const [searchText, setSearchText] = useState('');
-
   // State to control Filtermodal
   const [showFilterModal, setShowFilterModal] = useState(false); 
 

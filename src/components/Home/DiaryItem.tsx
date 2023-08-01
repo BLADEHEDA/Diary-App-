@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import Switch from "react-switch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faLock } from "@fortawesome/free-solid-svg-icons";
 import Modal from "./Modal"; // Assuming the Modal component is in the same directory
+
 
 type DiaryItemProps = {
   src: string;
@@ -33,6 +34,7 @@ const DiaryItem: React.FC<DiaryItemProps> = (props) => {
     // receiive the dunction from the duaryItem component
     props.onDeleteDiaryItem(props.id); // Call the callback function to delete the diary item
   };
+
   
 
   return (

@@ -19,7 +19,6 @@ export interface DiaryEntry {
   serverTimestamp: number | null; // Add serverTimestamp property to the DiaryEntry interface
 }
 
-
 const Home = () => {
   const [diary, setDiary] = useState<DiaryEntry[]>([]);
   // States for the handle search functionality  and filter z
@@ -51,7 +50,6 @@ const Home = () => {
     }
   };
 
-
   useEffect(() => {
     fetchPost();
   }, []);
@@ -75,7 +73,6 @@ const Home = () => {
   return formattedDate;
 };
 
-  
     // Create a function to update the Firestore document with the new privacy status
     const updateDiaryPrivacyStatus = async (id: string, isPublic: boolean) => {
       try {
@@ -130,8 +127,7 @@ const getfilterdData = (filterData: DiaryEntry[]) => {
   console.log('state gotten from grandChild to grandParent:', filterData);
   setFilteredDiary(filterData);
 };
-
-  
+ 
   // display loader while fetching from the Api 
    if (diary.length===0){
       return(
@@ -143,9 +139,12 @@ const getfilterdData = (filterData: DiaryEntry[]) => {
             onFiltered={getfilterdData}
             />
             
-          <div className="fixed inset-0 flex justify-center items-center 
+          {/* <div className="fixed inset-0 flex justify-center items-center 
           z-50 bg-black bg-opacity-0 text-[red]">
           <MoonLoader color="black"  size={100} />
+        </div> */}
+        <div className="flex justify-center items-center h-[400px] text-2xl font-bold">
+        <MoonLoader color="black"  size={100} />
         </div>
           </section>
         </main>
